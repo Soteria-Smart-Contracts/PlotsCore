@@ -5,7 +5,7 @@ pragma solidity 0.8.19;
 contract PlotsCore{
     //Variable and pointer Declarations
     address[] public ListedCollections;
-    mapping(address => bool) public ListedCollectionsIndex;
+    mapping(address => uint256) public ListedCollectionsIndex;
 
 
 
@@ -38,7 +38,7 @@ contract PlotsCore{
 
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);
-        ListedCollectionsIndex[_collection] = true;
+        ListedCollectionsIndex[_collection] = ListedCollections.length - 1;
     }
 
     function RemoveCollection(address _collection) public OnlyAdmin{

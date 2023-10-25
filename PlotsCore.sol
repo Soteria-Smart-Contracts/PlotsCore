@@ -5,5 +5,5 @@ contract PlotsCore{
 
     // Mapping that handles all the available tokens for borrowing for a collection
     mapping(address => uint256[]) public AvailableTokensByCollection;
-    
+    mapping(address )
 }

@@ -2,10 +2,9 @@
 pragma solidity 0.8.19;
 
 contract PlotsCore{
+    //array of all li
 
     // Mapping that handles all the available tokens for borrowing for a collection
     mapping(address => uint256[]) public AvailableTokensByCollection;
     mapping(address => mapping(uint256 => uint256)) public AvailableTokensByCollectionIndex;
-
-    // Mapping that 
 }

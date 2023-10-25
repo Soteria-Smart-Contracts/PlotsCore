@@ -2,6 +2,6 @@
 pragma solidity 0.8.19;
 
 contract PlotsCore{
-
-    mapping(address => uint256[]) public AvailableCollectionTokens;
+    
+    mapping(address => uint256[]) public AvailableTokensByCollection;
 }

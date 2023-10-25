@@ -32,8 +32,6 @@ contract PlotsCore{
 
 
 
-
-
     //
 
     function AddCollection(address _collection) public OnlyAdmin{

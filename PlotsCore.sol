@@ -5,6 +5,7 @@ pragma solidity 0.8.19;
 contract PlotsCore{
     //Variable and pointer Declarations
     address[] public ListedCollections;
+    mapping(address => bool) public ListedCollectionsIndex;
 
 
     mapping(address => bool) public Admins;
@@ -39,7 +40,12 @@ contract PlotsCore{
     }
 
     function RemoveCollection(address _collection) public OnlyAdmin{
-        
+        for(uint256 i = 0; i < ListedCollections.length; i++){
+            if(ListedCollections[i] == _collection){
+                delete ListedCollections[i];
+                break;
+            }
+        }
     }
 
 

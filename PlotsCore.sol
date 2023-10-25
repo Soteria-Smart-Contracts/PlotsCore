@@ -6,6 +6,7 @@ contract PlotsCore{
     //Variable and pointer Declarations
     address[] public ListedCollections;
     mapping(address => bool) public ListedCollectionsIndex;
+    
 
 
     mapping(address => bool) public Admins;

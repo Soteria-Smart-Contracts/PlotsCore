@@ -2,6 +2,7 @@
 pragma solidity 0.8.19;
 
 contract PlotsCore{
+    //Declarations
     address[] public ListedCollections;
 
 
@@ -22,7 +23,7 @@ contract PlotsCore{
     }
 
 
-
+    
 
 
 

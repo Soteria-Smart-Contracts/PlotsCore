@@ -41,5 +41,6 @@ contract PlotsCore{
 }
 
 contract PlotsTreasury{
+    //Variable and pointer Declarations
     
 }

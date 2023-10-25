@@ -2,7 +2,6 @@
 pragma solidity 0.8.19;
 
 
-
 contract PlotsCore{
     //Variable and pointer Declarations
     address[] public ListedCollections;
@@ -25,7 +24,6 @@ contract PlotsCore{
     }
 
 
-    //----------------------//
 
 
 

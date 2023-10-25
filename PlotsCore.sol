@@ -3,9 +3,8 @@ pragma solidity 0.8.19;
 
 contract PlotsCore{
     //Variable and pointer Declarations
-    address
+    address 
     address[] public ListedCollections;
-    mapping(address => uint256) public ListedCollectionsIndex;
 
 
 
@@ -17,6 +16,8 @@ contract PlotsCore{
 
     mapping(address => uint256[]) public AvailableTokensByCollection;
     mapping(address => mapping(uint256 => uint256)) public AvailableTokensByCollectionIndex;
+        mapping(address => uint256) public ListedCollectionsIndex;
+
     
 
     constructor(address [] memory _admins){

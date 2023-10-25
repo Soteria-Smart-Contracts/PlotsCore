@@ -38,8 +38,6 @@ contract PlotsCore{
         ListedCollectionsIndex[ListedCollections[index]] = index;
         ListedCollections.pop();
     }
-
-
-
-
 }
+
+con

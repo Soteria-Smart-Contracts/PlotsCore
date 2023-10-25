@@ -6,10 +6,14 @@ contract PlotsCore{
 
 
     mapping(address => bool) public Admins;
-    
+
     mapping(address => uint256[]) public AvailableTokensByCollection;
     mapping(address => mapping(uint256 => uint256)) public AvailableTokensByCollectionIndex;
-
+    
+    modifier OnlyAdmin(){
+        require(Admins[msg.sender], "Only Admin");
+        _;
+    }
 
 
 

@@ -8,14 +8,14 @@ contract PlotsCore{
 
 
     mapping(address => bool) public Admins;
-
-    mapping(address => uint256[]) public AvailableTokensByCollection;
-    mapping(address => mapping(uint256 => uint256)) public AvailableTokensByCollectionIndex;
-    
     modifier OnlyAdmin(){
         require(Admins[msg.sender], "Only Admin");
         _;
     }
+
+    mapping(address => uint256[]) public AvailableTokensByCollection;
+    mapping(address => mapping(uint256 => uint256)) public AvailableTokensByCollectionIndex;
+    
 
     constructor(address [] memory _admins){
         for(uint256 i = 0; i < _admins.length; i++){

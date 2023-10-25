@@ -45,7 +45,7 @@ contract PlotsCore{
         uint256 index = ListedCollectionsIndex[_collection];
         ListedCollections[index] = ListedCollections[ListedCollections.length - 1];
         ListedCollectionsIndex[ListedCollections[index]] = index;
-        delete ListedCollections[ListedCollections.length - 1];
+        ListedCollections[ListedCollections.length - 1];
         delete ListedCollectionsIndex[_collection];
     }
 

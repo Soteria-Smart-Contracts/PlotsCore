@@ -47,7 +47,7 @@ contract PlotsTreasury{
     //Variable and pointer Declarations
     address public PlotsCore;
 
-    constructor(){
-        PlotsCore = msg.sender;
+    constructor(address Core){
+        PlotsCore = Core;
     }
 }

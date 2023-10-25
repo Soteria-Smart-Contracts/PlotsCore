@@ -37,15 +37,11 @@ contract PlotsCore{
 
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);
+        ListedCollectionsIndex[_collection] = true;
     }
 
     function RemoveCollection(address _collection) public OnlyAdmin{
-        for(uint256 i = 0; i < ListedCollections.length; i++){
-            if(ListedCollections[i] == _collection){
-                delete ListedCollections[i];
-                break;
-            }
-        }
+        
     }
 
 

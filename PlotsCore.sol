@@ -15,6 +15,8 @@ contract PlotsCore{
         _;
     }
 
+    constructor(address [])
+
 
 
 

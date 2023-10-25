@@ -25,15 +25,7 @@ contract PlotsCore{
     }
 
 
-
-
-
-
-
-
-
-
-    //
+    //Only Admin Functions
 
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);

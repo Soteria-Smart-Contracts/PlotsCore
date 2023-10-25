@@ -15,7 +15,15 @@ contract PlotsCore{
         _;
     }
 
-    constructor(address [])
+    constructor(address [] memory _admins){
+        for(uint256 i = 0; i < _admins.length; i++){
+            Admins[_admins[i]] = true;
+        }
+    }
+
+    function AddCollection(address _collection) public OnlyAdmin{
+        ListedCollections.push(_collection);
+    }
 
 
 

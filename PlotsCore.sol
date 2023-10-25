@@ -3,7 +3,7 @@ pragma solidity 0.8.19;
 
 contract PlotsCore{
     //Variable and pointer Declarations
-    address 
+    address public PlotsTreasury;
     address[] public ListedCollections;
 
 
@@ -21,7 +21,7 @@ contract PlotsCore{
     
 
     constructor(address [] memory _admins){
-    
+        PlotsTreasury = address(new PlotsTreasury());
         for(uint256 i = 0; i < _admins.length; i++){
             Admins[_admins[i]] = true;
         }

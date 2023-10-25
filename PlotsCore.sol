@@ -40,4 +40,6 @@ contract PlotsCore{
     }
 }
 
-con
+contract PlotsTreasury{
+    
+}

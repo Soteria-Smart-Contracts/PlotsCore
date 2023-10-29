@@ -108,24 +108,24 @@ contract PlotsCore{
 
 contract PlotsTreasury{
     //Variable and pointer Declarations
-    address public PlotsCore;
+    address public PlotsCoreContract;
 
     constructor(address Core){
-        PlotsCore = Core;
+        PlotsCoreContract = Core;
     }
 
     //allow admin to deposit nft into treasury
-    
+
 
 
 }
 
 contract PlotsLend{
     //Variable and pointer Declarations
-    address public PlotsCore;
+    address public PlotsCoreContract;
 
     constructor(address Core){
-        PlotsCore = Core;
+        PlotsCoreContract = Core;
     }
 
 

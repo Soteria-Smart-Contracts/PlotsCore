@@ -115,6 +115,17 @@ contract PlotsTreasury{
     }
 }
 
+contract PlotsLend{
+    //Variable and pointer Declarations
+    address public PlotsCore;
+
+    constructor(address Core){
+        PlotsCore = Core;
+    }
+
+    
+}
+
 
 
 interface ERC721 {

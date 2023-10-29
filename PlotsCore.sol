@@ -40,7 +40,11 @@ contract PlotsCore{
 
     //Only Admin Functions
 
-    function ListToken
+    function ListToken(address _collection, uint256 _tokenId) public OnlyAdmin{
+        AvailableTokensByCollection[_collection].push(_tokenId);
+        AvailableTokensByCollectionIndex[_collection][_tokenId] = AvailableTokensByCollection[_collection].length - 1;
+    }
+
 
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);

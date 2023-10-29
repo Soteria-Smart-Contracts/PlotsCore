@@ -16,7 +16,7 @@ contract PlotsCore{
         address Collection;
         uint256 TokenId;
         uint256 Value;
-        ListingType Type;
+        ListingType OwnershipOption;
     }
 
     mapping(address => bool) public Admins;

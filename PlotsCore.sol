@@ -29,7 +29,7 @@ contract PlotsCore{
 
     //Public Functions
 
-
+    
 
     function GetAvailableTokensByCollection(address _collection) public view returns(uint256[] memory){
         return AvailableTokensByCollection[_collection];

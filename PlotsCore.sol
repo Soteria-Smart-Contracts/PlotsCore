@@ -30,8 +30,14 @@ contract PlotsCore{
 
     //Public Functions
 
-    ListTokenForUsage
+    ListTokenForUsage(address Collection, uint256 TokenId, uint256 Value) public{
+        require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
+        require(AvailableTokensByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
+        require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
 
+        AvailableTokensByCollection[Collection].push(TokenId);
+        AvailableTokensByCollectionIndex[Collection][TokenId] = AvailableTokensByCollection[Collection].length - 1;
+    }
 
 
     //Public View Functions

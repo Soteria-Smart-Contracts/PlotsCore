@@ -18,7 +18,6 @@ contract PlotsCore{
         uint256 Value;
         ListingType Type;
     }
-    }
 
     mapping(address => bool) public Admins;
     modifier OnlyAdmin(){

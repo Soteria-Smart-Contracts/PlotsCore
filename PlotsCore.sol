@@ -115,7 +115,7 @@ contract PlotsTreasury{
     }
 
     //allow admin to deposit nft into treasury
-    
+
 }
 
 contract PlotsLend{
@@ -125,6 +125,7 @@ contract PlotsLend{
     constructor(address Core){
         PlotsCore = Core;
     }
+
 
 
 }

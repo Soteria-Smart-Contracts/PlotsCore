@@ -79,24 +79,9 @@ contract PlotsTreasury{
 interface ERC721 /* is ERC165 */ {
     function balanceOf(address _owner) external view returns (uint256);
     function ownerOf(uint256 _tokenId) external view returns (address);
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes memory data) external payable;
     function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable;
     function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
-
-    /// @notice Change or reaffirm the approved address for an NFT
-    /// @dev The zero address indicates there is no approved address.
-    ///  Throws unless `msg.sender` is the current NFT owner, or an authorized
-    ///  operator of the current owner.
-    /// @param _approved The new approved NFT controller
-    /// @param _tokenId The NFT to approve
     function approve(address _approved, uint256 _tokenId) external payable;
-
-    /// @notice Enable or disable approval for a third party ("operator") to manage
-    ///  all of `msg.sender`'s assets
-    /// @dev Emits the ApprovalForAll event. The contract MUST allow
-    ///  multiple operators per owner.
-    /// @param _operator Address to add to the set of authorized operators
-    /// @param _approved True if the operator is approved, false to revoke approval
     function setApprovalForAll(address _operator, bool _approved) external;
 
     /// @notice Get the approved address for a single NFT

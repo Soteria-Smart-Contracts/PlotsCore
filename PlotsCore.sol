@@ -41,11 +41,11 @@ contract PlotsCore{
     //Only Admin Functions
 
     function ListToken(address Collection, uint256 TokenId, uint256 Price) public OnlyAdmin{
-        require(ListedCollectionsIndex[_collection] != 0, "Collection not listed");
-        require(AvailableTokensByCollectionIndex[_collection][_tokenId] == 0, "Token already listed");
+        require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
+        require(AvailableTokensByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
-        AvailableTokensByCollection[_collection].push(_tokenId);
-        AvailableTokensByCollectionIndex[_collection][_tokenId] = AvailableTokensByCollection[_collection].length - 1;
+        AvailableTokensByCollection[Collection].push(TokenId);
+        AvailableTokensByCollectionIndex[Collection][TokenId] = AvailableTokensByCollection[Collection].length - 1;
     }
 
 

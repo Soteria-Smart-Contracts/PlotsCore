@@ -11,6 +11,11 @@ contract PlotsCore{
         Ownership,
         Usage
     }
+    
+    struct{
+        
+    }
+
 
     mapping(address => bool) public Admins;
     modifier OnlyAdmin(){

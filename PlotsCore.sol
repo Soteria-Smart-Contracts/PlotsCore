@@ -62,7 +62,9 @@ contract PlotsCore{
         return ListedCollections;
     }
 
-    function 
+    function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
+        return Listings[_collection][_tokenId];
+    }
 
     function GetListedCollection(address _collection) public view returns(Listing[] memory){
         Listing[] memory _listings = new Listing[](AvailableTokensByCollection[_collection].length);

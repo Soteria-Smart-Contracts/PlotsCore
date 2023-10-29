@@ -62,6 +62,8 @@ contract PlotsCore{
         return ListedCollections;
     }
 
+    function 
+
     function GetListedCollection(address _collection) public view returns(Listing[] memory){
         Listing[] memory _listings = new Listing[](AvailableTokensByCollection[_collection].length);
         for(uint256 i = 0; i < AvailableTokensByCollection[_collection].length; i++){

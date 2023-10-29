@@ -46,8 +46,6 @@ contract PlotsCore{
         return AvailableTokensByCollection[_collection];
     }
 
-
-
     //Only Admin Functions
 
     function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{

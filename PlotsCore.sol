@@ -12,10 +12,13 @@ contract PlotsCore{
         Usage
     }
     
-    struct{
-        
+    struct Listing{
+        address Collection;
+        uint256 TokenId;
+        uint256 Value;
+        ListingType Type;
     }
-
+    }
 
     mapping(address => bool) public Admins;
     modifier OnlyAdmin(){

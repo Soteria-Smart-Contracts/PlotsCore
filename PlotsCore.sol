@@ -78,15 +78,7 @@ contract PlotsTreasury{
 
 interface ERC721 /* is ERC165 */ {
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
-
-    /// @dev This emits when the approved address for an NFT is changed or
-    ///  reaffirmed. The zero address indicates there is no approved address.
-    ///  When a Transfer event emits, this also indicates that the approved
-    ///  address for that NFT (if any) is reset to none.
     event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
-
-    /// @dev This emits when an operator is enabled or disabled for an owner.
-    ///  The operator can manage all NFTs of the owner.
     event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
 
     /// @notice Count all NFTs assigned to an owner

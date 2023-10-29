@@ -7,7 +7,7 @@ contract PlotsCore{
     address public LendContract;
     address[] public ListedCollections;
 
-
+    enum Type
 
     mapping(address => bool) public Admins;
     modifier OnlyAdmin(){

@@ -8,7 +8,8 @@ contract PlotsCore{
     address[] public ListedCollections;
 
     enum ListingType{
-        
+        Ownership,
+        Usage
     }
 
     mapping(address => bool) public Admins;

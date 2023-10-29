@@ -4,6 +4,7 @@ pragma solidity 0.8.19;
 contract PlotsCore{
     //Variable and pointer Declarations
     address public Treasury;
+    address
     address[] public ListedCollections;
 
 
@@ -43,7 +44,7 @@ contract PlotsCore{
     function ListToken(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(AvailableTokensByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
-        //require that the treasury or 
+        //require that the treasury or lend contract has the token
         require();
 
         AvailableTokensByCollection[Collection].push(TokenId);

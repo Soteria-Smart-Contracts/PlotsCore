@@ -29,7 +29,7 @@ contract PlotsCore{
 
     //Public Functions
 
-    
+
 
 
 
@@ -39,6 +39,8 @@ contract PlotsCore{
 
 
     //Only Admin Functions
+
+    function
 
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);

@@ -62,6 +62,14 @@ contract PlotsCore{
         return ListedCollections;
     }
 
+    function GetListedCollection(address _collection) public view returns(Listing[] memory){
+        Listing[] memory _listings = new Listing[](AvailableTokensByCollection[_collection].length);
+        for(uint256 i = 0; i < AvailableTokensByCollection[_collection].length; i++){
+            _listings[i] = Listings[_collection][AvailableTokensByCollection[_collection][i]];
+        }
+        return _listings;
+    }
+
     //Only Admin Functions
 
     function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{

@@ -40,7 +40,7 @@ contract PlotsCore{
 
     //Only Admin Functions
 
-    function ListToken(address _collection, uint256 _tokenId, uint256 ) public OnlyAdmin{
+    function ListToken(address Collection, uint256 TokenId, uint256 Price) public OnlyAdmin{
         require(ListedCollectionsIndex[_collection] != 0, "Collection not listed");
         require(AvailableTokensByCollectionIndex[_collection][_tokenId] == 0, "Token already listed");
 

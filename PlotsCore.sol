@@ -40,7 +40,7 @@ contract PlotsCore{
 
     //Only Admin Functions
 
-    function
+    function ListToken
 
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);

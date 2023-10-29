@@ -114,7 +114,8 @@ contract PlotsTreasury{
         PlotsCore = Core;
     }
 
-    de
+    //allow admin to deposit nft into treasury
+    
 }
 
 contract PlotsLend{

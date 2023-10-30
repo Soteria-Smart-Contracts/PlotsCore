@@ -40,6 +40,8 @@ contract PlotsCore{
         }
     }
 
+    //Super admin
+
     //Public Functions
 
 

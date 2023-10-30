@@ -116,6 +116,7 @@ contract PlotsTreasury{
         PlotsCoreContract = Core;
     }
 
+    //Earnings tokens are sent to treasury
     //Convert tokens to ether and send to treasury 
 
     //allow admin to deposit nft into treasury

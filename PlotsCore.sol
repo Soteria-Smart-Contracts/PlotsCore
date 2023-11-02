@@ -52,6 +52,9 @@ contract PlotsCore{
         if(Listings[Collection][TokenId].OwnershipOption == ListingType.Ownership){
             require(msg.value == Listings[Collection][TokenId].Value, "Incorrect tx value");
         }
+        else{
+            require(msg.value == 0, "Incorrect tx value");
+        }
 
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }

@@ -12,7 +12,11 @@ contract PlotsCore{
         Usage
     }
 
-    enum Ownership
+    enum OwnershipPercent{
+        OneHundred,
+        TwentyFive,
+        Ten
+    }
     
     struct Listing{
         address Collection;

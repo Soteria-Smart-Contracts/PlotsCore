@@ -146,7 +146,7 @@ contract PlotsLend{
         PlotsCoreContract = Core;
     }
 
-    
+    //allow a user to deposit a token into the lending contract from any 
 
 
 

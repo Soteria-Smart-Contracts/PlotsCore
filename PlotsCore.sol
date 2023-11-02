@@ -11,6 +11,8 @@ contract PlotsCore{
         Ownership,
         Usage
     }
+
+    enum Ownersh
     
     struct Listing{
         address Collection;

@@ -44,13 +44,13 @@ contract PlotsCore{
 
     //Public Functions
 
-    function RequestToken(address Collection, uint256 TokenId) public{
+    function RequestToken(address Collection, uint256 TokenId) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(AvailableTokensByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
         
         if(Listings[Collection][TokenId].OwnershipOption == ListingType.Ownership){
-            
+            require(msg.value );
         }
 
         OwnershipByPurchase[Collection][msg.sender] = TokenId;

@@ -146,6 +146,8 @@ contract PlotsLend{
         PlotsCoreContract = Core;
     }
 
+    
+
 
 
 }

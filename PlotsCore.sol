@@ -44,7 +44,14 @@ contract PlotsCore{
 
     //Public Functions
 
-    function RequestToken()
+    function RequestToken(address Collection, uint256 TokenId) public{
+        require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
+        require(AvailableTokensByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
+        require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
+        require(Listings[Collection][TokenId].OwnershipOption == ListingType.Ownership, "Token not listed for ownership");
+        require(Listings[Collection][TokenId].Value == 0, "Token not free");
+        OwnershipByPurchase[Collection][msg.sender] = TokenId;
+    }
 
     function ListTokenForUsage(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");

@@ -53,7 +53,7 @@ contract PlotsCore{
             require(msg.value == Listings[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{
-            require(msg.value == 0, "Incorrect tx value");
+            require(msg.value == 0, "Do not Pay for usage tokens");
         }
 
         OwnershipByPurchase[Collection][msg.sender] = TokenId;

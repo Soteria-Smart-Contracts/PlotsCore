@@ -13,9 +13,8 @@ contract PlotsCore{
     }
 
     enum OwnershipPercent{
-        OneHundred,
-        TwentyFive,
-        Ten
+        Ten,
+        TwentyFive
     }
     
     struct Listing{

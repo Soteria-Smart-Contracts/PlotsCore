@@ -49,7 +49,10 @@ contract PlotsCore{
         require(AvailableTokensByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
         
-        
+        if(Listings[Collection][TokenId].OwnershipOption == ListingType.Ownership){
+            require(Listings[Collection][TokenId].Value == 0, "Token not free");
+        }
+
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }
 

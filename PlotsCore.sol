@@ -44,7 +44,7 @@ contract PlotsCore{
 
     //Public Functions
 
-    function 
+    function RequestToken()
 
     function ListTokenForUsage(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");

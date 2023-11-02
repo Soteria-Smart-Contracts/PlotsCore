@@ -152,6 +152,11 @@ contract PlotsLend{
         ERC721(Collection).transferFrom(msg.sender, PlotsCoreContract, TokenId);
     }
 
+    function WithdrawToken(address Collection, uint256 TokenId) public{
+        require(ERC721(Collection).ownerOf(TokenId) == PlotsCoreContract, "Not owner of token");
+        ERC721(Collection).transferFrom(PlotsCoreContract, msg.sender, TokenId);
+    }
+
 
 
 }

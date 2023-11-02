@@ -44,8 +44,6 @@ contract PlotsCore{
 
     //Public Functions
 
-
-
     function ListTokenForUsage(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(AvailableTokensByCollectionIndex[Collection][TokenId] == 0, "Token already listed");

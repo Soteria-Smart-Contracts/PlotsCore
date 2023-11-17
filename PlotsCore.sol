@@ -30,8 +30,6 @@ contract PlotsCore{
         uint256 Value;
         uint256 LoanLength;
         uint256 LoanStartTime;
-        uint256 Usage;
-        uint256 UsageLeft;
         address Owner;
         address Borrower;
         bool Active;

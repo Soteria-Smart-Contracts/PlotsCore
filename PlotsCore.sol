@@ -162,3 +162,56 @@ contract PlotsCore {
     }
 }
 
+contract PlotsTreasury{
+    //Variable and pointer Declarations
+    address public PlotsCoreContract;
+
+    constructor(address Core){
+        PlotsCoreContract = Core;
+    }
+
+    //allow admin to deposit nft into treasury
+    function DepositNFT(address Collection, uint256 TokenId) public{
+        require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
+        ERC721(Collection).transferFrom(msg.sender, PlotsCoreContract, TokenId);
+    }
+
+
+
+}
+
+contract PlotsLend{
+    //Variable and pointer Declarations
+    address public PlotsCoreContract;
+
+    constructor(address Core){
+        PlotsCoreContract = Core;
+    }
+
+    //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract
+    function DepositToken(address Collection, uint256 TokenId) public{
+        require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
+        ERC721(Collection).transferFrom(msg.sender, PlotsCoreContract, TokenId);
+    }
+
+    function WithdrawToken(address Collection, uint256 TokenId) public{
+        require(ERC721(Collection).ownerOf(TokenId) == PlotsCoreContract, "Not owner of token");
+        ERC721(Collection).transferFrom(PlotsCoreContract, msg.sender, TokenId);
+    }
+
+
+
+}
+
+
+
+interface ERC721 {
+    function balanceOf(address _owner) external view returns (uint256);
+    function ownerOf(uint256 _tokenId) external view returns (address);
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable;
+    function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+    function approve(address _approved, uint256 _tokenId) external payable;
+    function setApprovalForAll(address _operator, bool _approved) external;
+    function getApproved(uint256 _tokenId) external view returns (address);
+    function isApprovedForAll(address _owner, address _operator) external view returns (bool);
+}

@@ -112,6 +112,13 @@ contract PlotsCore{
 
 
     //Listings by user
+    function GetUserListings(address _user) public view returns(Listing[] memory){
+        Listing[] memory _listings = new Listing[](AvailableTokensByCollection[_user].length);
+        for(uint256 i = 0; i < AvailableTokensByCollection[_user].length; i++){
+            _listings[i] = Listings[_user][AvailableTokensByCollection[_user][i]];
+        }
+        return _listings;
+    }
 
     function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
         return Listings[_collection][_tokenId];

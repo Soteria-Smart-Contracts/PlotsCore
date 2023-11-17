@@ -90,7 +90,7 @@ contract PlotsCore{
         Listings[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
 
         AvailableTokensByCollection[Collection].push(TokenId);
-        AvailableTokensByCollectionIndex[Collection][TokenId] = AvailableTokensByCollection[Collection].length - 1;
+        AvailableTokensByCollectionIndex[Collection][TokenId] = ListingByCollection[Collection].length - 1;
     }
 
 

@@ -29,7 +29,7 @@ contract PlotsCore{
         uint256 TokenId;
         uint256 Value;
         uint256 Time;
-        uint256 TimeLeft;
+        uint256 LoanStartTime;
         uint256 Usage;
         uint256 UsageLeft;
         address Owner;

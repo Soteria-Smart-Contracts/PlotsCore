@@ -187,6 +187,7 @@ contract PlotsLend{
 
     constructor(address Core){
         PlotsCoreContract = Core;
+        
     }
 
     //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract

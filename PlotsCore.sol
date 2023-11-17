@@ -140,7 +140,7 @@ contract PlotsCore {
     function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
-        //require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
+        require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
 
         Listings[Collection][TokenId] = Listing(Collection, TokenId, Value, ListingType.Ownership);
 

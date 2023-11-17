@@ -25,12 +25,12 @@ contract PlotsCore{
     }
 
     struct LoanedToken{
+        address Borrower;
         address Collection;
         uint256 TokenId;
         uint256 Value;
         uint256 LoanLength;
         uint256 LoanStartTime;
-        address Borrower;
         bool Active;
     }
 

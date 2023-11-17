@@ -49,13 +49,16 @@ contract PlotsCore {
     mapping(address => mapping(uint256 => uint256)) public LoansByCollectionIndex;
 
     //Collections that are listed on the platform
-    mapping(address => uint256) public ListedCollectionsIndex;
     mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
 
     mapping(address => LoanedToken[]) public AllUserLoans;
     mapping(address => mapping(uint256 => uint256)) public AllUserLoansIndex;
 
     mapping(address => mapping(uint256 => Listing)) public Listings;
+    mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
+        mapping(address => uint256) public ListedCollectionsIndex;
+
+
     
 
     constructor(address [] memory _admins){

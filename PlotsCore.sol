@@ -40,8 +40,8 @@ contract PlotsCore {
         _;
     }
 
-    mapping(address => uint256[]) public AvailableTokensByCollection;
-    mapping(address => mapping(uint256 => uint256)) public AvailableTokensByCollectionIndex;
+    mapping(address => uint256[]) public ListingByCollection;
+    mapping(address => mapping(uint256 => uint256)) public ListingByCollectionIndex;
 
     mapping(address => LoanedToken[]) public LoansByCollection;
     mapping(address => mapping(uint256 => uint256)) public LoansByCollectionIndex;
@@ -68,7 +68,7 @@ contract PlotsCore {
 
     function RequestToken(address Collection, uint256 TokenId) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
-        require(AvailableTokensByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
+        require(ListingByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
         
         if(Listings[Collection][TokenId].OwnershipOption == ListingType.Ownership){
@@ -83,20 +83,20 @@ contract PlotsCore {
 
     function ListTokenForUsage(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
-        require(AvailableTokensByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
+        require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
         //setup listing
 
         Listings[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
 
-        AvailableTokensByCollection[Collection].push(TokenId);
-        AvailableTokensByCollectionIndex[Collection][TokenId] = ListingByCollection[Collection].length - 1;
+        ListingByCollection[Collection].push(TokenId);
+        ListingByCollectionIndex[Collection][TokenId] = ListingByCollection[Collection].length - 1;
     }
 
 
     //Public View Functions
 
-    function GetAvailableTokensByCollection(address _collection) public view returns(uint256[] memory){
-        return AvailableTokensByCollection[_collection];
+    function GetListingByCollection(address _collection) public view returns(uint256[] memory){
+        return ListingByCollection[_collection];
     }
 
     function GetListedCollections() public view returns(address[] memory){
@@ -112,9 +112,9 @@ contract PlotsCore {
 
     //Listings by user
     function GetUserListings(address _user) public view returns(Listing[] memory){
-        Listing[] memory _listings = new Listing[](AvailableTokensByCollection[_user].length);
-        for(uint256 i = 0; i < AvailableTokensByCollection[_user].length; i++){
-            _listings[i] = Listings[_user][AvailableTokensByCollection[_user][i]];
+        Listing[] memory _listings = new Listing[](ListingByCollection[_user].length);
+        for(uint256 i = 0; i < ListingByCollection[_user].length; i++){
+            _listings[i] = Listings[_user][ListingByCollection[_user][i]];
         }
         return _listings;
     }
@@ -124,9 +124,9 @@ contract PlotsCore {
     }
 
     function GetListedCollection(address _collection) public view returns(Listing[] memory){
-        Listing[] memory _listings = new Listing[](AvailableTokensByCollection[_collection].length);
-        for(uint256 i = 0; i < AvailableTokensByCollection[_collection].length; i++){
-            _listings[i] = Listings[_collection][AvailableTokensByCollection[_collection][i]];
+        Listing[] memory _listings = new Listing[](ListingByCollection[_collection].length);
+        for(uint256 i = 0; i < ListingByCollection[_collection].length; i++){
+            _listings[i] = Listings[_collection][ListingByCollection[_collection][i]];
         }
         return _listings;
     }
@@ -135,13 +135,13 @@ contract PlotsCore {
 
     function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
-        require(AvailableTokensByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
+        require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
         //require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
 
         Listings[Collection][TokenId] = Listing(Collection, TokenId, Value, ListingType.Ownership);
 
-        AvailableTokensByCollection[Collection].push(TokenId);
-        AvailableTokensByCollectionIndex[Collection][TokenId] = AvailableTokensByCollection[Collection].length - 1;
+        ListingByCollection[Collection].push(TokenId);
+        ListingByCollectionIndex[Collection][TokenId] = ListingByCollection[Collection].length - 1;
     }
 
 

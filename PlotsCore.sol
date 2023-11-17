@@ -24,6 +24,8 @@ contract PlotsCore{
         ListingType OwnershipOption;
     }
 
+    struct 
+
     mapping(address => bool) public Admins;
     modifier OnlyAdmin(){
         require(Admins[msg.sender], "Only Admin");

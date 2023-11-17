@@ -24,7 +24,9 @@ contract PlotsCore{
         ListingType OwnershipOption;
     }
 
-    struct 
+    struct LoanedToken{
+        
+    }
 
     mapping(address => bool) public Admins;
     modifier OnlyAdmin(){

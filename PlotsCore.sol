@@ -28,7 +28,7 @@ contract PlotsCore{
         address Collection;
         uint256 TokenId;
         uint256 Value;
-        uint256 Time;
+        uint256 LoanLength;
         uint256 LoanStartTime;
         uint256 Usage;
         uint256 UsageLeft;

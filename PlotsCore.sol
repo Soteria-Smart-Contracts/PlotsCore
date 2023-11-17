@@ -40,9 +40,11 @@ contract PlotsCore {
         _;
     }
 
+    //Listings for assets available for borrowing
     mapping(address => uint256[]) public ListingByCollection;
     mapping(address => mapping(uint256 => uint256)) public ListingByCollectionIndex;
 
+    
     mapping(address => LoanedToken[]) public LoansByCollection;
     mapping(address => mapping(uint256 => uint256)) public LoansByCollectionIndex;
 

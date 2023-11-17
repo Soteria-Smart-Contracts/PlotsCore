@@ -25,7 +25,16 @@ contract PlotsCore{
     }
 
     struct LoanedToken{
-        
+        address Collection;
+        uint256 TokenId;
+        uint256 Value;
+        uint256 Time;
+        uint256 TimeLeft;
+        uint256 Usage;
+        uint256 UsageLeft;
+        address Owner;
+        address Borrower;
+        bool Active;
     }
 
     mapping(address => bool) public Admins;

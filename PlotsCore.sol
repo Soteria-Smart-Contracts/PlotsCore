@@ -106,9 +106,8 @@ contract PlotsCore{
     
     //new view functions
     //Function to allow frontend see all user owned
-    function GetOwnershipByPurchase(address _collection, address _user) public view returns(uint256){
-        return OwnershipByPurchase[_collection][_user];
-    }
+
+    
     //Listings by user
 
     function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){

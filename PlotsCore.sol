@@ -45,6 +45,7 @@ contract PlotsCore{
 
     //make a mapping like the last one to store all loans by collection
     mapping(address => LoanedToken[]) public LoansByCollection;
+    mapping(address => mapping(uint256 => uint256)) public LoansByCollectionIndex;
 
     mapping(address => uint256) public ListedCollectionsIndex;
     mapping(address => mapping(address => uint256)) public OwnershipByPurchase;

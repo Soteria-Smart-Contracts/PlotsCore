@@ -42,6 +42,9 @@ contract PlotsCore{
 
     mapping(address => uint256[]) public AvailableTokensByCollection;
     mapping(address => mapping(uint256 => uint256)) public AvailableTokensByCollectionIndex;
+
+    
+
     mapping(address => uint256) public ListedCollectionsIndex;
     mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
     mapping(address => mapping(address => uint256)) public UsageByPurchase;

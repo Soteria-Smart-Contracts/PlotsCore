@@ -175,6 +175,8 @@ contract PlotsTreasury{
     //Variable and pointer Declarations
     address public PlotsCoreContract;
 
+    //mapping of all collections 
+
     constructor(address Core){
         PlotsCoreContract = Core;
     }

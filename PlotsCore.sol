@@ -26,7 +26,6 @@ contract PlotsCore {
     struct Listing{
         address Collection;
         uint256 TokenId;
-        uint256 Value;
         ListingType OwnershipOption;
     }
 
@@ -34,7 +33,6 @@ contract PlotsCore {
         address Borrower;
         address Collection;
         uint256 TokenId;
-        uint256 Value;
         OwnershipPercent Ownership;
         LengthOption Duration;
         uint256 LoanLength;

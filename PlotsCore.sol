@@ -135,8 +135,6 @@ contract PlotsCore {
         return _listings;
     }
 
-    function GetV
-
     //Internal Functions
 
     function AddListingToCollection(address _collection, uint256 _tokenId) internal{

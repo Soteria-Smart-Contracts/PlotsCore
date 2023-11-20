@@ -69,7 +69,7 @@ contract PlotsCore {
             Admins[_admins[i]] = true;
         }
         Admins[msg.sender] = true;
-        Admins[]
+        Admins[Treasury] = true;
     }
 
     //Super admin

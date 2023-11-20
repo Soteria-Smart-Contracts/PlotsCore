@@ -188,6 +188,9 @@ contract PlotsTreasury{
     function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public {
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         ERC721(Collection).transferFrom(msg.sender, PlotsCoreContract, TokenId);
+
+        //calculate floor factor
+        uint256 FloorFactor = EtherCost / CollectionFloorPrice[Collection];
     }
 
     //allow admin to withdraw nft from treasury

@@ -26,6 +26,7 @@ contract PlotsCore {
     }
     
     struct Listing{
+        address Lister;
         address Collection;
         uint256 TokenId;
         ListingType OwnershipOption;

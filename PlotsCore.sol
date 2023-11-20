@@ -64,7 +64,8 @@ contract PlotsCore {
 
     constructor(address [] memory _admins){
         Treasury = address(new PlotsTreasury(address(this)));
-        Treasury = address(0);
+        
+
         for(uint256 i = 0; i < _admins.length; i++){
             Admins[_admins[i]] = true;
         }

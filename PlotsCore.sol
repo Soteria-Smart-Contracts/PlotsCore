@@ -141,6 +141,10 @@ contract PlotsCore {
         return _listings;
     }
 
+    //Internal Functions
+
+    function AddListingToCollection()
+
     //Only Admin Functions
 
     function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{

@@ -63,8 +63,6 @@ contract PlotsCore {
     mapping(address => uint256) public ListedCollectionsIndex;
 
 
-    
-
     constructor(address [] memory _admins){
         Treasury = address(new PlotsTreasury(address(this)));
         Treasury = address(0);

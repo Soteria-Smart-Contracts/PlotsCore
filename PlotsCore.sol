@@ -196,6 +196,12 @@ contract PlotsTreasury{
     }
 
     //allow admin to set floor price for multiple collections at once, with an array with the collections and an array with the floor prices
+    function SetFloorPrice(address[] memory Collections, uint256[] memory FloorPrices) public {
+        require(Collections.length == FloorPrices.length, "Arrays not same length");
+        for(uint256 i = 0; i < Collections.length; i++){
+            CollectionFloorPrice[Collections[i]] = FloorPrices[i];
+        }
+    }
 
 }
 

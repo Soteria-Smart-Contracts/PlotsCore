@@ -94,8 +94,8 @@ contract PlotsCore {
         require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
         if(Admins[msg.sender]){
-            ListingsByCollection[Collection][TokenId] = Listing(msg.sender, Collection, TokenId, ListingType.Usage);
 
+            ListingsByCollection[Collection][TokenId] = Listing(address(this), Collection, TokenId, ListingType.Usage);
         }
         else{
             require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Token not owned by sender");

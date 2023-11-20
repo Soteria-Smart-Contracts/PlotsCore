@@ -92,7 +92,7 @@ contract PlotsCore {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
-        if(Admins)
+        if(Admins[msg.sender]){}
 
         ListingByCollection[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
 

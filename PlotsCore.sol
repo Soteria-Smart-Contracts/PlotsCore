@@ -68,7 +68,8 @@ contract PlotsCore {
         for(uint256 i = 0; i < _admins.length; i++){
             Admins[_admins[i]] = true;
         }
-        Admins[msg.sender]
+        Admins[msg.sender] = true;
+        Admins[]
     }
 
     //Super admin

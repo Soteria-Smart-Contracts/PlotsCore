@@ -218,7 +218,7 @@ contract PlotsTreasury{
         return TokenFloorFactor[Collection][TokenId];
     }
 
-    function GetTokenValue(address Collection, uint256 TokenId) public view returns(uint256){
+    function GetTokenValueFloorAdjusted(address Collection, uint256 TokenId) public view returns(uint256){
         return CollectionFloorPrice[Collection] * TokenFloorFactor[Collection][TokenId];
     }
 

@@ -94,7 +94,7 @@ contract PlotsCore {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
-        Listings[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
+        ListingByCollection[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
 
         ListingByCollection[Collection].push(TokenId);
         ListingByCollectionIndex[Collection][TokenId] = ListingByCollection[Collection].length - 1;
@@ -120,19 +120,19 @@ contract PlotsCore {
     function GetUserListings(address _user) public view returns(Listing[] memory){
         Listing[] memory _listings = new Listing[](ListingByCollection[_user].length);
         for(uint256 i = 0; i < ListingByCollection[_user].length; i++){
-            _listings[i] = Listings[_user][ListingByCollection[_user][i]];
+            _listings[i] = ListingByCollection[_user][ListingByCollection[_user][i]];
         }
         return _listings;
     }
 
     function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
-        return Listings[_collection][_tokenId];
+        return ListingByCollection[_collection][_tokenId];
     }
 
     function GetListedCollection(address _collection) public view returns(Listing[] memory){
         Listing[] memory _listings = new Listing[](ListingByCollection[_collection].length);
         for(uint256 i = 0; i < ListingByCollection[_collection].length; i++){
-            _listings[i] = Listings[_collection][ListingByCollection[_collection][i]];
+            _listings[i] = ListingByCollection[_collection][ListingByCollection[_collection][i]];
         }
         return _listings;
     }

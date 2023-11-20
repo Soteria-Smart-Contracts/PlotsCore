@@ -111,7 +111,9 @@ contract PlotsCore {
 
     //function DelistToken
 
-    //function 
+    //function CloseLoan
+
+    
 
     //Public View Functions
 

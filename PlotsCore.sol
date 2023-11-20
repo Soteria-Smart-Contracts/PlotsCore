@@ -135,8 +135,8 @@ contract PlotsCore {
         return _listings;
     }
 
-    function GetListedCollectionWithPrices(address _collection, uint256 _tokenId) public view returns(Listing memory, uint256){
-        return (ListingByCollection[_collection][_tokenId], ListingByCollection[_collection][_tokenId].Value);
+    function GetListedCollectionWithPrices(address _collection, uint256 _tokenId) public view returns(Listing memory, uint256[] memory Prices){
+        
     }
 
     //Internal Functions

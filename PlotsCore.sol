@@ -218,6 +218,8 @@ contract PlotsTreasury{
         return TokenFloorFactor[Collection][TokenId];
     }
 
+    
+
 }
 
 contract PlotsLend{

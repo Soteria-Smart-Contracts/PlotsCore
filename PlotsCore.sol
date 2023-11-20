@@ -49,7 +49,7 @@ contract PlotsCore {
     }
 
     //Listings for assets available for borrowing
-    mapping(address => uint256[]) public ListingByCollection;
+    mapping(address => Listing[]) public ListingByCollection;
     mapping(address => mapping(uint256 => uint256)) public ListingByCollectionIndex;
 
     //Borrowed tokens 
@@ -60,7 +60,7 @@ contract PlotsCore {
     mapping(address => LoanedToken[]) public AllUserLoans;
     mapping(address => mapping(uint256 => uint256)) public AllUserLoansIndex;
 
-    mapping(address => mapping(uint256 => Listing)) public Listings;
+    mapping(address => mapping(uint256 => Listing)) public Listings; //
     mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
     mapping(address => uint256) public ListedCollectionsIndex;
 

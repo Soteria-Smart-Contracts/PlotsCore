@@ -109,6 +109,8 @@ contract PlotsCore {
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 
+    function DelistToken
+
 
     //Public View Functions
 

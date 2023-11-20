@@ -34,6 +34,7 @@ contract PlotsCore {
         address Collection;
         uint256 TokenId;
         uint256 Value;
+        LengthOption Duration;
         uint256 LoanLength;
         uint256 LoanStartTime;
         bool Active;

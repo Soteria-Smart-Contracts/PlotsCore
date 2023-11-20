@@ -135,7 +135,7 @@ contract PlotsCore {
         return _listings;
     }
 
-    function Get
+    function GetV
 
     //Internal Functions
 

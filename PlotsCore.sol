@@ -283,6 +283,17 @@ contract PlotsLend{
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
     }
 
+    //View Functions 
+
+    function EnsureAvailability(address Collection, uint256 TokenId) public view returns(bool){
+        if(ERC721(Collection).ownerOf(TokenId) == address(this) && TokenInLoan[Collection][TokenId] == false){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
 
 }

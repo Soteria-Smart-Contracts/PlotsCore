@@ -115,7 +115,7 @@ contract PlotsCore {
 
     //function ChangeOwnershipPercentage
 
-    //function ChangeLoanLength
+    //
 
 
 

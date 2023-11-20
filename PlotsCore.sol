@@ -76,7 +76,7 @@ contract PlotsCore {
 
     //Public Functions
 
-    function RequestToken(address Collection, uint256 TokenId, LengthOption) public payable {
+    function RequestToken(address Collection, uint256 TokenId, LengthOption Duration) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");

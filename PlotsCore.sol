@@ -113,7 +113,11 @@ contract PlotsCore {
 
     //function CloseLoan
 
-    
+    //function ChangeOwnershipPercentage
+
+    //function ChangeLoanLength
+
+
 
     //Public View Functions
 

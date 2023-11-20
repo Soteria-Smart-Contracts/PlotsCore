@@ -12,6 +12,10 @@ contract PlotsCore {
         Usage
     }
 
+    enum LengthOptionP{
+        
+    }
+
     enum OwnershipPercent{
         Ten,
         TwentyFive

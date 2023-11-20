@@ -14,7 +14,7 @@ contract PlotsCore {
         Usage
     }
 
-    enum LengthOption{
+    enum LengthOption{ //TODO:Setup time
         ThreeMonths,
         SixMonths
     }

@@ -242,7 +242,7 @@ contract PlotsTreasury{
     }
 
     function SetInLoan(address Collection, uint256 TokenID, bool InOut) external OnlyCore{
-        
+        TokenInLoan[Collection][TokenID] = InOut;
     }
 
     //view functions

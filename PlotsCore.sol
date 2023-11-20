@@ -73,7 +73,7 @@ contract PlotsCore {
 
     //Public Functions
 
-    function RequestToken(address Collection, uint256 TokenId, LengthOption Duration) public payable {
+    function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
@@ -88,7 +88,7 @@ contract PlotsCore {
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }
 
-    function ListTokenForUsage(address Collection, uint256 TokenId) public{
+    function ListToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 

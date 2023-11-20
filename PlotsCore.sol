@@ -99,7 +99,7 @@ contract PlotsCore {
         }
         else{
             require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Token not owned by sender");
-            ListingsByCollection[Collection][TokenId] = Listing(msg.sender, Collection, TokenId, 0, ListingType.Usage);
+            ListingsByCollection[Collection][TokenId] = Listing(msg.sender, Collection, TokenId, ListingType.Usage);
 
         }
 

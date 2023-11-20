@@ -103,7 +103,6 @@ contract PlotsCore {
 
         }
 
-
         //ListingsByCollection[Collection].push(TokenId);
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }

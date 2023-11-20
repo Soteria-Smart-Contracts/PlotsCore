@@ -237,6 +237,8 @@ contract PlotsTreasury{
 
     //view functions
 
+    function EnsureAvailability
+
     function GetFloorPrice(address Collection) public view returns(uint256){
         return CollectionFloorPrice[Collection];
     }

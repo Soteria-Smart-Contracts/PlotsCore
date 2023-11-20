@@ -7,7 +7,6 @@ contract PlotsCore {
     address public LendContract;
     address[] public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;
-    mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
 
 
     enum ListingType{

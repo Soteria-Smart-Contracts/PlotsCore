@@ -236,6 +236,8 @@ contract PlotsTreasury{
         }
     }
 
+    function SetInLoan
+
     //view functions
 
     function EnsureAvailability(address Collection, uint256 TokenId) public view returns(bool){

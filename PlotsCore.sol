@@ -177,7 +177,7 @@ contract PlotsTreasury{
 
     //mapping of all collections to a floor price
     mapping(address => uint256) public CollectionFloorPrice;
-    //
+    //Okay I am creating a new concept called floor factor, which is essentially a multiplier that is calculated when an NFT is deposited into the contract, we use the price 
 
     constructor(address Core){
         PlotsCoreContract = Core;

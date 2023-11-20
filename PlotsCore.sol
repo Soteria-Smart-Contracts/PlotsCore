@@ -208,6 +208,11 @@ contract PlotsTreasury{
     mapping(address => mapping(uint256 => uint256)) public TokenFloorFactor;
     mapping(address => mapping(uint256 => bool)) public TokenInLoan;
 
+    modifier OnlyCore(){
+        require(msg.sender == PlotsCoreContract, "Only Core");
+        _;
+    }
+
     constructor(address Core){
         PlotsCoreContract = Core;
     }

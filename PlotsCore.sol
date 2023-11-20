@@ -80,7 +80,7 @@ contract PlotsCore {
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
         
         if(ListingByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
-            require(msg.value == ListingByCollection[Collection][TokenId].Value, "Incorrect tx value");
+            //require(msg.value == ListingByCollection[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{
             require(msg.value == 0, "Do not Pay for usage tokens");

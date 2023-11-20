@@ -105,6 +105,10 @@ contract PlotsCore {
         return ListingByCollection[_collection];
     }
 
+    function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
+        return ListingByCollection[_collection][_tokenId];
+    }
+
     function GetListedCollections() public view returns(address[] memory){
         return ListedCollections;
     }
@@ -123,9 +127,6 @@ contract PlotsCore {
     //     return _listings;
     // }
 
-    function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
-        return ListingByCollection[_collection][_tokenId];
-    }
 
     function GetListedCollection(address _collection) public view returns(Listing[] memory){
         Listing[] memory _listings = new Listing[](ListingByCollection[_collection].length);

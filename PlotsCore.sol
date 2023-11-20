@@ -214,7 +214,9 @@ contract PlotsTreasury{
         return CollectionFloorPrice[Collection];
     }
 
-    
+    function GetFloorFactor(address Collection, uint256 TokenId) public view returns(uint256){
+        return TokenFloorFactor[Collection][TokenId];
+    }
 
 }
 

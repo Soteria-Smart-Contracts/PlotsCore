@@ -195,7 +195,7 @@ contract PlotsTreasury{
         ERC721(Collection).transferFrom(PlotsCoreContract, msg.sender, TokenId);
     }
 
-    //allow admin to set floor price for multiple 
+    //allow admin to set floor price for multiple collections at once, with an array with the collections and an array with the floor prices
 
 }
 

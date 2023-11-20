@@ -136,9 +136,7 @@ contract PlotsCore {
     }
 
     function GetListedCollectionWithPrices(address _collection, uint256 _tokenId) public view returns(Listing memory, uint256[] memory Prices){
-        Listing memory _listing = ListingByCollection[_collection][_tokenId];
-        uint256[] memory _prices = new uint256[](ListingByCollection[_collection].length);
-        for(uint256 i = 0; i < LoansByCollection[_collection].length; i++){
+        for(uint256 i = 0; i < ListingByCollection[_collection].length; i++){
             _prices[i] = LoansByCollection[_collection][i].LoanLength;
         }
         return (_listing, _prices);

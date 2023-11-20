@@ -206,8 +206,7 @@ contract PlotsTreasury{
     mapping(address => uint256) public CollectionFloorPrice;
     //Okay I am creating a new concept called floor factor, which is essentially a multiplier that is calculated when an NFT is deposited into the contract, we use the price of the NFT and the floor price to calculate the floor factor, which allows us to estimate a future price of the nft based on the floor price and the rarity of the nft, lets start by creating a mapping for each nft to each collection
     mapping(address => mapping(uint256 => uint256)) public TokenFloorFactor;
-    //track if a token is in a loan
-    
+    mapping(address => mapping(uint256 => bool)) public TokenInLoan;
 
     constructor(address Core){
         PlotsCoreContract = Core;

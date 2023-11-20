@@ -236,7 +236,9 @@ contract PlotsTreasury{
         }
     }
 
-    function SetInLoan
+    function SetInLoan(address Collection, uint256 TokenId, bool InLoan) public {
+        TokenInLoan[Collection][TokenId] = InLoan;
+    }
 
     //view functions
 

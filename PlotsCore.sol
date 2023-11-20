@@ -190,7 +190,7 @@ contract PlotsTreasury{
         ERC721(Collection).transferFrom(msg.sender, PlotsCoreContract, TokenId);
 
         //calculate floor factor
-        FloorFactorByCollection[Collection][TokenId] = (EtherCost / CollectionFloorPrice[Collection]);
+        TokenFloorFactor[Collection][TokenId] = (EtherCost / CollectionFloorPrice[Collection]);
     }
 
     //allow admin to withdraw nft from treasury

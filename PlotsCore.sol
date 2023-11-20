@@ -185,7 +185,7 @@ contract PlotsTreasury{
     }
 
     //allow admin to deposit nft into treasury
-    function DepositNFT(address Collection, uint256 TokenId) public {
+    function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public {
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         ERC721(Collection).transferFrom(msg.sender, PlotsCoreContract, TokenId);
     }

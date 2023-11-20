@@ -52,8 +52,8 @@ contract PlotsCore {
     mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
 
     //Listings for assets available for borrowing
-    mapping(address => Listing[]) public ListingByCollection;
-    mapping(address => mapping(uint256 => uint256)) public ListingByCollectionIndex;
+    mapping(address => Listing[]) public ListingsByCollection;
+    mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
 
     mapping(address => LoanedToken[]) public AllUserLoans; //Outgoing loans
     mapping(address => mapping(uint256 => uint256)) public AllUserLoansIndex;
@@ -76,11 +76,11 @@ contract PlotsCore {
 
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
-        require(ListingByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
+        require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
         
-        if(ListingByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
-            //require(msg.value == ListingByCollection[Collection][TokenId].Value, "Incorrect tx value");
+        if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
+            //require(msg.value == ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{
             require(msg.value == 0, "Do not Pay for usage tokens");
@@ -91,7 +91,7 @@ contract PlotsCore {
 
     function ListToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
-        require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
+        require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
         if(Admins[msg.sender]){
 
@@ -101,21 +101,21 @@ contract PlotsCore {
             require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Token not owned by sender");
         }
 
-        ListingByCollection[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
+        ListingsByCollection[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
 
-        ListingByCollection[Collection].push(TokenId);
-        ListingByCollectionIndex[Collection][TokenId] = ListingByCollection[Collection].length - 1;
+        //ListingsByCollection[Collection].push(TokenId);
+        ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 
 
     //Public View Functions
 
     function GetCollectionListings(address _collection) public view returns(uint256[] memory){
-        return ListingByCollection[_collection];
+        return ListingsByCollection[_collection];
     }
 
     function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
-        return ListingByCollection[_collection][_tokenId];
+        return ListingsByCollection[_collection][_tokenId];
     }
 
     function GetListedCollections() public view returns(address[] memory){
@@ -129,26 +129,26 @@ contract PlotsCore {
 
     //Listings by user
     // function GetUserListings(address _user) public view returns(Listing[] memory){
-    //     Listing[] memory _listings = new Listing[](ListingByCollection[_user].length);
-    //     for(uint256 i = 0; i < ListingByCollection[_user].length; i++){
-    //         _listings[i] = ListingByCollection[_user][ListingByCollection[_user][i]];
+    //     Listing[] memory _listings = new Listing[](ListingsByCollection[_user].length);
+    //     for(uint256 i = 0; i < ListingsByCollection[_user].length; i++){
+    //         _listings[i] = ListingsByCollection[_user][ListingsByCollection[_user][i]];
     //     }
     //     return _listings;
     // }
 
 
     function GetListedCollection(address _collection) public view returns(Listing[] memory){
-        Listing[] memory _listings = new Listing[](ListingByCollection[_collection].length);
-        for(uint256 i = 0; i < ListingByCollection[_collection].length; i++){
-            _listings[i] = ListingByCollection[_collection][ListingByCollection[_collection][i]];
+        Listing[] memory _listings = new Listing[](ListingsByCollection[_collection].length);
+        for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
+            _listings[i] = ListingsByCollection[_collection][ListingsByCollection[_collection][i]];
         }
         return _listings;
     }
 
     function GetListedCollectionWithPrices(address _collection) public view returns(Listing memory, uint256[] memory Prices){
-        uint256[] memory _prices = new uint256[](ListingByCollection[_collection].length);
-        for(uint256 i = 0; i < ListingByCollection[_collection].length; i++){
-            _prices[i] = ListingByCollection[_collection][i].TokenID;
+        uint256[] memory _prices = new uint256[](ListingsByCollection[_collection].length);
+        for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
+            _prices[i] = ListingsByCollection[_collection][i].TokenID;
         }
         return (GetListedCollection(_collection), _prices);
     }
@@ -156,21 +156,21 @@ contract PlotsCore {
     //Internal Functions
 
     function AddListingToCollection(address _collection, uint256 _tokenId) internal{
-        ListingByCollection[_collection].push(_tokenId);
-        ListingByCollectionIndex[_collection][_tokenId] = ListingByCollection[_collection].length - 1;
+        ListingsByCollection[_collection].push(_tokenId);
+        ListingsByCollectionIndex[_collection][_tokenId] = ListingsByCollection[_collection].length - 1;
     }
 
     //Only Admin Functions
 
     function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
-        require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
+        require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
         require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
 
-        ListingByCollection[Collection][TokenId] = Listing(Collection, TokenId, Value, ListingType.Ownership);
+        ListingsByCollection[Collection][TokenId] = Listing(Collection, TokenId, Value, ListingType.Ownership);
 
-        ListingByCollection[Collection].push(TokenId);
-        ListingByCollectionIndex[Collection][TokenId] = ListingByCollection[Collection].length - 1;
+        ListingsByCollection[Collection].push(TokenId);
+        ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 
 

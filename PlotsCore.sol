@@ -7,6 +7,7 @@ contract PlotsCore {
     address public LendContract;
     address[] public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;
+    mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
 
 
     enum ListingType{
@@ -61,8 +62,6 @@ contract PlotsCore {
 
     mapping(address => LoanedToken[]) public AllUserBorrows; //Incoming loans
     mapping(address => mapping(uint256 => uint256)) public AllUserBorrowsIndex;
-
-    mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
 
 
     constructor(address [] memory _admins){

@@ -151,7 +151,7 @@ contract PlotsCore {
         require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
         require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
 
-        Listings[Collection][TokenId] = Listing(Collection, TokenId, Value, ListingType.Ownership);
+        ListingByCollection[Collection][TokenId] = Listing(Collection, TokenId, Value, ListingType.Ownership);
 
         ListingByCollection[Collection].push(TokenId);
         ListingByCollectionIndex[Collection][TokenId] = ListingByCollection[Collection].length - 1;

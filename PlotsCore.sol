@@ -56,7 +56,6 @@ contract PlotsCore {
     mapping(address => LoanedToken[]) public LoansByCollection;
     mapping(address => mapping(uint256 => uint256)) public LoansByCollectionIndex;
 
-
     mapping(address => LoanedToken[]) public AllUserLoans;
     mapping(address => mapping(uint256 => uint256)) public AllUserLoansIndex;
 

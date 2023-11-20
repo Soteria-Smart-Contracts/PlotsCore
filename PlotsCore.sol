@@ -18,6 +18,7 @@ contract PlotsCore {
     }
 
     enum OwnershipPercent{
+        Zero,
         Ten,
         TwentyFive
     }

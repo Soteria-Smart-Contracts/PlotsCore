@@ -89,7 +89,6 @@ contract PlotsCore {
     function ListTokenForUsage(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
-        //setup listing
 
         Listings[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
 

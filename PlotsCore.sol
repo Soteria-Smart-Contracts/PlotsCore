@@ -13,7 +13,8 @@ contract PlotsCore {
     }
 
     enum LengthOptionP{
-        
+        ThreeMonths,
+        SixMonths
     }
 
     enum OwnershipPercent{

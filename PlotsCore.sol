@@ -140,7 +140,7 @@ contract PlotsCore {
         for(uint256 i = 0; i < ListingByCollection[_collection].length; i++){
             _prices[i] = LoansByCollection[_collection][i].LoanLength;
         }
-        return (GetListedCollection(), _prices);
+        return (GetListedCollection(_collection), _prices);
     }
 
     //Internal Functions

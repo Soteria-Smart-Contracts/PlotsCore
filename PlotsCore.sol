@@ -208,6 +208,14 @@ contract PlotsTreasury{
         }
     }
 
+    //view functions
+
+    function GetFloorPrice(address Collection) public view returns(uint256){
+        return CollectionFloorPrice[Collection];
+    }
+
+    
+
 }
 
 contract PlotsLend{

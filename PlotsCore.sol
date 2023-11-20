@@ -191,6 +191,7 @@ contract PlotsTreasury{
 
         //calculate floor factor
         uint256 FloorFactor = EtherCost / CollectionFloorPrice[Collection];
+        FloorFactorByCollection[Collection][TokenId] = FloorFactor;
     }
 
     //allow admin to withdraw nft from treasury

@@ -92,7 +92,13 @@ contract PlotsCore {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
-        if(Admins[msg.sender]){}
+        if(Admins[msg.sender]){
+
+        
+        }
+        else{
+            require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Token not owned by sender");
+        }
 
         ListingByCollection[Collection][TokenId] = Listing(Collection, TokenId, 0, ListingType.Usage);
 

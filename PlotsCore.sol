@@ -177,7 +177,7 @@ contract PlotsTreasury{
 
     //mapping of all collections to a floor price
     mapping(address => uint256) public CollectionFloorPrice;
-    
+    //
 
     constructor(address Core){
         PlotsCoreContract = Core;

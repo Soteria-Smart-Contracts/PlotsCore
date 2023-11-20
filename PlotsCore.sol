@@ -35,6 +35,7 @@ contract PlotsCore {
         uint256 TokenId;
         uint256 Value;
         LengthOption Duration;
+        OwnershipPercent Ownership;
         uint256 LoanLength;
         uint256 LoanStartTime;
         bool Active;

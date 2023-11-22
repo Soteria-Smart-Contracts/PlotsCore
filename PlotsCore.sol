@@ -233,9 +233,10 @@ contract PlotsTreasury{
         ERC721(Collection).transferFrom(PlotsCoreContract, msg.sender, TokenId);
     }
 
-    //allow admin to withdraw ether from treasury
-
-    
+    function WithdrawEther(uint256 Amount) public {
+        require(address(this).balance >= Amount, "Not enough ether in treasury");
+        payable(msg.sender).transfer(Amount);
+    }
 
     function SendERC20(address Token, address Recipient, uint256 Amount) public {
         ERC20(Token).transfer(Recipient, Amount);

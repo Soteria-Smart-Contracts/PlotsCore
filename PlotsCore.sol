@@ -208,7 +208,7 @@ contract PlotsTreasury{
     mapping(address => mapping(uint256 => uint256)) public TokenFloorFactor;
     mapping(address => mapping(uint256 => bool)) public TokenInLoan;
 
-    
+
 
     modifier OnlyCore(){
         require(msg.sender == PlotsCoreContract, "Only Core");
@@ -359,6 +359,8 @@ contract NFTLoan{
         ERC20(RewardToken).transfer(TokenOwner, OwnerReward);
         ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));
     }
+
+    function ClearContractForFutureUse
 }
 
 

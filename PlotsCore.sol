@@ -233,7 +233,11 @@ contract PlotsTreasury{
         ERC721(Collection).transferFrom(PlotsCoreContract, msg.sender, TokenId);
     }
 
-    //create send function 
+    //create erc20 function that can send any amount of any erc20 token
+
+    function SendERC20(address Token, address Recipient, uint256 Amount) public {
+        ERC20(Token).transfer(Recipient, Amount);
+    }
 
     //allow admin to set floor price for multiple collections at once, with an array with the collections and an array with the floor prices
     function SetFloorPrice(address[] memory Collections, uint256[] memory FloorPrices) public {

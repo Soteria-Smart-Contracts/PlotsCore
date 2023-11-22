@@ -198,7 +198,7 @@ contract PlotsCore {
 
 contract PlotsTreasury{
     //Variable and pointer Declarations
-    address public PlotsCoreContract;
+    PlotsCore public PlotsCoreContract;
 
     //mapping of all collections to a floor price
     mapping(address => uint256) public CollectionFloorPrice;
@@ -206,7 +206,6 @@ contract PlotsTreasury{
     mapping(address => mapping(uint256 => uint256)) public TokenFloorFactor;
     mapping(address => mapping(uint256 => bool)) public TokenInLoan;
 
-    PlotsCo
 
     modifier OnlyCore(){
         require(msg.sender == PlotsCoreContract, "Only Core");

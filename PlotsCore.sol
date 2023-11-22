@@ -334,6 +334,8 @@ contract NFTLoan{
             BorrowerOwnership = 2500;
         }
     }
+
+    
 }
 
 

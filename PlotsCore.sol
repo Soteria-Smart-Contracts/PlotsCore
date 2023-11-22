@@ -122,7 +122,7 @@ contract PlotsCore {
 
     //Public View Functions
 
-    function GetCollectionListings(address _collection) public view returns(uint256[] memory){
+    function GetCollectionListings(address _collection) public view returns(Listing[] memory){
         return ListingsByCollection[_collection];
     }
 

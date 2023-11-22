@@ -250,7 +250,7 @@ contract PlotsTreasury{
         }
     }
 
-    function SendToLoan(address Collection, uint256 TokenID, ) external OnlyCore{
+    function SendToLoan(address Collection, uint256 TokenID, PlotsCore.OwnershipPercent Ownership) external OnlyCore{
 
 
         TokenInLoan[Collection][TokenID] = true;

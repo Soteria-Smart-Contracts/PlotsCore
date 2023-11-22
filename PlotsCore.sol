@@ -250,10 +250,10 @@ contract PlotsTreasury{
         }
     }
 
-    function SendToLoan(address Collection, uint256 TokenID, bool InOut) external OnlyCore{
+    function SendToLoan(address Collection, uint256 TokenID) external OnlyCore{
 
 
-        TokenInLoan[Collection][TokenID] = InOut;
+        TokenInLoan[Collection][TokenID] = true;
     }
 
     //view functions

@@ -213,7 +213,7 @@ contract PlotsTreasury{
     }
 
     constructor(address Core){
-        PlotsCoreContract = Core;
+        PlotsCoreContract = PlotsCore(Core);
     }
 
     //allow admin to deposit nft into treasury

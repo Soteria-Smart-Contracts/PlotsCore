@@ -327,7 +327,7 @@ contract NFTLoan{
 
     uint256 BorrowerRewardsShare; //In Basis Points, zero if no loan exists for this token
 
-    constructor(address FatherContract, address TokenOwner, Token address Collection, uint256 TokenId, PlotsCore.OwnershipPercent Ownership){
+    constructor(address FatherContract, address Owner, address  address Collection, uint256 TokenId, PlotsCore.OwnershipPercent Ownership){
         Father = FatherContract;
         TokenCollection = Collection;
         TokenID = TokenId;

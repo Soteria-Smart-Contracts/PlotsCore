@@ -306,15 +306,6 @@ contract PlotsLend{
     }
 
     //View Functions 
-
-    function EnsureAvailability(address Collection, uint256 TokenId) public view returns(bool){
-        if(ERC721(Collection).ownerOf(TokenId) == address(this) && TokenInLoan[Collection][TokenId] == false){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 }
 
 contract NFTLoan{

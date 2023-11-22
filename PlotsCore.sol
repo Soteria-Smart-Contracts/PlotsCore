@@ -330,7 +330,10 @@ contract NFTLoan{
         }
     }
 
-    
+    function DepositNFT() public {
+        require(ERC721(TokenCollection).ownerOf(TokenID) == msg.sender, "Not owner of token");
+        ERC721(TokenCollection).transferFrom(msg.sender, address(this), TokenID);
+    }
 }
 
 

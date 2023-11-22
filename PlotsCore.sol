@@ -96,7 +96,7 @@ contract PlotsCore {
         require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
         if(Admins[msg.sender]){
-            require(condition);
+            //require(condition);
             ListingsByCollection[Collection][TokenId] = Listing(address(this), Collection, TokenId, ListingType.Usage);
         }
         else{

@@ -338,7 +338,8 @@ contract NFTLoan{
     function DisperseRewards(address RewardToken) public {
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
 
-        //Calculate Rewards for Owner and borrower based on borrower Owen
+        //Calculate Rewards for Owner and borrower based on borrower Ownership
+        uint256 OwnerReward = RewardBalance * (10000 - BorrowerOwnership) / 10000;
     }
 }
 

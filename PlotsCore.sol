@@ -149,14 +149,6 @@ contract PlotsCore {
     // }
 
 
-    function GetListedCollection(address _collection) public view returns(Listing[] memory){
-        Listing[] memory _listings = new Listing[](ListingsByCollection[_collection].length);
-        for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
-            _listings[i] = ListingsByCollection[_collection][ListingsByCollection[_collection][i]];
-        }
-        return _listings;
-    }
-
     function GetListedCollectionWithPrices(address _collection) public view returns(Listing memory, uint256[] memory Prices){
         uint256[] memory _prices = new uint256[](ListingsByCollection[_collection].length);
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){

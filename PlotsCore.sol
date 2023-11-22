@@ -332,7 +332,7 @@ contract NFTLoan{
 
     function DepositNFT() public {
         require(msg.sender == Father, "Only Loans Or Treasury Contract can interact with this contract");
-        ERC721(TokenCollection).transferFrom(msg.sender, address(this), TokenID);
+        ERC721(TokenCollection).transferFrom(Father, address(this), TokenID);
     }
 }
 

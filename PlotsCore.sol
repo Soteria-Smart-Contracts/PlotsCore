@@ -335,7 +335,7 @@ contract NFTLoan{
         }
     }
 
-    function DisperseRewards()
+    function DisperseRewards() 
 }
 
 
@@ -349,4 +349,14 @@ interface ERC721 {
     function setApprovalForAll(address _operator, bool _approved) external;
     function getApproved(uint256 _tokenId) external view returns (address);
     function isApprovedForAll(address _owner, address _operator) external view returns (bool);
+}
+
+interface ERC20 {
+  function balanceOf(address owner) external view returns (uint256);
+  function allowance(address owner, address spender) external view returns (uint256);
+  function approve(address spender, uint256 value) external returns (bool);
+  function transfer(address to, uint256 value) external returns (bool);
+  function transferFrom(address from, address to, uint256 value) external returns (bool); 
+  function totalSupply() external view returns (uint256);
+  function Burn(uint256 _BurnAmount) external;
 }

@@ -327,9 +327,10 @@ contract NFTLoan{
 
     uint256 BorrowerRewardsShare; //In Basis Points, zero if no loan exists for this token
 
-    //onlymanager modifier
-
-    mod
+    modifier OnlyManager(){
+        require(msg.sender == Manager, "Only Manager");
+        _;
+    }
 
     constructor(address ManagerContract, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, PlotsCore.OwnershipPercent Ownership){
         Manager = ManagerContract;

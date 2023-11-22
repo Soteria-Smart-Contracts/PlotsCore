@@ -242,6 +242,8 @@ contract PlotsTreasury{
     }
 
     function SendToLoan(address Collection, uint256 TokenID, bool InOut) external OnlyCore{
+
+
         TokenInLoan[Collection][TokenID] = InOut;
     }
 
@@ -300,9 +302,6 @@ contract PlotsLend{
             return false;
         }
     }
-
-
-
 }
 
 

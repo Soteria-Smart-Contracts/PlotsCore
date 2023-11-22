@@ -153,7 +153,7 @@ contract PlotsCore {
         uint256[] memory _prices = new uint256[](ListingsByCollection[_collection].length);
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
             if(ListingsByCollection[_collection][i].OwnershipOption == ListingType.Ownership){
-                _prices[i] = Treasury. ListingsByCollection[_collection][i].TokenId;
+                _prices[i] = PlotsTreasury(TR) ListingsByCollection[_collection][i].TokenId;
             }
             else{
                 _prices[i] = 0;

@@ -315,7 +315,7 @@ contract NFTLoan{
     uint256 BorrowerOwnership; //In Basis Points
 
     constructor(address FatherContract, address Collection, uint256 TokenId, PlotsCore.OwnershipPercent Ownership){
-        Father = Father;
+        Father = FatherContract;
         TokenCollection = Collection;
         TokenID = TokenId;
 

@@ -251,7 +251,7 @@ contract PlotsTreasury{
     }
 
     function SendToLoan(address Collection, uint256 TokenID, PlotsCore.OwnershipPercent Ownership) external OnlyCore{
-        require(ERC721(Collection).ownerOf(TokenID) == PlotsCoreContract, "Not owner of token");
+        require(ERC721(Collection).ownerOf(TokenID) == address(this), "Not owner of token");
 
         TokenInLoan[Collection][TokenID] = true;
     }

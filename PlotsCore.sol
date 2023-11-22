@@ -342,7 +342,7 @@ contract NFTLoan{
             BorrowerOwnership = 3000;
         }
         else if(Ownership == PlotsCore.OwnershipPercent.Ten){
-            BorrowerOwnership = 1000;
+            BorrowerOwnership = 5000;
         }
         else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
             BorrowerOwnership = 2500;

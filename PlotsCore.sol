@@ -360,7 +360,13 @@ contract NFTLoan{
         ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));
     }
 
-    function ClearContractForFutureUse
+    function ClearContractForFutureUse() public {
+        require(msg.sender == Father, "Only Loans Or Treasury Contract can interact with this contract");
+        ERC721(TokenCollection).transferFrom(address(this), Father, TokenID);
+        BorrowerOwnership = 0;
+    }
+
+    function InitializeReuse
 }
 
 

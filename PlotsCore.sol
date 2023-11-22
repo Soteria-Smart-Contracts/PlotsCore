@@ -316,7 +316,7 @@ contract NFTLoan{
     address public Owner;
     address public Borrower;
 
-    uint256 BorrowerRewardsShare; //In Basis Points, zero if no loan exists for this token
+    uint256 BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
 
     modifier OnlyManager(){
         require(msg.sender == Manager, "Only Manager");
@@ -337,13 +337,13 @@ contract NFTLoan{
         ERC721(TokenCollection).transferFrom(Manager, address(this), TokenID);
 
         if(Ownership == PlotsCore.OwnershipPercent.Zero){
-            BorrowerOwnership = 3000;
+            BorrowerRewardShare = 3000;
         }
         else if(Ownership == PlotsCore.OwnershipPercent.Ten){
-            BorrowerOwnership = 5000;
+            BorrowerRewardShare = 5000;
         }
         else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
-            BorrowerOwnership = 6500;
+            BorrowerRewardShare = 6500;
         }
     }
 

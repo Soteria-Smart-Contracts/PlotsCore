@@ -318,7 +318,7 @@ contract PlotsLend{
 }
 
 contract NFTLoan{
-    address public Father;
+    address public Manager;
     address public TokenCollection;
     uint256 public TokenID;
 

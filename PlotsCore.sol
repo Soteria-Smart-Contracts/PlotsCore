@@ -339,7 +339,7 @@ contract NFTLoan{
         ERC721(TokenCollection).transferFrom(Father, address(this), TokenID);
 
         if(Ownership == PlotsCore.OwnershipPercent.Zero){
-            BorrowerOwnership = 0;
+            BorrowerOwnership = 3000;
         }
         else if(Ownership == PlotsCore.OwnershipPercent.Ten){
             BorrowerOwnership = 1000;

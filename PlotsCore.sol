@@ -335,8 +335,8 @@ contract NFTLoan{
         }
     }
 
-    function DisperseRewards() public {
-        
+    function DisperseRewards(address RewardToken) public {
+        ERC
     }
 }
 

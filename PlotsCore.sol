@@ -312,7 +312,7 @@ contract NFTLoan{
     address public TokenOwner;
     address public Borrower;
 
-    uint256 BorrowerOwnership; //In Basis Points
+    uint256 BorrowerOwnership; //In Basis Points, zero if no loan exists for this token
 
     constructor(address FatherContract, address Collection, uint256 TokenId, PlotsCore.OwnershipPercent Ownership){
         Father = FatherContract;

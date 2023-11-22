@@ -331,7 +331,7 @@ contract NFTLoan{
     }
 
     function DepositNFT() public {
-        require(ERC721(TokenCollection).ownerOf(TokenID) == msg.sender, "Not owner of token");
+        require(msg.sender == PlotsCoreContract, "Only Core");
         ERC721(TokenCollection).transferFrom(msg.sender, address(this), TokenID);
     }
 }

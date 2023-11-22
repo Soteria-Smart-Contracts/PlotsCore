@@ -309,7 +309,7 @@ contract NFTLoan{
     address public TokenCollection;
     uint256 public TokenID;
 
-    address public TokenOwner;
+    address public Owner;
     address public Borrower;
 
     uint256 BorrowerOwnership; //In Basis Points, zero if no loan exists for this token

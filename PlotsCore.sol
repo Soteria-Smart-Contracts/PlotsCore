@@ -53,6 +53,7 @@ contract PlotsCore {
 
     //Listings for assets available for borrowing
     mapping(address => Listing[]) public ListingsByCollection;
+    //create a mapping that maps a token 
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
 
     mapping(address => LoanedToken[]) public AllUserLoans; //Outgoing loans

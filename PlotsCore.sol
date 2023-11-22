@@ -335,7 +335,9 @@ contract NFTLoan{
         }
     }
 
-    function DisperseRewards() public 
+    function DisperseRewards() public {
+        
+    }
 }
 
 

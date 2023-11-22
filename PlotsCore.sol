@@ -346,7 +346,11 @@ contract NFTLoan{
         }
     }
 
-    
+    function EndLoan() public OnlyManager {
+        require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
+        ERC721(TokenCollection).transferFrom(address(this), Manager, TokenID);
+        selfdestruct(payable(Manager));
+    }
 
     function DisperseRewards(address RewardToken) public {
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));

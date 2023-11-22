@@ -350,7 +350,13 @@ contract NFTLoan{
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
         ERC721(TokenCollection).transferFrom(address(this), Manager, TokenID);
         
-        //reset variables for 
+        //reset variables for next loan
+        TokenCollection = address(0);
+        TokenID = 0;
+        Owner = address(0);
+        Borrower = address(0);
+        BorrowerRewardShare = 0;
+        
     }
 
     function DisperseRewards(address RewardToken) public {

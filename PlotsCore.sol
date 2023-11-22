@@ -331,7 +331,7 @@ contract NFTLoan{
     }
 
     function DepositNFT() public {
-        require(msg.sender == PlotsCoreContract, "Only Core");
+        require(msg.sender == Father, "Only Core");
         ERC721(TokenCollection).transferFrom(msg.sender, address(this), TokenID);
     }
 }

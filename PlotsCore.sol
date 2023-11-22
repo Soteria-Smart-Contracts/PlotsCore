@@ -304,7 +304,9 @@ contract PlotsLend{
     }
 }
 
-contract 
+contract NFTLoan{
+    address public 
+}
 
 
 

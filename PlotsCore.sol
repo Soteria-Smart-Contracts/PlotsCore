@@ -158,7 +158,6 @@ contract PlotsCore {
             else{
                 _prices[i] = 0;
             }
-            _prices[i] = ListingsByCollection[_collection][i].TokenID;
         }
         return (GetCollectionListings(_collection), _prices);
     }

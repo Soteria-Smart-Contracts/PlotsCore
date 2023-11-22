@@ -318,6 +318,7 @@ contract NFTLoan{
         Father = FatherContract;
         TokenCollection = Collection;
         TokenID = TokenId;
+        Owner = msg.sender;
     }
 
     function BeginLoan(PlotsCore.OwnershipPercent Ownership) public {

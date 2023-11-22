@@ -318,6 +318,11 @@ contract NFTLoan{
         Father = FatherContract;
         TokenCollection = Collection;
         TokenID = TokenId;
+    }
+
+    function BeginLoan(PlotsCore.OwnershipPercent Ownership) public {
+        require(msg.sender == Father, "Only Loans Or Treasury Contract can interact with this contract");
+        ERC721(TokenCollection).transferFrom(Father, address(this), TokenID);
 
         if(Ownership == PlotsCore.OwnershipPercent.Zero){
             BorrowerOwnership = 0;
@@ -328,11 +333,6 @@ contract NFTLoan{
         else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
             BorrowerOwnership = 2500;
         }
-    }
-
-    function BeginLoan(PlotsCore.OwnershipPercent Ownership) public {
-        require(msg.sender == Father, "Only Loans Or Treasury Contract can interact with this contract");
-        ERC721(TokenCollection).transferFrom(Father, address(this), TokenID);
     }
 }
 

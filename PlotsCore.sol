@@ -332,7 +332,7 @@ contract NFTLoan{
         TokenCollection = Collection;
         TokenID = TokenId;
         Owner = TokenOwner;
-        Borrower = TokenBorrower
+        Borrower = TokenBorrower;
     }
 
     function BeginLoan(PlotsCore.OwnershipPercent Ownership) public {

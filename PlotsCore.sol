@@ -326,7 +326,7 @@ contract NFTLoan{
         BeginLoan(Ownership, TokenOwner, TokenBorrower, Collection, TokenId);
     }
 
-    function BeginLoan(PlotsCore.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId) public {
+    function BeginLoan(PlotsCore.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId) public OnlyManager {
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
         ERC721(TokenCollection).transferFrom(Manager, address(this), TokenID);
 
@@ -345,6 +345,8 @@ contract NFTLoan{
             BorrowerRewardShare = 6500;
         }
     }
+
+    
 
     function DisperseRewards(address RewardToken) public {
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));

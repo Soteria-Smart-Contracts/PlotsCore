@@ -154,7 +154,7 @@ contract PlotsCore {
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
             _prices[i] = ListingsByCollection[_collection][i].TokenID;
         }
-        return (GetListedCollection(_collection), _prices);
+        return (GetCollectionListings(_collection), _prices);
     }
 
     //Internal Functions

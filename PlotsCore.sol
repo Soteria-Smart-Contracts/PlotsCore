@@ -279,6 +279,8 @@ contract PlotsTreasury{
         return CollectionFloorPrice[Collection] * TokenFloorFactor[Collection][TokenId];
     }
 
+    receive() external payable{}
+
 }
 
 contract PlotsLend{

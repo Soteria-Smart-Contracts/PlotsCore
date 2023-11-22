@@ -3,7 +3,7 @@ pragma solidity 0.8.19;
 
 contract PlotsCore {
     //Variable and pointer Declarations
-    address public Treasury;
+    address payable public Treasury;
     address public LendContract;
     address[] public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;

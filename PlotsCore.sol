@@ -306,7 +306,8 @@ contract PlotsLend{
 
 contract NFTLoan{
     address public PlotsCoreContract;
-    address p
+    address public TokenCollection;
+    uint256 public TokenID;
 
     constructor(address Core, address Collection, uint256 TokenID){
         PlotsCoreContract = Core;

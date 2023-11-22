@@ -311,7 +311,6 @@ contract NFTLoan{
 
     address public TokenOwner;
     address public Borrower;
-    
 
     constructor(address Core, address Collection, uint256 TokenID){
         PlotsCoreContract = Core;

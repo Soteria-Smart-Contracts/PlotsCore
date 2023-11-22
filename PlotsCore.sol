@@ -318,6 +318,16 @@ contract NFTLoan{
         PlotsCoreContract = Core;
         TokenCollection = Collection;
         TokenID = TokenId;
+
+        if(Ownership == PlotsCore.OwnershipPercent.Zero){
+            BorrowerOwnership = 0;
+        }
+        else if(Ownership == PlotsCore.OwnershipPercent.Ten){
+            BorrowerOwnership = 1000;
+        }
+        else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
+            BorrowerOwnership = 2500;
+        }
     }
 }
 

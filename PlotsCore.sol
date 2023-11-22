@@ -336,7 +336,7 @@ contract NFTLoan{
     }
 
     function DisperseRewards(address RewardToken) public {
-        RewardBalance ERC20.balanceOf(address(this));
+        uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
     }
 }
 

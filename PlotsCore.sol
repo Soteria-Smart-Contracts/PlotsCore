@@ -332,6 +332,11 @@ contract NFTLoan{
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
         ERC721(TokenCollection).transferFrom(Manager, address(this), TokenID);
 
+        TokenCollection = Collection;
+        TokenID = TokenId;
+        Owner = TokenOwner;
+        Borrower = TokenBorrower;
+
         if(Ownership == PlotsCore.OwnershipPercent.Zero){
             BorrowerRewardShare = 3000;
         }

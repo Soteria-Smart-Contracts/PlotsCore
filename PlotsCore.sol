@@ -89,6 +89,8 @@ contract PlotsCore {
             require(msg.value == 0, "Do not Pay for usage tokens");
         }
 
+        
+
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }
 

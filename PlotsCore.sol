@@ -97,6 +97,8 @@ contract PlotsCore {
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }
 
+    //Listings ---------------------------------------------------------------------------------
+
     function ListToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");

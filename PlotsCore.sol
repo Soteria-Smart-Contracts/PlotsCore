@@ -73,7 +73,7 @@ contract PlotsCore {
 
         //ERC721(Collection)
         
-        if(NFTLoan(ListingsByCollection[Collection][TokenId]).OwnershipOption == ListingType.Ownership){
+        if(NFTLoan(ListingsByCollection[Collection][TokenId]).OwnershipPercentage == ListingType.Ownership){
             //require(msg.value == ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{

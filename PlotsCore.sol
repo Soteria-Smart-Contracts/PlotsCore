@@ -197,7 +197,7 @@ contract PlotsCore {
 
 contract PlotsTreasury{
     //Variable and pointer Declarations
-    PlotsCore public PlotsCoreContract;
+    address public PlotsCoreContract;
 
     //mapping of all collections to a floor price
     mapping(address => uint256) public CollectionFloorPrice;

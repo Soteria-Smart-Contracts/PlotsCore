@@ -318,7 +318,7 @@ contract NFTLoan{
 
     //Use Counter for statistics
     uint256 public UseCounter;
-    bool public A
+    bool public Active;
 
     modifier OnlyManager(){
         require(msg.sender == Manager, "Only Manager");

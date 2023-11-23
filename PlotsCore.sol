@@ -258,8 +258,7 @@ contract PlotsTreasury{
 
     //return from loan (transferfrom the token location back to the treeasury, set token location to this)
     function ReturnFromLoan(address Collection, uint256 TokenID) external {
-        require(TokenLocation[Collection][TokenID] != address(0), "Token not in a loan or affiliated");
-        ERC721(Collection).transferFrom(TokenLocation[Collection][TokenID], address(this), TokenID);
+        //require that the token is this 
 
         TokenLocation[Collection][TokenID] = address(this);
     }

@@ -259,9 +259,8 @@ contract PlotsTreasury{
     //return from loan (transferfrom the token location back to the treeasury, set token location to this)
     function ReturnedFromLoan(address Collection, uint256 TokenID) external OnlyCore(){
         //require that the token is this contract by calling the collection and token id in the token location mapping
-        require(ERC721(Collection). == address(this), "Token not in treasury");
+        require(ERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");
         
-
         TokenLocation[Collection][TokenID] = address(this);
     }
 

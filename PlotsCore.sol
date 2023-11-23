@@ -46,10 +46,10 @@ contract PlotsCore {
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
 
     mapping(address => address[]) public AllUserLoans; //Outgoing loans
-    mapping(address => mapping(uint256 => uint256)) public AllUserLoansIndex;
+    mapping(address => mapping(address => uint256)) public AllUserLoansIndex;
 
     mapping(address => address[]) public AllUserBorrows; //Incoming loans
-    mapping(address => mapping(uint256 => uint256)) public AllUserBorrowsIndex;
+    mapping(address => mapping(address => uint256)) public AllUserBorrowsIndex;
 
 
     constructor(address [] memory _admins){

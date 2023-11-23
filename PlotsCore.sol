@@ -248,7 +248,7 @@ contract PlotsTreasury{
         }
     }
 
-    function SendToLoan(address LoanContract) external OnlyCore{
+    function SendToLoan(address LoanContract, ) external OnlyCore{
         ERC721()
 
         TokenInLoan[Collection][TokenID] = true;

@@ -313,7 +313,7 @@ contract NFTLoan{
 
     address public Owner;
     address public Borrower;
-    PlotsCore.OwnershipPercent OwnershipPercentage;;
+    PlotsCore.OwnershipPercent OwnershipPercentage;
 
     uint256 BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
 
@@ -337,6 +337,7 @@ contract NFTLoan{
         TokenID = TokenId;
         Owner = TokenOwner;
         Borrower = TokenBorrower;
+        OwnershipPercentage = Ownership;
 
         if(Ownership == PlotsCore.OwnershipPercent.Zero){
             BorrowerRewardShare = 3000;

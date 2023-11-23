@@ -74,7 +74,7 @@ contract PlotsCore {
         //ERC721(Collection)
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
-            
+            BorrowCost = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
             require(msg.value >= ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{

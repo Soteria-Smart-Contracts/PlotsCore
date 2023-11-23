@@ -312,6 +312,7 @@ contract NFTLoan{
     address public Borrower;
     PlotsCore.OwnershipPercent public OwnershipType;
     uint256 LoanEndTime;
+    uint256 InitialValue;
 
     uint256 BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
 

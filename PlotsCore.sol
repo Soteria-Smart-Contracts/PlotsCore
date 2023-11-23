@@ -82,7 +82,7 @@ contract PlotsCore {
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
 
-        ERC721(Collection).
+        ERC721(Collection)
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
             //require(msg.value == ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");

@@ -84,6 +84,7 @@ contract PlotsCore {
                 BorrowCost += (TokenValue * 25) / 100;
             }
             require(msg.value >= BorrowCost, "Not enough ether sent");
+            require(condition);
         }
         else{
             require(msg.value == 0, "Do not Pay for usage tokens");

@@ -64,7 +64,7 @@ contract PlotsCore {
 
     //Super admin
 
-    //Public Functions
+    //Borro Functions
 
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration, OwnershipPercent Ownership) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
@@ -97,7 +97,7 @@ contract PlotsCore {
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }
 
-    //Listings ---------------------------------------------------------------------------------
+    // Listings ---------------------------------------------------------------------------------
 
     function ListToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");

@@ -41,7 +41,7 @@ contract PlotsCore {
     mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
 
     //Listings for assets available for borrowing
-    mapping(address => address[]) public ListingsByCollection;
+    mapping(address => Listing[]) public ListingsByCollection;
     //create a mapping that maps a token id to a listing index
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
 

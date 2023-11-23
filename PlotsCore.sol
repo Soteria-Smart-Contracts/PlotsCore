@@ -126,7 +126,7 @@ contract PlotsCore {
     }
     
     //Function to allow frontend see all user loaned tokens (that they put up collateral to borrow)
-    function GetUserLoans(address _user) public view returns(LoanedToken[] memory){
+    function GetUserLoans(address _user) public view returns(address[] memory){
         return AllUserLoans[_user];
     }
 

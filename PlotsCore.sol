@@ -180,7 +180,7 @@ contract PlotsCore {
     }
 
     //add loan to a borrower and a lender with just the loan address IN ONE function
-    function AddLoanToBorrowerAndLender(address _user, address _loan) internal{
+    function AddLoanToBorrowerAndLender(address Borrower, address Lender, address _loan) internal{
         AllUserLoans[_user].push(_loan);
         AllUserLoansIndex[_user][_loan] = AllUserLoans[_user].length - 1;
     }

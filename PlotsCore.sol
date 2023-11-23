@@ -75,7 +75,7 @@ contract PlotsCore {
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
             uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
-            uint256 BorrowCost = ;
+            if(Owner)
             require(msg.value >= ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{

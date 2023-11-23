@@ -51,7 +51,6 @@ contract PlotsCore {
 
     mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
 
-    mapping()
 
     //Listings for assets available for borrowing
     mapping(address => Listing[]) public ListingsByCollection;

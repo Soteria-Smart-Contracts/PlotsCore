@@ -81,6 +81,8 @@ contract PlotsCore {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
+
+        
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
             //require(msg.value == ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");

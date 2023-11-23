@@ -166,10 +166,10 @@ contract PlotsCore {
 
     //Internal Functions
 
-    // function AddListingToCollection(address _collection, uint256 _tokenId) internal{
-    //     ListingsByCollection[_collection].push(_tokenId);
-    //     ListingsByCollectionIndex[_collection][_tokenId] = ListingsByCollection[_collection].length - 1;
-    // }
+    function AddListingToCollection(address _collection, uint256 _tokenId) internal{
+        ListingsByCollection[_collection].push(_tokenId);
+        ListingsByCollectionIndex[_collection][_tokenId] = ListingsByCollection[_collection].length - 1;
+    }
 
     //Only Admin Functions
 

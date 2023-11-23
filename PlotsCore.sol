@@ -324,7 +324,10 @@ contract NFTLoan{
         _;
     }
 
-    
+modifier HasToken(address Collection, uint256 TokenId) {
+    require(TokenCollection == Collection && TokenID == TokenId, "Token not found");
+    _;
+}
 
     constructor(address ManagerContract, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, PlotsCore.OwnershipPercent Ownership){
         Manager = ManagerContract;

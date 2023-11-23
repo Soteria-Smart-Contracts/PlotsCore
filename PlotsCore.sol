@@ -179,7 +179,8 @@ contract PlotsCore {
         ListingsByCollection[_collection].pop();
     }
 
-    //add loan to a borrower and a lender with just 
+    //add loan to a borrower and a lender with just the loan address
+    
 
     //Only Admin Functions
 

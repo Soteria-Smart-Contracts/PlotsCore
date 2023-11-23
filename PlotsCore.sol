@@ -92,6 +92,7 @@ contract PlotsCore {
         }
 
         RemoveListingFromCollection(Collection, TokenId);
+        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenId].Lister, NewLoanContract);
         NFTLoan(NewLoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenId].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }

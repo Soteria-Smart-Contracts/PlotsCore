@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity 0.8.19;
 
-contract PlotsCore {
+contract PlotsCoreV1 {
     //Variable and pointer Declarations
     address payable public Treasury;
     address public LendContract;

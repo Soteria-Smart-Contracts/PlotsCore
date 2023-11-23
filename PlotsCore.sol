@@ -258,9 +258,9 @@ contract PlotsTreasury{
 
     //return from loan (transferfrom the token location back to the treeasury, set token location to this)
     function ReturnedFromLoan(address Collection, uint256 TokenID) external OnlyCore(){
-        //require that the token is this contract
-        require(TokenLocation[Collection][TokenID] != address(0), "Token not in loan");
+        //require that the token is this contract by calling 
         
+
         TokenLocation[Collection][TokenID] = address(this);
     }
 

@@ -256,6 +256,8 @@ contract PlotsTreasury{
         TokenLocation[Collection][TokenID] = LoanContract;
     }
 
+    
+
     //view functions
 
     function EnsureAvailability(address Collection, uint256 TokenId) public view returns(bool){

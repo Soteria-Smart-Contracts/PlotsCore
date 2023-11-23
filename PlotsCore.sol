@@ -69,7 +69,6 @@ contract PlotsCore {
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration, OwnershipPercent Ownership) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
-        require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
 
         address NewLoanContract = address(new NFTLoan());
         

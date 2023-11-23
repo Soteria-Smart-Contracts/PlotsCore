@@ -207,7 +207,7 @@ contract PlotsTreasury{
 
 
     modifier OnlyCore(){
-        require(msg.sender == PlotsCoreContract, "Only Core");
+        require(msg.sender == address(PlotsCoreContract), "Only Core");
         _;
     }
 
@@ -218,7 +218,7 @@ contract PlotsTreasury{
     //allow admin to deposit nft into treasury
     function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public {
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
-        ERC721(Collection).transferFrom(msg.sender, PlotsCoreContract, TokenId);
+        ERC721(Collection).transferFrom(msg.sender, address(PlotsCoreContract), TokenId);
 
         //calculate floor factor
         TokenFloorFactor[Collection][TokenId] = (EtherCost / CollectionFloorPrice[Collection]);
@@ -228,7 +228,7 @@ contract PlotsTreasury{
 
     function WithdrawNFT(address Collection, uint256 TokenId) public {
         require(ERC721(Collection).ownerOf(TokenId) == address(PlotsCoreContract), "Not owner of token");
-        ERC721(Collection).transferFrom(PlotsCoreContract, msg.sender, TokenId);
+        ERC721(Collection).transferFrom(address(PlotsCoreContract), msg.sender, TokenId);
     }
 
     function WithdrawEther(uint256 Amount) public {

@@ -339,6 +339,7 @@ contract NFTLoan{
         Owner = TokenOwner;
         Borrower = TokenBorrower;
         OwnershipPercentage = Ownership;
+        LoanEndTime = block.timestamp + Duration;
 
         if(Ownership == PlotsCore.OwnershipPercent.Zero){
             BorrowerRewardShare = 3000;

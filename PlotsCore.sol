@@ -32,17 +32,6 @@ contract PlotsCore {
         ListingType OwnershipOption;
     }
 
-    struct LoanedToken{
-        address Borrower;
-        address Collection;
-        uint256 TokenId;
-        OwnershipPercent Ownership;
-        LengthOption Duration;
-        uint256 LoanLength;
-        uint256 LoanStartTime;
-        bool Active;
-    }
-
     mapping(address => bool) public Admins;
     modifier OnlyAdmin(){
         require(Admins[msg.sender], "Only Admin");

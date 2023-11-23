@@ -62,9 +62,7 @@ contract PlotsCore {
         Admins[Treasury] = true;
     }
 
-    //Super admin
-
-    //Borro Functions
+    //Loan Functions
 
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration, OwnershipPercent Ownership) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");

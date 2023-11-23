@@ -327,7 +327,6 @@ contract NFTLoan{
 
     constructor(address ManagerContract, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, PlotsCore.OwnershipPercent Ownership){
         Manager = ManagerContract;
-        BeginLoan(Ownership, TokenOwner, TokenBorrower, Collection, TokenId);
     }
 
     function BeginLoan(PlotsCore.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId) public OnlyManager {

@@ -347,7 +347,7 @@ contract NFTLoan{
             BorrowerRewardShare = 6500;
         }
 
-        Ac
+        Active = true;
     }
 
     function EndLoan(address Origin) public OnlyManager {

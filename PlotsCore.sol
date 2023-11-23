@@ -71,10 +71,9 @@ contract PlotsCore {
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
 
         address NewLoanContract = address(new NFTLoan());
-        TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
+        uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
-            uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
             uint256 Fee = (TokenValue * 25) / 1000;
             uint256 BorrowCost = Fee;
             if(Ownership == OwnershipPercent.Ten){

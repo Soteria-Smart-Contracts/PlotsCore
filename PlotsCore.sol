@@ -74,7 +74,7 @@ contract PlotsCore {
         //ERC721(Collection)
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
-            //require(msg.value == ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");
+            require(msg.value >= ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{
             require(msg.value == 0, "Do not Pay for usage tokens");

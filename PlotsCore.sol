@@ -85,6 +85,7 @@ contract PlotsCore {
             }
             require(msg.value >= BorrowCost, "Not enough ether sent");
             PlotsTreasury(Treasury).SendToLoan(NewLoanContract, Collection, TokenId);
+
         }
         else{
             require(msg.value == 0, "Do not Pay for usage tokens");

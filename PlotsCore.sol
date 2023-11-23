@@ -78,7 +78,7 @@ contract PlotsCore {
             uint256 Fee = (TokenValue * 25) / 1000;
             uint256 BorrowCost = Fee;
             if(Ownership == OwnershipPercent.Ten){
-                require(msg.value >= (TokenValue * 10) / 100, "Incorrect tx value");
+                BorrowCost += (TokenValue * 10) / 100;
             }
             else if(Ownership == OwnershipPercent.TwentyFive){
                 require(msg.value >= (TokenValue * 25) / 100, "Incorrect tx value");

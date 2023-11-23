@@ -84,13 +84,7 @@ contract PlotsCore {
                 BorrowCost += (TokenValue * 25) / 100;
             }
             require(msg.value >= BorrowCost, "Not enough ether sent");
-            contract PlotsTreasury {
-                // Implementation logic here
-            }
-                function SendToLoan(address loanContract, address collection, uint256 tokenId) external returns (bool) {
-                    // Implementation logic here
-                }
-            }
+            require(PlotsTreasury(Treasury).SendToLoan(NewLoanContract, Collection, TokenId), "Token not sent to loan contract");
         }
         else{
             require(msg.value == 0, "Do not Pay for usage tokens");

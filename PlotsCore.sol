@@ -360,6 +360,7 @@ contract NFTLoan{
         Borrower = address(0);
         BorrowerRewardShare = 0;
         UseCounter++;
+        Active = false;
     }
 
     function DisperseRewards(address RewardToken) public {

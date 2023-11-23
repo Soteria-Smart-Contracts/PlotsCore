@@ -75,6 +75,7 @@ contract PlotsCore {
         uint256 DurationUnix = (uint8(Duration) + 1) * 90 days;
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
+            require(Ownership );
             uint256 Fee = (TokenValue * 25) / 1000;
             uint256 BorrowCost = Fee;
             if(Ownership == OwnershipPercent.Ten){

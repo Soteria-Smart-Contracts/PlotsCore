@@ -72,6 +72,7 @@ contract PlotsCore {
 
         address NewLoanContract = address(new NFTLoan());
         uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
+        DurationUnix = 
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
             uint256 Fee = (TokenValue * 25) / 1000;

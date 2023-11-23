@@ -314,7 +314,8 @@ contract NFTLoan{
 
     uint256 BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
 
-    //
+    //Use Counter for statistics
+    
 
     modifier OnlyManager(){
         require(msg.sender == Manager, "Only Manager");

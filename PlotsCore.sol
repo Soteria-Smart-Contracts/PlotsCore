@@ -84,7 +84,6 @@ contract PlotsCore {
             else if(Ownership == OwnershipPercent.TwentyFive){
                 require(msg.value >= (TokenValue * 25) / 100, "Incorrect tx value");
             }
-            require(msg.value >= ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{
             require(msg.value == 0, "Do not Pay for usage tokens");

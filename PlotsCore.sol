@@ -258,7 +258,7 @@ contract PlotsTreasury{
 
     //return from loan (transferfrom the token location back to the treeasury, set token location to this)
     function ReturnFromLoan(address Collection, uint256 TokenID) external {
-        //require nonzero token location
+        require(TokenLocation[Collection][TokenID] != address(0), "Token not o");
         ERC721(Collection).transferFrom(TokenLocation[Collection][TokenID], address(this), TokenID);
 
         TokenLocation[Collection][TokenID] = address(this);

@@ -88,7 +88,7 @@ contract PlotsCore {
             require(msg.value == 0, "Do not Pay for usage tokens");
         }
 
-        NFTLoan(NewLoanContract).BeginLoan(Ownership, TokenOwner, TokenBorrower, Collection, TokenId, Duration, InitialValue);
+        NFTLoan(NewLoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenId]., TokenBorrower, Collection, TokenId, Duration, InitialValue);
 
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }

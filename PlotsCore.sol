@@ -89,7 +89,7 @@ contract PlotsCore {
             require(msg.value == 0, "Do not Pay for usage tokens");
         }
 
-        
+        NFTLoan(NewLoanContract)
 
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }

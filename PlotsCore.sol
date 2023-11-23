@@ -346,7 +346,7 @@ contract NFTLoan{
             BorrowerRewardShare = 6500;
         }
 
-        
+        UseCounter++;
     }
 
     function EndLoan() public OnlyManager {

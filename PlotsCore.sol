@@ -364,7 +364,6 @@ contract NFTLoan{
 
         //Calculate Rewards for Owner and borrower based on borrower Ownership
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;
-        uint256 BorrowerReward = RewardBalance - OwnerReward;
         
         ERC20(RewardToken).transfer(Owner, OwnerReward);
         ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));

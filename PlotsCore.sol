@@ -345,8 +345,6 @@ contract NFTLoan{
         else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
             BorrowerRewardShare = 6500;
         }
-
-        UseCounter++;
     }
 
     function EndLoan() public OnlyManager {
@@ -358,6 +356,7 @@ contract NFTLoan{
         Owner = address(0);
         Borrower = address(0);
         BorrowerRewardShare = 0;
+        UseCounter++;
     }
 
     function DisperseRewards(address RewardToken) public {

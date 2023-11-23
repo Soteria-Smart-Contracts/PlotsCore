@@ -166,8 +166,8 @@ contract PlotsCore {
 
     //Internal Functions
 
-    function AddListingToCollection(address _collection, uint256 _tokenId, Listing _listing) internal{
-        ListingsByCollection[_collection].push(_tokenId);
+    function AddListingToCollection(address _collection, uint256 _tokenId, Listing memory _listing) internal{
+        ListingsByCollection[_collection].push(_listing);
         ListingsByCollectionIndex[_collection][_tokenId] = ListingsByCollection[_collection].length - 1;
     }
 

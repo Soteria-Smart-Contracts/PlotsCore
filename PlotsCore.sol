@@ -249,9 +249,7 @@ contract PlotsTreasury{
     }
 
     function SendToLoan(address LoanContract) external OnlyCore{
-        require(ERC721(Collection).ownerOf(TokenID) == address(this), "Not owner of token");
-
-        TokenInLoan[Collection][TokenID] = true;
+        
     }
 
     //view functions

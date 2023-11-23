@@ -173,7 +173,7 @@ contract PlotsCore {
 
     function RemoveListingFromCollection(address _collection, uint256 _tokenId) internal{
         ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]] = ListingsByCollection[_collection][ListingsByCollection[_collection].length - 1];
-        ListingsByCollectionIndex[_collection][ListingsByCollection[_collection][index].TokenId] = index;
+        ListingsByCollectionIndex[_collection][ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]].TokenId] = ListingsByCollectionIndex[_collection][_tokenId];
         ListingsByCollection[_collection].pop();
     }
 

@@ -56,7 +56,7 @@ contract PlotsCore {
     //create a mapping that maps a token id to a listing index
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
 
-    mapping(address => LoanedToken[]) public AllUserLoans; //Outgoing loans
+    mapping(address => address[]) public AllUserLoans; //Outgoing loans
     mapping(address => mapping(uint256 => uint256)) public AllUserLoansIndex;
 
     mapping(address => LoanedToken[]) public AllUserBorrows; //Incoming loans

@@ -171,6 +171,13 @@ contract PlotsCore {
         ListingsByCollectionIndex[_collection][_tokenId] = ListingsByCollection[_collection].length - 1;
     }
 
+    function RemoveListingFromCollection(address _collection, uint256 _tokenId) internal{
+        uint256 index = ListingsByCollectionIndex[_collection][_tokenId];
+        ListingsByCollection[_collection][index] = ListingsByCollection[_collection][ListingsByCollection[_collection].length - 1];
+        ListingsByCollectionIndex[_collection][ListingsByCollection[_collection][index].TokenId] = index;
+        ListingsByCollection[_collection].pop();
+    }
+
     //Only Admin Functions
 
     function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{

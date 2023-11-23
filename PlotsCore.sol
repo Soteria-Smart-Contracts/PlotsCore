@@ -256,7 +256,7 @@ contract PlotsTreasury{
         TokenLocation[Collection][TokenID] = LoanContract;
     }
 
-    //return from loan (transferfrom the )
+    //return from loan (transferfrom the token location back to the treeasury, set token )
 
     //view functions
 

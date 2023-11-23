@@ -75,7 +75,15 @@ contract PlotsCore {
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
             uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
-            if(Owner)
+            if(Ownership == OwnershipPercent.Zero){
+                require(msg.value >= TokenValue, "Incorrect tx value");
+            }
+            else if(Ownership == OwnershipPercent.Ten){
+                require(msg.value >= (TokenValue * 10) / 100, "Incorrect tx value");
+            }
+            else if(Ownership == OwnershipPercent.TwentyFive){
+                require(msg.value >= (TokenValue * 25) / 100, "Incorrect tx value");
+            }
             require(msg.value >= ListingsByCollection[Collection][TokenId].Value, "Incorrect tx value");
         }
         else{

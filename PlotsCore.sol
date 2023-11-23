@@ -253,7 +253,7 @@ contract PlotsTreasury{
     function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external OnlyCore{
         ERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
 
-        TokenInLoan[Collection][TokenID] = true;
+        TokenLocation[Collection][TokenID] = LoanContract;
     }
 
     //view functions

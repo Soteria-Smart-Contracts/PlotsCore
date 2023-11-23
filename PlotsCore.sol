@@ -366,8 +366,6 @@ contract NFTLoan{
         ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));
     }
 
-    
-
 }
 
 

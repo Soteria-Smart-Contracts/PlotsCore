@@ -349,7 +349,7 @@ contract NFTLoan{
 
     function EndLoan(address Origin) public OnlyManager {
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
-        ERC721(TokenCollection).transferFrom(address(this), Manager, TokenID);
+        ERC721(TokenCollection).transferFrom(address(this), Origin, TokenID);
         
         TokenCollection = address(0);
         TokenID = 0;

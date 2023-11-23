@@ -81,8 +81,9 @@ contract PlotsCore {
                 BorrowCost += (TokenValue * 10) / 100;
             }
             else if(Ownership == OwnershipPercent.TwentyFive){
-                require(msg.value >= (TokenValue * 25) / 100, "Incorrect tx value");
+                BorrowCost += (TokenValue * 25) / 100;
             }
+            require(msg.value >= BorrowCost, "Not enough ether sent");
         }
         else{
             require(msg.value == 0, "Do not Pay for usage tokens");

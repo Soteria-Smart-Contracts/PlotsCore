@@ -71,7 +71,7 @@ contract PlotsCore {
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         require(OwnershipByPurchase[Collection][msg.sender] == 0, "Already requested token");
 
-        //ERC721(Collection)
+        NewLoanContract 
         
         if(ListingsByCollection[Collection][TokenId].OwnershipOption == ListingType.Ownership){
             uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);

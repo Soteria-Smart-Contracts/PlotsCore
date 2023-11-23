@@ -315,7 +315,7 @@ contract NFTLoan{
     uint256 BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
 
     //Use Counter for statistics
-    uint256 public LoanCount;
+    uint256 public UseCounter;
 
     modifier OnlyManager(){
         require(msg.sender == Manager, "Only Manager");
@@ -345,6 +345,8 @@ contract NFTLoan{
         else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
             BorrowerRewardShare = 6500;
         }
+
+        
     }
 
     function EndLoan() public OnlyManager {

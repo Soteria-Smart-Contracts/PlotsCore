@@ -331,7 +331,7 @@ contract NFTLoan{
 
     function BeginLoan(PlotsCore.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, uint256 Duration, uint256 InitialValue) public OnlyManager {
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
-        //require that the token is this contract by calling the collection and token id in the token location mapping
+        require(ERC721(Collection).ownerOf(TokenId) == address(this), "Token not in loan");
 
         TokenCollection = Collection;
         TokenID = TokenId;

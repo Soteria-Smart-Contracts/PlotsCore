@@ -179,6 +179,8 @@ contract PlotsCore {
         ListingsByCollection[_collection].pop();
     }
 
+    //add loan to a 
+
     //Only Admin Functions
 
     function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{

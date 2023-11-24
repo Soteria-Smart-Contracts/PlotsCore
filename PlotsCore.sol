@@ -125,7 +125,42 @@ contract PlotsCoreV1 {
     }
 
     //function CloseLoan
-    
+    function CloseLoan(address LoanContract) public{
+        require(AllUserLoansIndex[msg.sender][LoanContract] != 0, "Loan not found");
+        require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not owner of loan");
+
+        //require that the loan is over
+        require(NFTLoan(LoanContract).LoanEndTime() <= block.timestamp, "Loan not ended yet");
+
+        //require that the loan is active
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).UseCounter() == 0, "Loan in use");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+
+        //require that the loan is not in use
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
 
     //function ChangeOwnershipPercentage
 

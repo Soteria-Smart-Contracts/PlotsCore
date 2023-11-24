@@ -116,9 +116,16 @@ contract PlotsCoreV1 {
     }
 
     //function DelistToken
-    
+    function DelistToken(address Collection, uint256 TokenId) public{
+        require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
+        require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
+        require(ListingsByCollection[Collection][TokenId].Lister == msg.sender, "Not owner of listing");
+
+        RemoveListingFromCollection(Collection, TokenId);
+    }
 
     //function CloseLoan
+    
 
     //function ChangeOwnershipPercentage
 

@@ -134,33 +134,7 @@ contract PlotsCoreV1 {
 
         //require that the loan is active
         require(NFTLoan(LoanContract).Active(), "Loan not active");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).UseCounter() == 0, "Loan in use");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-
-        //require that the loan is not in use
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
+        
 
     //function ChangeOwnershipPercentage
 

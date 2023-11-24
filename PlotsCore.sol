@@ -127,7 +127,7 @@ contract PlotsCoreV1 {
     //function CloseLoan
     function CloseLoan(address LoanContract) public{
         require(AllUserLoansIndex[msg.sender][LoanContract] != 0, "Loan not found");
-        require(NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan, "Not owner of loan");
+        require(NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan(LoanContracr), "Not owner of loan");
         require(NFTLoan(LoanContract).LoanEndTime() <= block.timestamp, "Loan not ended yet");
 
         //require that the loan is active

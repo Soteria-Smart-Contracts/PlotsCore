@@ -417,6 +417,8 @@ contract PlotsLend{
         
     }
 
+    struct To
+
     mapping(address => mapping(uint256 => address)) public TokenDepositor;
     mapping(address => mapping(uint256 => address)) public TokenLocation;
 

@@ -131,6 +131,8 @@ contract PlotsCoreV1 {
             OwnershipPercentage = 25;
             ReturnContract = Treasury;
         }
+
+        if
         
         uint256 CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
         

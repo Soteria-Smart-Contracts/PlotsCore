@@ -437,7 +437,7 @@ contract PlotsLend{
         TokenDepositor[Collection][TokenId] = msg.sender;
         TokenLocation[Collection][TokenId] = address(this);
         AllUserTokens[msg.sender].push(Token(Collection, TokenId));
-
+        
     }
 
     function WithdrawToken(address Collection, uint256 TokenId) public{

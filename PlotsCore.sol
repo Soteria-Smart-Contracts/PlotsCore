@@ -179,6 +179,7 @@ contract PlotsCoreV1 {
         uint256 CollateralValueChange;
 
         if(CurrentOwnership == OwnershipPercent.Ten){
+            //15% Inclusive of a 1% fee
             CollateralValueChange = (CurrentValue * 16) / 100;
             require(msg.value >= CollateralValueChange, "Not enough ether sent");
         }

@@ -132,7 +132,8 @@ contract PlotsCoreV1 {
 
         NFTLoan(LoanContract).EndLoan(Treasury);
         PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
-        ERC721(Collection).transferFrom(address(this), NFTLoan(LoanContract).Borrower(), TokenId);
+        //send collateral to borrower
+        
     }
 
     // Listings ---------------------------------------------------------------------------------

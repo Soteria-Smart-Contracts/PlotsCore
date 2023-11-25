@@ -378,11 +378,6 @@ contract NFTLoan{
     uint256 public UseCounter;
     bool public Active;
 
-    enum OwnershipPercent{
-        Zero,
-        Ten,
-        TwentyFive
-    }
 
     modifier OnlyManager(){
         require(msg.sender == Manager, "Only Manager");

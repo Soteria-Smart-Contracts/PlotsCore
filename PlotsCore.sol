@@ -442,6 +442,7 @@ contract PlotsLend{
 
     function WithdrawToken(address Collection, uint256 TokenId) public{
         require(ERC721(Collection).ownerOf(TokenId) == PlotsCoreContract, "Not owner of token");
+        require(TokenLocation[Collection][TokenId] == address(this), "Token not in lending contract");
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         TokenDepositor[Collection][TokenId] = address(0);

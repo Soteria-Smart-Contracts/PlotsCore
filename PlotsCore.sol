@@ -418,8 +418,7 @@ contract PlotsLend{
     }
 
     mapping(address => mapping(uint256 => address)) public TokenDepositor;
-    //token location mapping
-    
+    mapping(address => mapping(uint256 => address)) public TokenLocation;
 
     //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract
     function DepositToken(address Collection, uint256 TokenId) public{

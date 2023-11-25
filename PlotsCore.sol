@@ -111,6 +111,7 @@ contract PlotsCoreV1 {
         
         //determine the difference between the initial value and the current value and calculate the value of the initial collateral adjusted for the current price
         int256 ValueDifference = int256(CurrentValue) - int256(InitialValue);
+        //determine if the 
 
         NFTLoan(LoanContract).EndLoan(FeeReceiver);
         PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);

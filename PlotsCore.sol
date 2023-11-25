@@ -107,9 +107,7 @@ contract PlotsCoreV1 {
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();
         uint256 InitialValue = NFTLoan(LoanContract).InitialValue();
-
-        //determine the token value at the end of the loan
-        uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
+        uint256 CurrentValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
 
         NFTLoan(LoanContract).EndLoan(FeeReceiver);
         PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);

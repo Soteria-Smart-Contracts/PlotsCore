@@ -174,6 +174,8 @@ contract PlotsCoreV1 {
         require(NFTLoan(LoanContract).Active(), "Loan not active");
         require(NFTLoan(LoanContract).OwnershipType() != Ownership, "Ownership already set to this");
 
+        //cal
+
         NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
     }
 

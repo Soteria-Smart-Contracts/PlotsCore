@@ -10,6 +10,7 @@ contract PlotsCoreV1 {
     address[] public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;
     mapping(OwnershipPercent => uint8) public OwnershipPercentages;
+    address[] 
 
 
     enum ListingType{

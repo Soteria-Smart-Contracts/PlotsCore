@@ -175,9 +175,8 @@ contract PlotsCoreV1 {
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
         require(CurrentOwnership != Ownership, "Ownership already set to this");
 
-        //calculate the value difference between the current ownership and the new ownership
         if(CurrentOwnership == OwnershipPercent.Ten){
-            ValueDifference = (NFTLoan(LoanContract).InitialValue() * 10) / 100;
+            ValueDifference = (Plo(LoanContract).InitialValue() * 10) / 100;
         }
         else if(Ownership == OwnershipPercent.TwentyFive){
             ValueDifference = (NFTLoan(LoanContract).InitialValue() * 25) / 100;

@@ -108,7 +108,6 @@ contract PlotsCoreV1 {
             PlotsLend(LendContract).SendToLoan(LoanContract, Collection, TokenId);
         }
 
-        //send the 2.5% fee to the fee receiver
         PlotsTreasury(Treasury).SendEther(FeeReceiver, (TokenValue * 25) / 1000);
         PlotsTreasury(Treasury).SendEther(payable(Treasury), address(this).balance);
 

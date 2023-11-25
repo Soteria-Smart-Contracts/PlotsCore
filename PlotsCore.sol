@@ -175,7 +175,9 @@ contract PlotsCoreV1 {
         if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == Treasury){
             require(Admins[msg.sender], "Only Admin");
         }
-        else
+        else{
+            require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == msg.sender, "Not owner of listing");
+        }
 
         RemoveListingFromCollection(Collection, TokenId);
     }

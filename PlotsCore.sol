@@ -235,6 +235,10 @@ contract PlotsCoreV1 {
         FeeReceiver = NewReceiver;
     }
 
+    function ChangeRewardFee(uint256 NewFee) public OnlyAdmin{
+        RewardFee = NewFee;
+    }
+
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);
         ListedCollectionsIndex[_collection] = ListedCollections.length - 1;

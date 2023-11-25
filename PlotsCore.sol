@@ -323,12 +323,7 @@ contract PlotsTreasury{
         ERC721(Collection).transferFrom(address(PlotsCoreContract), msg.sender, TokenId);
     }
 
-    function WithdrawEther(uint256 Amount) public OnlyAdmin {
-        require(address(this).balance >= Amount, "Not enough ether in treasury");
-        payable(msg.sender).transfer(Amount);
-    }
 
-    //send ether to specific address
     function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {
         require(address(this).balance >= Amount, "Not enough ether in treasury");
         Recipient.transfer(Amount);

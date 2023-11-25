@@ -383,7 +383,7 @@ contract NFTLoan{
     uint256 public LoanEndTime;
     uint256 public InitialValue;
 
-    uint256 BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
+    uint256 public BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
 
     //Use Counter for statistics
     uint256 public UseCounter;

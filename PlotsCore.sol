@@ -105,6 +105,7 @@ contract PlotsCoreV1 {
         require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
         if(Admins[msg.sender]){
+            //require that the token is owned by the treasury 
             ListingsByCollection[Collection].push(Listing(address(this), Collection, TokenId, ListingType.Usage));
         }
         else{

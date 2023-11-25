@@ -104,7 +104,7 @@ contract PlotsCoreV1 {
         require(NFTLoan(LoanContract).LoanEndTime() <= block.timestamp, "Loan not ended yet");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
 
-        NFTLoan(LoanContract).EndLoan(Treasury);
+        NFTLoan(LoanContract).EndLoan(FeeRece);
     }
 
     // Listings ---------------------------------------------------------------------------------

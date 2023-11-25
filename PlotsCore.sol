@@ -106,7 +106,7 @@ contract PlotsCoreV1 {
 
         if(Admins[msg.sender]){
             //require(condition);
-            ListingsByCollection[Collection].push(Listing(address(this), Collection, TokenId, ListingType.Usage);
+            ListingsByCollection[Collection].push(Listing(address(this), Collection, TokenId, ListingType.Usage));
         }
         else{
             require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Token not owned by sender");
@@ -114,7 +114,6 @@ contract PlotsCoreV1 {
 
         }
 
-        ListingsByCollection[Collection].push(TokenId);
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 

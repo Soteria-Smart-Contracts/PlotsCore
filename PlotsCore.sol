@@ -101,12 +101,12 @@ contract PlotsCoreV1 {
                 BorrowCost += (TokenValue * 25) / 100;
             }
             require(msg.value >= BorrowCost, "Not enough ether sent");
-            PlotsTreasury(Treasury).SendToLoan(NewLoanContract, Collection, TokenId);
+            PlotsTreasury(Treasury).SendToLoan(LoanContract, Collection, TokenId);
         }
         else{
             require(Ownership == OwnershipPercent.Zero, "Ownership must be zero");
             require(PlotsLend(LendContract).GetTokenLocation(Collection, TokenId) == address(this), "Token not in lending contract");
-            PlotsLend(LendContract).SendToLoan(NewLoanContract, Collection, TokenId);
+            PlotsLend(LendContract).SendToLoan(LoanContract, Collection, TokenId);
         }
 
         //send the 2.5% fee to the fee receiver
@@ -114,8 +114,8 @@ contract PlotsCoreV1 {
         PlotsTreasury(Treasury).SendEther(payable(Treasury), address(this).balance);
 
         RemoveListingFromCollection(Collection, TokenId);
-        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenId].Lister, NewLoanContract);
-        NFTLoan(NewLoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenId].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
+        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenId].Lister, LoanContract);
+        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenId].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }
 

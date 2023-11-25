@@ -106,7 +106,7 @@ contract PlotsCoreV1 {
         }
         else{
             require(Ownership == OwnershipPercent.Zero, "Ownership must be zero");
-            require(PlotsLend(LendContract).GetTokenLocation(Collection, TokenId) == , "Token not in lending contract");
+            require(PlotsLend(LendContract).GetTokenLocation(Collection, TokenId) == LendContract, "Token not in lending contract");
             PlotsLend(LendContract).SendToLoan(LoanContract, Collection, TokenId);
         }
 

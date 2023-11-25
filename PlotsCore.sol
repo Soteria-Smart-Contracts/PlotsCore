@@ -481,8 +481,6 @@ contract PlotsLend{
     function GetTokenLocation(address Collection, uint256 TokenId) public view returns(address){
         return TokenLocation[Collection][TokenId];
     }
-
-    
 }
 
 contract NFTLoan{

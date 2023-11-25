@@ -123,8 +123,8 @@ contract PlotsCoreV1 {
             OwnershipPercentage = 25;
         }
         
-        //calculate the value of the token at the end of the loan
-        
+        //calculate the value of the collateral at the end of the loan ()
+
 
         NFTLoan(LoanContract).EndLoan(FeeReceiver);
         PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);

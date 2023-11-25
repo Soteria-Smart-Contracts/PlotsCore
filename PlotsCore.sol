@@ -98,7 +98,8 @@ contract PlotsCoreV1 {
             // require(msg.value == 0, "Do not Pay for usage tokens");
         }
 
-        //send all ether to treasury
+        //send the 2.5% fee to the fee receiver
+        
         PlotsTreasury(Treasury).SendEther(payable(Treasury), msg.value);
 
         RemoveListingFromCollection(Collection, TokenId);

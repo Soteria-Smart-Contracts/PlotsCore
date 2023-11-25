@@ -4,7 +4,7 @@ pragma solidity 0.8.19;
 contract PlotsCoreV1 {
     //Variable and pointer Declarations
     address payable public Treasury;
-    address payable public FeeRec
+    address payable public FeeReceiver;
     address public LendContract;
     address[] public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;
@@ -53,7 +53,7 @@ contract PlotsCoreV1 {
     mapping(address => mapping(address => uint256)) public AllUserBorrowsIndex;
 
 
-    constructor(address [] memory _admins){
+    constructor(address [] memory _admins, address payable _feeReceiver){
         Treasury =  payable(new PlotsTreasury(address(this)));
 
         for(uint256 i = 0; i < _admins.length; i++){
@@ -61,6 +61,7 @@ contract PlotsCoreV1 {
         }
         Admins[msg.sender] = true;
         Admins[Treasury] = true;
+        
     }
 
     //Loan Functions

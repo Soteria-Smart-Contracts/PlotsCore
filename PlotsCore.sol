@@ -153,7 +153,8 @@ contract PlotsCoreV1 {
             ListingsByCollection[Collection].push(Listing(address(this), Collection, TokenId, ListingType.Usage));
         }
         else{
-            //require that the loan contract is the owner of the token and that the token 
+            //require that the loan contract is the owner of the token and that the token depositors address is the msg.sender
+            require(ERC721(Collection).ownerOf(TokenId) == address(LendContract), "Token not owned by lending contract");
         }
 
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;

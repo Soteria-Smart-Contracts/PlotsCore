@@ -226,7 +226,7 @@ contract PlotsCoreV1 {
             _listings[i] = ListingsByCollection[_collection][i];
         }
         return _listings;
-        //unfo
+        //unfortunately we cannot 
     }
 
 

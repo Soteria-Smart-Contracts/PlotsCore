@@ -55,13 +55,13 @@ contract PlotsCoreV1 {
 
     constructor(address [] memory _admins, address payable _feeReceiver){
         Treasury =  payable(new PlotsTreasury(address(this)));
+        FeeReceiver = _feeReceiver;
 
         for(uint256 i = 0; i < _admins.length; i++){
             Admins[_admins[i]] = true;
         }
         Admins[msg.sender] = true;
         Admins[Treasury] = true;
-        
     }
 
     //Loan Functions

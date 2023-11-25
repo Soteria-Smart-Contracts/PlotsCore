@@ -438,8 +438,8 @@ contract NFTLoan{
         require(RewardBalance > 0, "No rewards to disperse");
         //check core contract for fee percentage and fee receiver, calculate fee and send to fee receiver
         uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).CurrentRewardFee()) / 10000;
+        ERC20(RewardToken).transfer(PlotsCoreV1(Manager).FeeReceiver(), Fee);
 
-        //Calculate Rewards for Owner and borrower based on borrower Ownership
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;
         
         ERC20(RewardToken).transfer(Owner, OwnerReward);

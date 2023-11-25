@@ -9,7 +9,7 @@ contract PlotsCoreV1 {
     address public LendContract;
     address[] public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;
-    mapping(address => uint256) public CollectionFloorPrice;
+    mapping(OwnershipPercent => uint256) public CollectionFloorPrice;
 
 
     enum ListingType{

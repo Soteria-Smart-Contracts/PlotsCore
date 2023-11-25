@@ -234,14 +234,12 @@ contract PlotsCoreV1 {
         return AllUserLoans[_user];
     }
 
-    //Listings by user
     function GetUserListings(address _collection) public view returns(Listing[] memory){
         Listing[] memory _listings = new Listing[](ListingsByCollection[_collection].length);
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
             _listings[i] = ListingsByCollection[_collection][i];
         }
         return _listings;
-        //unfortunately we cannot push to a memory array so the returned aarray will have empty values
     }
 
 

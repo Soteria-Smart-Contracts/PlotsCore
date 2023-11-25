@@ -168,6 +168,10 @@ contract PlotsCoreV1 {
 
 
     //function ChangeOwnershipPercentage
+    function ChangeOwnershipPercentage(OwnershipPercent Ownership, uint8 NewPercentage) public OnlyAdmin{
+        require(NewPercentage <= 100, "Percentage must be less than 100");
+        OwnershipPercentages[Ownership] = NewPercentage;
+    }
 
     //
 

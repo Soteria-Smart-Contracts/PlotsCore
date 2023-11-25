@@ -175,6 +175,7 @@ contract PlotsCoreV1 {
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
         require(CurrentOwnership != Ownership, "Ownership already set to this");
 
+        //check current value of the t
         if(CurrentOwnership == OwnershipPercent.Ten){
             ValueDifference = (Plo(LoanContract).InitialValue() * 10) / 100;
         }

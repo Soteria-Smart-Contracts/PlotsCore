@@ -125,7 +125,7 @@ contract PlotsCoreV1 {
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
             OwnershipPercentage = 10;
-        if
+            
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
             OwnershipPercentage = 25;

@@ -194,9 +194,6 @@ contract PlotsCoreV1 {
         RemoveListingFromCollection(Collection, TokenId);
     }
 
-
-    //function ChangeOwnershipPercentage on a loan
-
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {
         require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
@@ -219,12 +216,6 @@ contract PlotsCoreV1 {
 
         NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
     }
-
-    //
-
-
-
-    //Public View Functions
 
     function GetCollectionListings(address _collection) public view returns(Listing[] memory){
         return ListingsByCollection[_collection];

@@ -427,7 +427,7 @@ contract PlotsLend{
 
     //all deposited tokens array mapping
     mapping(address => Token[]) public AllUserTokens;
-    mapping(address => mapping(address => mapping(uint256 =))) public AllUserTokensIndex;
+    mapping(address => mapping(address => mapping(uint256 => uint256))) public AllUserTokensIndex;
 
     //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract
     function DepositToken(address Collection, uint256 TokenId) public{

@@ -473,6 +473,16 @@ contract PlotsLend{
     function GetUserTokens(address _user) public view returns(Token[] memory){
         return AllUserTokens[_user];
     }
+
+    function GetTokenDepositor(address Collection, uint256 TokenId) public view returns(address){
+        return TokenDepositor[Collection][TokenId];
+    }
+
+    function GetTokenLocation(address Collection, uint256 TokenId) public view returns(address){
+        return TokenLocation[Collection][TokenId];
+    }
+
+    
 }
 
 contract NFTLoan{

@@ -231,6 +231,10 @@ contract PlotsCoreV1 {
     }
 
 
+    function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{
+        FeeReceiver = NewReceiver;
+    }
+
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);
         ListedCollectionsIndex[_collection] = ListedCollections.length - 1;

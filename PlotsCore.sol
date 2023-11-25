@@ -120,10 +120,11 @@ contract PlotsCoreV1 {
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
             OwnershipPercentage = 10;
-            return
+            ReturnContract = Treasury;
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
             OwnershipPercentage = 25;
+            ReturnContract = Treasury;
         }
         
         uint256 CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;

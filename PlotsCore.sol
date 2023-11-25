@@ -9,6 +9,7 @@ contract PlotsCoreV1 {
     address public LendContract;
     address[] public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;
+    mapping(address => uint256) public CollectionFloorPrice;
 
 
     enum ListingType{
@@ -107,7 +108,7 @@ contract PlotsCoreV1 {
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();
         uint256 OwnershipPercentage;
-        
+
         if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
             OwnershipPercentage = 0;
         }

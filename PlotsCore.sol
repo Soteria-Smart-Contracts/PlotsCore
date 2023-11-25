@@ -11,6 +11,7 @@ contract PlotsCoreV1 {
     mapping(address => uint256) public ListedCollectionsIndex;
     mapping(OwnershipPercent => uint8) public OwnershipPercentages;
     address[] public AvailableLoanContracts;
+    mapping(address => uint256) public AvailableLoanContractsIndex;
 
 
     enum ListingType{

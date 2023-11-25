@@ -236,6 +236,7 @@ contract PlotsCoreV1 {
     }
 
     function ChangeRewardFee(uint256 NewFee) public OnlyAdmin{
+        //require it be between 0 and
         RewardFee = NewFee;
     }
 

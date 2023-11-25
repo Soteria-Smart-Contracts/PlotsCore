@@ -226,7 +226,7 @@ contract PlotsCoreV1 {
             _listings[i] = ListingsByCollection[_collection][i];
         }
         return _listings;
-        //unfortunately we cannot 
+        //unfortunately we cannot push 
     }
 
 

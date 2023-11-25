@@ -184,7 +184,8 @@ contract PlotsCoreV1 {
             require(msg.value >= CollateralValueChange, "Not enough ether sent");
         }
         else if(Ownership == OwnershipPercent.TwentyFive){
-            CollateralValueChange = (CurrentValue * 16) / 100;
+            //15% Inclusive of a 1% fee
+            CollateralValueChange = (CurrentValue * 14) / 100;
             PlotsTreasury(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
         }
 

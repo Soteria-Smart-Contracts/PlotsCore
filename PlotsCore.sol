@@ -469,6 +469,10 @@ contract PlotsLend{
     }
 
     //View Functions 
+
+    function GetUserTokens(address _user) public view returns(Token[] memory){
+        return AllUserTokens[_user];
+    }
 }
 
 contract NFTLoan{

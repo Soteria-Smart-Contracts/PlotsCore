@@ -435,7 +435,7 @@ contract PlotsLend{
         ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenDepositor[Collection][TokenId] = msg.sender;
-        
+        TokenLocation[Collection][TokenId] = address(this);
     }
 
     function WithdrawToken(address Collection, uint256 TokenId) public{

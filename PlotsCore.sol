@@ -374,7 +374,7 @@ contract NFTLoan{
         _;
     }
 
-    constructor(address ){
+    constructor(){
         Manager = msg.sender;
     }
 

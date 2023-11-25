@@ -485,8 +485,9 @@ contract NFTLoan{
     //update borrower reward share (only manager)
     function UpdateBorrowerRewardShare(PlotsCoreV1.OwnershipPercent Ownership) public OnlyManager {
         require(Ownership != OwnershipType, "Ownership already set to this");
-        
+
         BorrowerRewardShare = 0;
+        
         if(Ownership == PlotsCoreV1.OwnershipPercent.Ten){
             BorrowerRewardShare = 5000;
         }

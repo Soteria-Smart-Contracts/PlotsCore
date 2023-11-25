@@ -153,7 +153,7 @@ contract PlotsCoreV1 {
             ListingsByCollection[Collection].push(Listing(address(this), Collection, TokenId, ListingType.Usage));
         }
         else{
-            //require that the loan contract 
+            //require that the loan contract is the owner of the token and that the token 
         }
 
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;

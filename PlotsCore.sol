@@ -435,6 +435,8 @@ contract PlotsLend{
         TokenDepositor[Collection][TokenId] = address(0);
     }
 
+    //send and return from loan functions
+
     
 
     //View Functions 

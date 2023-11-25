@@ -289,16 +289,6 @@ contract PlotsCoreV1 {
         AllUserBorrows[Lender].pop();
     }
 
-    function ListTokenForOwnership(address Collection, uint256 TokenId) public OnlyAdmin{
-        require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
-        require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
-        require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
-
-
-        ListingsByCollection[Collection].push(Listing(Treasury, Collection, TokenId, ListingType.Ownership));
-        ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
-    }
-
     function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{
         FeeReceiver = NewReceiver;
     }

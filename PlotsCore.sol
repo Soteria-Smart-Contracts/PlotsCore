@@ -173,7 +173,10 @@ contract PlotsCoreV1 {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         
-        //if lister is treasury, require m
+        //if lister is treasury, require msg.sender is admin
+        if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == Treasury){
+            require(Admins[msg.sender], "Only Admin");
+        }
 
         RemoveListingFromCollection(Collection, TokenId);
     }

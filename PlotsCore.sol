@@ -562,7 +562,7 @@ contract NFTLoan{
         
         ERC20(RewardToken).transfer(Owner, OwnerReward);
         if(BorrowerRewardShare > 0){
-            ERC20(RewardToken).transfer(Borrower, RewardBalance - OwnerReward);
+            ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));
         }
         ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));
     }

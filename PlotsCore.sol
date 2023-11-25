@@ -224,7 +224,7 @@ contract PlotsCoreV1 {
         Listing[] memory _listings = new Listing[](ListingsByCollection[_collection].length);
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
             if(ListingsByCollection[_collection][i].Lister == msg.sender){
-                _listings.push(ListingsByCollection[_collection][i];
+                _listings.push(ListingsByCollection[_collection][i]);
             }
         }
         return _listings;

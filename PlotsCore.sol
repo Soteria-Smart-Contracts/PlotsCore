@@ -323,7 +323,7 @@ contract PlotsTreasury{
         ERC721(Collection).transferFrom(address(PlotsCoreContract), msg.sender, TokenId);
 
         //check if listed, if so remove listing
-        if(PlotsCoreV1(PlotsCoreContract).ListingsByCollectionIndex(Collection, TokenId) != 0 || PlotsCoreV1(PlotsCoreContract).ListingsByCollection(Collection)[PlotsCoreV1(PlotsCoreContract).ListingsByCollectionIndex(Collection, TokenId)].TokenId == TokenId){
+        if(PlotsCoreV1(PlotsCoreContract).ListingsByCollectionIndex(Collection, TokenId) != 0 || ){
             PlotsCoreV1(PlotsCoreContract).RemoveListingFromCollection(Collection, TokenId);
         }
 

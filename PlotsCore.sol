@@ -167,7 +167,9 @@ contract PlotsCoreV1 {
     }
 
 
-    //function ChangeOwnershipPercentage 
+    //function ChangeOwnershipPercentage on a loan
+
+    func
 
     //
 
@@ -487,7 +489,7 @@ contract NFTLoan{
         require(Ownership != OwnershipType, "Ownership already set to this");
 
         BorrowerRewardShare = 0;
-        
+
         if(Ownership == PlotsCoreV1.OwnershipPercent.Ten){
             BorrowerRewardShare = 5000;
         }

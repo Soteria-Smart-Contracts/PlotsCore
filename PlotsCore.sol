@@ -220,13 +220,13 @@ contract PlotsCoreV1 {
     }
 
     //Listings by user
-    // function GetUserListings(address _user) public view returns(Listing[] memory){
-    //     Listing[] memory _listings = new Listing[](ListingsByCollection[_user].length);
-    //     for(uint256 i = 0; i < ListingsByCollection[_user].length; i++){
-    //         _listings[i] = ListingsByCollection[_user][ListingsByCollection[_user][i]];
-    //     }
-    //     return _listings;
-    // }
+    function GetUserListings(address _user) public view returns(Listing[] memory){
+        Listing[] memory _listings = new Listing[](ListingsByCollection[_user].length);
+        for(uint256 i = 0; i < ListingsByCollection[_user].length; i++){
+            _listings[i] = ListingsByCollection[_user][i];
+        }
+        return _listings;
+    }
 
 
     function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory, uint256[] memory Prices){

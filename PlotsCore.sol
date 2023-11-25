@@ -106,7 +106,7 @@ contract PlotsCoreV1 {
 
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();
-        
+        uint256 OwnershipPercentage = uint256(NFTLoan(LoanContract).OwnershipType());
         
         //determine the difference between the initial value and the current value and calculate the value of the initial collateral adjusted for the current price
         int256 ValueDifference = int256(PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId)) - int256(NFTLoan(LoanContract).InitialValue());

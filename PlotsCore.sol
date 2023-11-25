@@ -324,7 +324,7 @@ contract PlotsTreasury{
 
         //check if listed, if so remove listing
         if(PlotsCoreV1(PlotsCoreContract).ListingsByCollectionIndex(Collection, TokenId) != 0){
-            PlotsCoreV1(PlotsCoreContract).RemoveListingFromCollection(Collection, TokenId);
+            PlotsCoreV1(PlotsCoreContract).DelistToken(Collection, TokenId);
         }
 
         TokenFloorFactor[Collection][TokenId] = 0;

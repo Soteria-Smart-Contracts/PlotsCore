@@ -137,7 +137,8 @@ contract PlotsCoreV1 {
 
         //require that the loan is active
         require(NFTLoan(LoanContract).Active(), "Loan not active");
-
+        //distriubte rewards on the loan contract
+        
 
 
     //function ChangeOwnershipPercentage

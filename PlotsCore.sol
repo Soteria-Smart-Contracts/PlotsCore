@@ -294,6 +294,8 @@ contract PlotsTreasury{
         _;
     }
 
+    //only adm
+
     constructor(address Core){
         PlotsCoreContract = Core;
     }

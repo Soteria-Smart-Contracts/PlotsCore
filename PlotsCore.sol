@@ -78,9 +78,9 @@ contract PlotsCoreV1 {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
 
-        address Lo
+        address LoanContract;
         if(AvailableLoanContracts.length > 0){
-            
+            LoanContract = AvailableLoanContracts[AvailableLoanContracts.length - 1];
         }
 
         uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);

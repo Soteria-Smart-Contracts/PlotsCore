@@ -133,7 +133,7 @@ contract PlotsCoreV1 {
         NFTLoan(LoanContract).EndLoan(Treasury);
         PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
 
-        PlotsTreasury(Treasury).SendToLoan(ReturnContract, Collection, TokenId);
+        PlotsTreasury(Treasury).SendEther(Recipient, Amount);
     }
 
     // Listings ---------------------------------------------------------------------------------

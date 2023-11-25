@@ -329,7 +329,10 @@ contract PlotsTreasury{
     }
 
     //send ether to specific address
-    
+    function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {
+        require(address(this).balance >= Amount, "Not enough ether in treasury");
+        Recipient.transfer(Amount);
+    }
 
     function SendERC20(address Token, address Recipient, uint256 Amount) public OnlyAdmin {
         ERC20(Token).transfer(Recipient, Amount);

@@ -404,7 +404,7 @@ contract NFTLoan{
         Borrower = TokenBorrower;
         OwnershipType = Ownership;
         LoanEndTime = block.timestamp + Duration;
-        InitialValue = InitialValue;
+        InitialValue = InitialVal;
 
         if(Ownership == OwnershipPercent.Zero){
             BorrowerRewardShare = 3000;

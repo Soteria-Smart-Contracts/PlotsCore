@@ -328,6 +328,8 @@ contract PlotsTreasury{
         payable(msg.sender).transfer(Amount);
     }
 
+    
+
     function SendERC20(address Token, address Recipient, uint256 Amount) public OnlyAdmin {
         ERC20(Token).transfer(Recipient, Amount);
     }

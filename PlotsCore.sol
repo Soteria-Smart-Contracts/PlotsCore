@@ -180,7 +180,7 @@ contract PlotsCoreV1 {
 
         if(CurrentOwnership == OwnershipPercent.Ten){
             CollateralValueChange = (CurrentValue * 15) / 100;
-
+            require(msg.value >= CollateralValueChange, "Not enough ether sent");
         }
         else if(Ownership == OwnershipPercent.TwentyFive){
             ValueDifference = (NFTLoan(LoanContract).InitialValue() * 25) / 100;

@@ -412,7 +412,7 @@ contract NFTLoan{
         else if(Ownership == OwnershipPercent.Ten){
             BorrowerRewardShare = 5000;
         }
-        else if(Ownership == .OwnershipPercent.TwentyFive){
+        else if(Ownership == OwnershipPercent.TwentyFive){
             BorrowerRewardShare = 6500;
         }
 

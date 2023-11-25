@@ -78,7 +78,7 @@ contract PlotsCoreV1 {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
 
-        if(AvailableLoanContracts.length == 0){
+        if(AvailableLoanContracts.length > 0){
             
         }
 

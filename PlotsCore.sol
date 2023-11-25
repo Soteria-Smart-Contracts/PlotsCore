@@ -296,7 +296,7 @@ contract PlotsTreasury{
 
     //only admin modifier using the core contract
     modifier OnlyAdmin(){
-        require(PlotsCoreV1(PlotsCoreContract).Admins(msg.sender), "Only Admin");
+        require(PlotsCoreV1(PlotsCoreContract).Admins(msg.sender) || , "Only Admin");
         _;
     }
 

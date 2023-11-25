@@ -363,7 +363,7 @@ contract NFTLoan{
     uint256 InitialValue;
 
     uint256 BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
-    address Usage
+    address UsageFeeReceiver;
 
     //Use Counter for statistics
     uint256 public UseCounter;

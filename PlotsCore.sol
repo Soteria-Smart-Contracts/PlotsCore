@@ -220,10 +220,10 @@ contract PlotsCoreV1 {
     }
 
     //Listings by user
-    function GetUserListings(address _user) public view returns(Listing[] memory){
-        Listing[] memory _listings = new Listing[](ListingsByCollection[_user].length);
-        for(uint256 i = 0; i < ListingsByCollection[_user].length; i++){
-            _listings[i] = ListingsByCollection[_user][i];
+    function GetUserListings(address _collection) public view returns(Listing[] memory){
+        Listing[] memory _listings = new Listing[](ListingsByCollection[_collection].length);
+        for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
+            _listings[i] = ListingsByCollection[_collection][i];
         }
         return _listings;
     }

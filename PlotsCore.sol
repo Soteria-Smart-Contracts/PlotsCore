@@ -417,13 +417,16 @@ contract PlotsLend{
         
     }
 
-    struct To
+    struct Token{
+        address Collection;
+        uint256 TokenId;
+    }
 
     mapping(address => mapping(uint256 => address)) public TokenDepositor;
     mapping(address => mapping(uint256 => address)) public TokenLocation;
 
     //all deposited tokens array mapping
-    mapping(address => address[]) public AllUserTokens;
+    mapping(address => Token[]) public AllUserTokens;
 
 
     //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract

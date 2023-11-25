@@ -184,7 +184,7 @@ contract PlotsCoreV1 {
         }
         else if(Ownership == OwnershipPercent.TwentyFive){
             CollateralValueChange = (CurrentValue * 15) / 100;
-            require(msg.value >= CollateralValueChange, "Not enough ether sent");
+            Plots
         }
         else{
             revert('Ownership not allowed');

@@ -223,7 +223,7 @@ contract PlotsCoreV1 {
 
     //Only Admin Functions
 
-    function ListTokenForOwnership(address Collection, uint256 TokenId, uint256 Value) public OnlyAdmin{
+    function ListTokenForOwnership(address Collection, uint256 TokenId) public OnlyAdmin{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
         require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");

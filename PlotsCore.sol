@@ -45,9 +45,7 @@ contract PlotsCoreV1 {
 
     mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
 
-    //Listings for assets available for borrowing
     mapping(address => Listing[]) public ListingsByCollection;
-    //create a mapping that maps a token id to a listing index
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
 
     mapping(address => address[]) public AllUserLoans; //Outgoing loans
@@ -73,7 +71,6 @@ contract PlotsCoreV1 {
         OwnershipPercentages[OwnershipPercent.TwentyFive] = 25;
     }
 
-    //Loan Functions
 
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration, OwnershipPercent Ownership) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");

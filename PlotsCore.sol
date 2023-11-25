@@ -99,8 +99,8 @@ contract PlotsCoreV1 {
         }
 
         //send the 2.5% fee to the fee receiver
-        
-        PlotsTreasury(Treasury).SendEther(payable(Treasury), msg.value);
+        PlotsTreasury(Treasury).SendEther(FeeReceiver, (TokenValue * 25) / 1000);
+        PlotsTreasury(Treasury).SendEther(payable(Treasury), address(this).balance);
 
         RemoveListingFromCollection(Collection, TokenId);
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenId].Lister, NewLoanContract);

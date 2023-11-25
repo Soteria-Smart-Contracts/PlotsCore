@@ -437,7 +437,18 @@ contract PlotsLend{
 
     //send and return from loan functions
 
-    
+    function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external {
+        require(TokenDepositor[Collection][TokenID] == msg.sender, "Not owner of token");
+        ERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
+
+        TokenLocation[Collection][TokenID] = LoanContract;
+    }
+
+    function ReturnedFromLoan(address Collection, uint256 TokenID) external {
+        require(ERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");
+        
+        TokenLocation[Collection][TokenID] = address(this);
+    }
 
     //View Functions 
 }

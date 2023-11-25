@@ -81,7 +81,10 @@ contract PlotsCoreV1 {
         address LoanContract;
         if(AvailableLoanContracts.length > 0){
             LoanContract = AvailableLoanContracts[AvailableLoanContracts.length - 1];
+            AvailableLoanContractsIndex[LoanContract] = 0;
+            AvailableLoanContracts.pop();
         }
+        
 
         uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
         uint256 DurationUnix = (uint8(Duration) + 1) * 90 days;

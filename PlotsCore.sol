@@ -153,7 +153,7 @@ contract PlotsCoreV1 {
             ListingsByCollection[Collection].push(Listing(address(this), Collection, TokenId, ListingType.Usage));
         }
         else{
-            //require 
+            //require that the loan contract 
         }
 
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;

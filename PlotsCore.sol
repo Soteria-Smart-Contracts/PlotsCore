@@ -322,6 +322,8 @@ contract PlotsTreasury{
         require(ERC721(Collection).ownerOf(TokenId) == address(PlotsCoreContract), "Not owner of token");
         ERC721(Collection).transferFrom(address(PlotsCoreContract), msg.sender, TokenId);
 
+        //check if li
+
         TokenFloorFactor[Collection][TokenId] = 0;
     }
 

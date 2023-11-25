@@ -179,7 +179,7 @@ contract PlotsCoreV1 {
         uint256 CollateralValueChange;
 
         if(CurrentOwnership == OwnershipPercent.Ten){
-            
+            CollateralValueChange = (CurrentValue * 15) / 100;
         }
         else if(Ownership == OwnershipPercent.TwentyFive){
             ValueDifference = (NFTLoan(LoanContract).InitialValue() * 25) / 100;

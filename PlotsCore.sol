@@ -483,7 +483,7 @@ contract NFTLoan{
     }
 
     //update borrower reward share (only manager)
-    function UpdateBorrowerRewardShare(uint256 NewShare) public OnlyManager {
+    function UpdateBorrowerRewardShare(OwnershipType ) public OnlyManager {
         BorrowerRewardShare = NewShare;
     }
 

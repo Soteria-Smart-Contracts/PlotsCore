@@ -112,8 +112,9 @@ contract PlotsCoreV1 {
             ListingsByCollection[Collection].push(Listing(address(this), Collection, TokenId, ListingType.Usage));
         }
         else{
-            require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Token not owned by sender");
-            ListingsByCollection[Collection][TokenId] = Listing(msg.sender, Collection, TokenId, ListingType.Usage);
+            
+            // require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Token not owned by sender");
+            // ListingsByCollection[Collection][TokenId] = Listing(msg.sender, Collection, TokenId, ListingType.Usage);
         }
 
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;

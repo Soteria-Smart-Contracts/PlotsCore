@@ -305,7 +305,7 @@ contract PlotsTreasury{
     }
 
     //allow admin to deposit nft into treasury
-    function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public {
+    function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public OnlyAdmin {
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         ERC721(Collection).transferFrom(msg.sender, address(PlotsCoreContract), TokenId);
 
@@ -315,12 +315,12 @@ contract PlotsTreasury{
 
     //allow admin to withdraw nft from treasury
 
-    function WithdrawNFT(address Collection, uint256 TokenId) public {
+    function WithdrawNFT(address Collection, uint256 TokenId) public OnlyAdmin {
         require(ERC721(Collection).ownerOf(TokenId) == address(PlotsCoreContract), "Not owner of token");
         ERC721(Collection).transferFrom(address(PlotsCoreContract), msg.sender, TokenId);
     }
 
-    function WithdrawEther(uint256 Amount) public {
+    function WithdrawEther(uint256 Amount) public OnlyAdmin {
         require(address(this).balance >= Amount, "Not enough ether in treasury");
         payable(msg.sender).transfer(Amount);
     }

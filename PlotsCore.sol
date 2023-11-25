@@ -78,7 +78,9 @@ contract PlotsCoreV1 {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
 
-        if(AvailableLoanContracts.)
+        if(AvailableLoanContracts.length == 0){
+            
+        }
 
         uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
         uint256 DurationUnix = (uint8(Duration) + 1) * 90 days;

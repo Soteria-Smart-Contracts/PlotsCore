@@ -321,6 +321,8 @@ contract PlotsTreasury{
     function WithdrawNFT(address Collection, uint256 TokenId) public OnlyAdmin {
         require(ERC721(Collection).ownerOf(TokenId) == address(PlotsCoreContract), "Not owner of token");
         ERC721(Collection).transferFrom(address(PlotsCoreContract), msg.sender, TokenId);
+
+        TokenFloorFactor[Collection][TokenId] = 0;
     }
 
     function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {

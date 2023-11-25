@@ -435,7 +435,7 @@ contract NFTLoan{
 
     function DisperseRewards(address RewardToken) public {
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
-        
+        require(RewardBalance > 0, "No rewards to disperse");
 
         //Calculate Rewards for Owner and borrower based on borrower Ownership
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;

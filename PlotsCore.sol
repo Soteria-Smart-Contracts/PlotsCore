@@ -99,7 +99,7 @@ contract PlotsCoreV1 {
         }
 
         //send all ether to treasury
-        
+        PlotsTreasury(Treasury).SendEther(payable(Treasury), msg.value);
 
         RemoveListingFromCollection(Collection, TokenId);
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenId].Lister, NewLoanContract);

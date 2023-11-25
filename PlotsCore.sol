@@ -84,7 +84,9 @@ contract PlotsCoreV1 {
             AvailableLoanContractsIndex[LoanContract] = 0;
             AvailableLoanContracts.pop();
         }
-        
+        else{
+            LoanContract = address(new NFTLoan());
+        }
 
         uint256 TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
         uint256 DurationUnix = (uint8(Duration) + 1) * 90 days;

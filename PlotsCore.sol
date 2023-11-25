@@ -116,7 +116,7 @@ contract PlotsCoreV1 {
 
         if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
             OwnershipPercentage = 0;
-            ReturnContract = 
+            ReturnContract = LendContract;
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
             OwnershipPercentage = 10;

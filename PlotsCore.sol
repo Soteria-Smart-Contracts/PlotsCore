@@ -400,13 +400,13 @@ contract NFTLoan{
         LoanEndTime = block.timestamp + Duration;
         InitialValue = InitialVal;
 
-        if(Ownership == PlotsCoreV1OwnershipPercent.Zero){
+        if(Ownership == PlotsCoreV1.OwnershipPercent.Zero){
             BorrowerRewardShare = 3000;
         }
-        else if(Ownership == OwnershipPercent.Ten){
+        else if(Ownership == PlotsCoreV1.OwnershipPercent.Ten){
             BorrowerRewardShare = 5000;
         }
-        else if(Ownership == OwnershipPercent.TwentyFive){
+        else if(Ownership == PlotsCoreV1.OwnershipPercent.TwentyFive){
             BorrowerRewardShare = 6500;
         }
 

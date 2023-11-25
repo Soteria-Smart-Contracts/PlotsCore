@@ -175,10 +175,7 @@ contract PlotsCoreV1 {
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
         require(CurrentOwnership != Ownership, "Ownership already set to this");
 
-        //check current value of the token from the treasury
-        address Collection = NFTLoan(LoanContract).TokenCollection();
-        uint256 TokenId = NFTLoan(LoanContract).TokenID();
-        uint256 CurrentValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, NFTLoan(LoanContract).TokenID());
+        uint256 CurrentValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());
 
         if(CurrentOwnership == OwnershipPercent.Ten){
             ValueDifference = (Plo(LoanContract).InitialValue() * 10) / 100;

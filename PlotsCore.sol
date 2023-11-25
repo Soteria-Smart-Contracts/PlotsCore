@@ -157,6 +157,7 @@ contract PlotsCoreV1 {
             require(ERC721(Collection).ownerOf(TokenId) == address(LendContract), "Token not owned by lending contract");
             require(PlotsLend(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
             require(ListingsByCollectionIndex[Collection][TokenId] == 0 && ListingsByCollection[Collection][0].TokenId != TokenId, "Token already listed");
+            ListingsByCollection[Collection].push(Listing(msg.sender, Collection, TokenId, ListingType.Usage));
         }
 
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;

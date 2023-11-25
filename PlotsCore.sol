@@ -322,7 +322,10 @@ contract PlotsTreasury{
         require(ERC721(Collection).ownerOf(TokenId) == address(PlotsCoreContract), "Not owner of token");
         ERC721(Collection).transferFrom(address(PlotsCoreContract), msg.sender, TokenId);
 
-        //check if li
+        //check if listed, if so remove listing
+        if(PlotsCoreV1(PlotsCoreContract).ListingsByCollectionIndex(Collection, TokenId) != 0){
+            PlotsCoreV1(PlotsCoreContract).RemoveListingFromCollection(Collection, TokenId);
+        }
 
         TokenFloorFactor[Collection][TokenId] = 0;
     }

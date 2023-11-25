@@ -156,7 +156,8 @@ contract PlotsCoreV1 {
             PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
 
-        
+        AvailableLoanContracts.push(LoanContract);
+        AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
     }
 
     // Listings ---------------------------------------------------------------------------------

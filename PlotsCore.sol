@@ -449,6 +449,7 @@ contract PlotsLend{
         AllUserTokens[msg.sender][AllUserTokensIndex[msg.sender][Collection][TokenId]] = AllUserTokens[msg.sender][AllUserTokens[msg.sender].length - 1];
         AllUserTokens[msg.sender].pop();
         AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][AllUserTokensIndex[msg.sender][Collection][TokenId]].TokenId] = AllUserTokensIndex[msg.sender][Collection][TokenId];
+        AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
     }
 
     //send and return from loan functions

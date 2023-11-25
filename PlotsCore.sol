@@ -93,9 +93,9 @@ contract PlotsCoreV1 {
             PlotsTreasury(Treasury).SendToLoan(NewLoanContract, Collection, TokenId);
         }
         else{
-            revert('Usage loans not yet supported');
-            // require(Ownership == OwnershipPercent.Zero, "Ownership not zero");
-            // require(msg.value == 0, "Do not Pay for usage tokens");
+            require(Ownership == OwnershipPercent.Zero, "Ownership must be zero");
+            require(PlotsLend(LendContract).GetTokenLocation(Collection, TokenId) == address(this), "Token not in lending contract");
+            PlotsLend(LendContract).SendToLoan(NewLoanContract, Collection, TokenId);
         }
 
         //send the 2.5% fee to the fee receiver

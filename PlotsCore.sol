@@ -176,7 +176,6 @@ contract PlotsCoreV1 {
         require(CurrentOwnership != Ownership, "Ownership already set to this");
 
         //calculate the value difference between the current ownership and the new ownership
-        uint256 ValueDifference;
         if(CurrentOwnership == OwnershipPercent.Ten){
             ValueDifference = (NFTLoan(LoanContract).InitialValue() * 10) / 100;
         }

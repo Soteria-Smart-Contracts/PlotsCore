@@ -289,9 +289,6 @@ contract PlotsCoreV1 {
         AllUserBorrows[Lender].pop();
     }
 
-
-    //Only Admin Functions
-
     function ListTokenForOwnership(address Collection, uint256 TokenId) public OnlyAdmin{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");

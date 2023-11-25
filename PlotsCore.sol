@@ -142,10 +142,6 @@ contract PlotsCoreV1 {
             PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
             PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
         }        
-
-        PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
-
-        PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
     }
 
     // Listings ---------------------------------------------------------------------------------

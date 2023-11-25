@@ -369,7 +369,7 @@ contract NFTLoan{
 
     address public Owner;
     address public Borrower;
-    PlotsCore.OwnershipPercent public OwnershipType;
+    OwnershipPercent public OwnershipType;
     uint256 LoanEndTime;
     uint256 InitialValue;
 
@@ -379,6 +379,12 @@ contract NFTLoan{
     //Use Counter for statistics
     uint256 public UseCounter;
     bool public Active;
+
+    enum OwnershipPercent{
+        Zero,
+        Ten,
+        TwentyFive
+    }
 
     modifier OnlyManager(){
         require(msg.sender == Manager, "Only Manager");

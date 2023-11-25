@@ -445,7 +445,7 @@ contract PlotsLend{
     }
 
     function ReturnedFromLoan(address Collection, uint256 TokenID) external {
-        require(ERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");
+        require(ERC721(Collection).ownerOf(TokenID) == address(this), "Token not in User Portfolio");
         
         TokenLocation[Collection][TokenID] = address(this);
     }

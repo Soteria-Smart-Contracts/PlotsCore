@@ -173,7 +173,7 @@ contract PlotsCoreV1 {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         
-        //if lister is 
+        //if lister is treasury, require m
 
         RemoveListingFromCollection(Collection, TokenId);
     }

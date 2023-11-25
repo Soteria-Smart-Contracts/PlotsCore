@@ -123,10 +123,8 @@ contract PlotsCoreV1 {
             OwnershipPercentage = 25;
         }
         
-        //determine the difference between the initial value and the current value and calculate the value of the initial collateral adjusted for the current price
-        int256 ValueDifference = int256(PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId)) - int256(NFTLoan(LoanContract).InitialValue());
-        //multiply the value difference by the ownership percentage to get the value of the collateral that the borrower is entitled to
-        uint256 BorrowerCollateral = uint256(ValueDifference * int256(NFTLoan(LoanContract).BorrowerRewardShare())) / 10000;
+        //calculate the value of the token at the end of the loan
+        
 
         NFTLoan(LoanContract).EndLoan(FeeReceiver);
         PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);

@@ -183,7 +183,11 @@ contract PlotsCoreV1 {
             require(msg.value >= CollateralValueChange, "Not enough ether sent");
         }
         else if(Ownership == OwnershipPercent.TwentyFive){
-            ValueDifference = (NFTLoan(LoanContract).InitialValue() * 25) / 100;
+            CollateralValueChange = (CurrentValue * 15) / 100;
+            require(msg.value >= CollateralValueChange, "Not enough ether sent");
+        }
+        else{
+            revert('Ownership not allowed');
         }
 
         NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);

@@ -88,8 +88,9 @@ contract PlotsCoreV1 {
             PlotsTreasury(Treasury).SendToLoan(NewLoanContract, Collection, TokenId);
         }
         else{
-            require(Ownership == OwnershipPercent.Zero, "Ownership not zero");
-            require(msg.value == 0, "Do not Pay for usage tokens");
+            revert('');
+            // require(Ownership == OwnershipPercent.Zero, "Ownership not zero");
+            // require(msg.value == 0, "Do not Pay for usage tokens");
         }
 
         RemoveListingFromCollection(Collection, TokenId);

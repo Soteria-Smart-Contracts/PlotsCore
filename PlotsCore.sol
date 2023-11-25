@@ -427,7 +427,7 @@ contract PlotsLend{
 
     //all deposited tokens array mapping
     mapping(address => Token[]) public AllUserTokens;
-
+    mapping(address => mapping(address => uint256)) public AllUserTokensIndex;
 
     //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract
     function DepositToken(address Collection, uint256 TokenId) public{
@@ -435,6 +435,7 @@ contract PlotsLend{
         ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenDepositor[Collection][TokenId] = msg.sender;
+        
     }
 
     function WithdrawToken(address Collection, uint256 TokenId) public{

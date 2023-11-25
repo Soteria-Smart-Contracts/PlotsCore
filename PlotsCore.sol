@@ -423,11 +423,15 @@ contract PlotsLend{
     function DepositToken(address Collection, uint256 TokenId) public{
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
+
+        TokenDepositor[Collection][TokenId] = msg.sender;
     }
 
     function WithdrawToken(address Collection, uint256 TokenId) public{
         require(ERC721(Collection).ownerOf(TokenId) == PlotsCoreContract, "Not owner of token");
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
+
+        TokenDepositor[Collection][TokenId] = address(0);
     }
 
     //View Functions 

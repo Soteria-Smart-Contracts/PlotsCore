@@ -5,6 +5,7 @@ contract PlotsCoreV1 {
     //Variable and pointer Declarations
     address payable public Treasury;
     address payable public FeeReceiver;
+    uint256 public RewardFee;
     address public LendContract;
     address[] public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;

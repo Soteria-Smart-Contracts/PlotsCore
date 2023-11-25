@@ -184,10 +184,7 @@ contract PlotsCoreV1 {
         }
         else if(Ownership == OwnershipPercent.TwentyFive){
             CollateralValueChange = (CurrentValue * 15) / 100;
-            Plots
-        }
-        else{
-            revert('Ownership not allowed');
+            PlotsTreasury(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
         }
 
         NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);

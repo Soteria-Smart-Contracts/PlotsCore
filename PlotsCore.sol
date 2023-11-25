@@ -230,7 +230,6 @@ contract PlotsCoreV1 {
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 
-
     function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{
         FeeReceiver = NewReceiver;
     }

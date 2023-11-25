@@ -237,7 +237,7 @@ contract PlotsCoreV1 {
 
     function ChangeRewardFee(uint256 NewFee) public OnlyAdmin{
         require(NewFee <= 1500, "Fee must be less than 15%");
-        RewardFee = NewFee;
+        CurrentRewardFee = NewFee;
     }
 
     function AddCollection(address _collection) public OnlyAdmin{

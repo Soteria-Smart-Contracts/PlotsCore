@@ -114,7 +114,7 @@ contract PlotsCoreV1 {
 
         }
 
-        //ListingsByCollection[Collection].push(TokenId);
+        ListingsByCollection[Collection].push(TokenId);
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 

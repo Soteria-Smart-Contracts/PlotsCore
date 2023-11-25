@@ -88,7 +88,7 @@ contract PlotsCoreV1 {
             PlotsTreasury(Treasury).SendToLoan(NewLoanContract, Collection, TokenId);
         }
         else{
-            revert('');
+            revert('Usage loans not implemented yet');
             // require(Ownership == OwnershipPercent.Zero, "Ownership not zero");
             // require(msg.value == 0, "Do not Pay for usage tokens");
         }

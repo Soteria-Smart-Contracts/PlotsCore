@@ -108,7 +108,7 @@ contract PlotsCoreV1 {
         uint256 TokenId = NFTLoan(LoanContract).TokenID();
 
         NFTLoan(LoanContract).EndLoan(FeeReceiver);
-        ReturnedToTre
+        PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
         
     }
 

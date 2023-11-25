@@ -325,12 +325,12 @@ contract PlotsTreasury{
         payable(msg.sender).transfer(Amount);
     }
 
-    function SendERC20(address Token, address Recipient, uint256 Amount) public {
+    function SendERC20(address Token, address Recipient, uint256 Amount) public OnlyAdmin {
         ERC20(Token).transfer(Recipient, Amount);
     }
 
     //allow admin to set floor price for multiple collections at once, with an array with the collections and an array with the floor prices
-    function SetFloorPrice(address[] memory Collections, uint256[] memory FloorPrices) public {
+    function SetFloorPrice(address[] memory Collections, uint256[] memory FloorPrices) public OnlyAdmin{
         require(Collections.length == FloorPrices.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
             CollectionFloorPrice[Collections[i]] = FloorPrices[i];

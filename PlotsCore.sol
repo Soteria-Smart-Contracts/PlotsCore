@@ -374,7 +374,6 @@ contract NFTLoan{
     uint256 InitialValue;
 
     uint256 BorrowerRewardShare; //In Basis Points, zero if no loan exists for this token
-    address PlotsFeeReceiver;
 
     //Use Counter for statistics
     uint256 public UseCounter;
@@ -436,6 +435,7 @@ contract NFTLoan{
 
     function DisperseRewards(address RewardToken) public {
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
+        
 
         //Calculate Rewards for Owner and borrower based on borrower Ownership
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;

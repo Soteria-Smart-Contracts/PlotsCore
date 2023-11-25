@@ -112,11 +112,11 @@ contract PlotsCoreV1 {
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();
         uint256 OwnershipPercentage;
-        address ReturnCon
+        address ReturnContract;
 
         if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
             OwnershipPercentage = 0;
-
+            ReturnContract = 
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
             OwnershipPercentage = 10;

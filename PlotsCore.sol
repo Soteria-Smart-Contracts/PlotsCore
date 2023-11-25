@@ -169,7 +169,7 @@ contract PlotsCoreV1 {
 
     //function ChangeOwnershipPercentage on a loan
 
-    function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public{
+    function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {
         require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
@@ -180,6 +180,7 @@ contract PlotsCoreV1 {
 
         if(CurrentOwnership == OwnershipPercent.Ten){
             CollateralValueChange = (CurrentValue * 15) / 100;
+
         }
         else if(Ownership == OwnershipPercent.TwentyFive){
             ValueDifference = (NFTLoan(LoanContract).InitialValue() * 25) / 100;

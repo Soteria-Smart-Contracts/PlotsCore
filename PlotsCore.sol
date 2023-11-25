@@ -98,6 +98,9 @@ contract PlotsCoreV1 {
             // require(msg.value == 0, "Do not Pay for usage tokens");
         }
 
+        //send all ether to treasury
+        
+
         RemoveListingFromCollection(Collection, TokenId);
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenId].Lister, NewLoanContract);
         NFTLoan(NewLoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenId].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);

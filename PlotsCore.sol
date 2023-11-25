@@ -105,7 +105,9 @@ contract PlotsCoreV1 {
         require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
         if(Admins[msg.sender]){
-            //require that the token is owned by the treasury 
+            //require that the token is owned by the treasury and that it is not already listed
+            require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
+            
             ListingsByCollection[Collection].push(Listing(address(this), Collection, TokenId, ListingType.Usage));
         }
         else{

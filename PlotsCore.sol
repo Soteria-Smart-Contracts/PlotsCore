@@ -125,8 +125,7 @@ contract PlotsCoreV1 {
         
         //calculate the value of the collateral at the end of the loan (Token value * ownership percentage)
         uint256 CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
-        ERC721(Collection).transferFrom(address(this), NFTLoan(LoanContract).Borrower(), TokenId);
-
+        
 
         NFTLoan(LoanContract).EndLoan(FeeReceiver);
         PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);

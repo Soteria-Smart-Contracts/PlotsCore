@@ -162,8 +162,24 @@ contract PlotsCoreV1 {
 
     // Listings ---------------------------------------------------------------------------------
 
-    require(ListingsByCollectionIndex[Collection][TokenId] == 0 && ListingsByCollection[Collection][0].TokenId != TokenId, "Token already listed");
+    function ListToken(address Collection, uint256 TokenId) public{
+        require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
+        require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
 
+        if(Admins[msg.sender]){
+            require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
+            require(ListingsByCollectionIndex[Collection][TokenId] == 0 && ListingsByCollection[Collection][0].TokenId != TokenId, "Token already listed");
+            ListingsByCollection[Collection].push(Listing(Treasury, Collection, TokenId, ListingType.Ownership));
+        }
+        else{
+            require(ERC721(Collection).ownerOf(TokenId) == address(LendContract), "Token not owned by lending contract");
+            require(PlotsLend(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
+            require(ListingsByCollectionIndex[Collection][TokenId] == 0 && ListingsByCollection[Collection][0].TokenId != TokenId, "Token already listed");
+            ListingsByCollection[Collection].push(Listing(msg.sender, Collection, TokenId, ListingType.Usage));
+        }
+
+        ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
+    }
 
     function DelistToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");

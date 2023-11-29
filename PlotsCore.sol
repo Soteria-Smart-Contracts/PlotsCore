@@ -66,6 +66,8 @@ contract PlotsCoreV1 {
         Admins[msg.sender] = true;
         Admins[Treasury] = true;
 
+        ListedCollections.push(address(0));
+
         OwnershipPercentages[OwnershipPercent.Zero] = 0;
         OwnershipPercentages[OwnershipPercent.Ten] = 10;
         OwnershipPercentages[OwnershipPercent.TwentyFive] = 25;
@@ -338,17 +340,17 @@ contract PlotsTreasury{
     //allow admin to deposit nft into treasury
     function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public OnlyAdmin {
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
-        ERC721(Collection).transferFrom(msg.sender, address(PlotsCoreContract), TokenId);
+        ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         //calculate floor factor
-        TokenFloorFactor[Collection][TokenId] = (EtherCost / CollectionFloorPrice[Collection]);
+        TokenFloorFactor[Collection][TokenId] = ((EtherCost * 1000) / CollectionFloorPrice[Collection]);
     }
 
     //allow admin to withdraw nft from treasury
 
     function WithdrawNFT(address Collection, uint256 TokenId) public OnlyAdmin {
-        require(ERC721(Collection).ownerOf(TokenId) == address(PlotsCoreContract), "Not owner of token");
-        ERC721(Collection).transferFrom(address(PlotsCoreContract), msg.sender, TokenId);
+        require(ERC721(Collection).ownerOf(TokenId) == address(this), "Not owner of token");
+        ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         //check if listed, if so remove listing
         if(PlotsCoreV1(PlotsCoreContract).ListingsByCollectionIndex(Collection, TokenId) != 0){
@@ -400,7 +402,7 @@ contract PlotsTreasury{
     }
 
     function GetTokenValueFloorAdjusted(address Collection, uint256 TokenId) public view returns(uint256){
-        return CollectionFloorPrice[Collection] * TokenFloorFactor[Collection][TokenId];
+        return((CollectionFloorPrice[Collection] * TokenFloorFactor[Collection][TokenId]) / 1000);
     }
 
     receive() external payable{}

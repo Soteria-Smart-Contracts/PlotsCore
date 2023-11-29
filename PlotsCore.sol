@@ -168,13 +168,13 @@ contract PlotsCoreV1 {
 
         if(Admins[msg.sender]){
             require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
-            require(ListingsByCollectionIndex[Collection][TokenId] == 0 && ListingsByCollection[Collection][0].TokenId != TokenId, "Token already listed");
+            require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
             ListingsByCollection[Collection].push(Listing(Treasury, Collection, TokenId, ListingType.Ownership));
         }
         else{
             require(ERC721(Collection).ownerOf(TokenId) == address(LendContract), "Token not owned by lending contract");
             require(PlotsLend(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
-            require(ListingsByCollectionIndex[Collection][TokenId] == 0 , "Token already listed");
+            require(ListingsByCollectionIndex[Collection][TokenId] == 0, "Token already listed");
             ListingsByCollection[Collection].push(Listing(msg.sender, Collection, TokenId, ListingType.Usage));
         }
 

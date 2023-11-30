@@ -77,7 +77,7 @@ contract PlotsCoreV1 {
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration, OwnershipPercent Ownership) public payable {
         require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0 || ListingsByCollection[Collection].length == 0, "Token not listed");
-        
+        //if the index is zero, check the token 
 
         address LoanContract;
         if(AvailableLoanContracts.length > 0){

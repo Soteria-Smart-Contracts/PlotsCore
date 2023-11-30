@@ -179,6 +179,7 @@ contract PlotsCoreV1 {
             ListingsByCollection[Collection].push(Listing(msg.sender, Collection, TokenId, ListingType.Usage));
         }
 
+        AddListingToCollection(Collection, TokenId, ListingsByCollection[Collection][ListingsByCollection.length - 1]);
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 

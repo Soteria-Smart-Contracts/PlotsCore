@@ -179,8 +179,6 @@ contract PlotsCoreV1 {
             require(ListingsByCollectionIndex[Collection][TokenId] == 0 || ListingsByCollection[Collection].length == 0, "Token already listed");
             AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId, ListingType.Usage));
         }
-
-        ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 
     function DelistToken(address Collection, uint256 TokenId) public{

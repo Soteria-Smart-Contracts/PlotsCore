@@ -110,7 +110,7 @@ contract PlotsCoreV1 {
             PlotsLend(LendContract).SendToLoan(LoanContract, Collection, TokenId);
         }
 
-        Treasury.transfer(FeeReceiver, (TokenValue * 25) / 1000);
+        FeeReceiver.transfer((TokenValue * 25) / 1000);
         PlotsTreasury(Treasury).SendEther(payable(Treasury), address(this).balance);
 
         RemoveListingFromCollection(Collection, TokenId);

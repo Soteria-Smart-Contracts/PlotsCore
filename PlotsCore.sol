@@ -180,7 +180,6 @@ contract PlotsCoreV1 {
             AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId, ListingType.Usage));
         }
 
-        AddListingToCollection(Collection, TokenId, ListingsByCollection[Collection][ListingsByCollection.length - 1]);
         ListingsByCollectionIndex[Collection][TokenId] = ListingsByCollection[Collection].length - 1;
     }
 

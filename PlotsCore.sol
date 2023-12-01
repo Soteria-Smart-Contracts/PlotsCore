@@ -279,11 +279,11 @@ contract PlotsCoreV1 {
 
     //add loan to a borrower and a lender with just the loan address IN ONE function
     function AddLoanToBorrowerAndLender(address Borrower, address Lender, address _loan) internal{
-        AllUserLoans[Borrower].push(_loan);
-        AllUserLoansIndex[Borrower][_loan] = AllUserLoans[Borrower].length - 1;
+        AllUserLoans[Lender].push(_loan);
+        AllUserLoansIndex[Lender][_loan] = AllUserLoans[Lender].length - 1;
 
-        AllUserBorrows[Lender].push(_loan);
-        AllUserBorrowsIndex[Lender][_loan] = AllUserBorrows[Lender].length - 1;
+        AllUserBorrows[Borrower].push(_loan);
+        AllUserBorrowsIndex[Borrower][_loan] = AllUserBorrows[Lender].length - 1;
     }
 
     //remove loan from a borrower and a lender with just the loan address IN ONE function

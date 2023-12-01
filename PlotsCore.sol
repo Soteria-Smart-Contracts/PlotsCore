@@ -120,7 +120,7 @@ contract PlotsCoreV1 {
         RemoveListingFromCollection(Collection, TokenId);
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, LoanContract);
         NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenIndex].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
-        OwnershipByPurchase[Collection][msg.sender] = TokenId;
+        OwnershipByPurchase[Collection][TokenId] = msg.sender;
         ListedBool[Collection][TokenId] = false;
     }
 

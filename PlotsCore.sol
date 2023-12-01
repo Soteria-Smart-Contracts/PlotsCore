@@ -185,6 +185,7 @@ contract PlotsCoreV1 {
     function DelistToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] = true, "Collection not listed");
         require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == address(0), "Token already listed");
+    
         if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == Treasury){
             require(Admins[msg.sender], "Only Admin");
         }

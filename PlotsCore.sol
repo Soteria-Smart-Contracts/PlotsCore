@@ -168,8 +168,6 @@ contract PlotsCoreV1 {
 
     function ListToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] == true, "Collection not listed");
-
-        
         require(ListedBool[Collection][TokenId] == false, "Token already listed");
         
 
@@ -183,6 +181,8 @@ contract PlotsCoreV1 {
             require(PlotsLend(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
             AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
         }
+
+        ListedBool[Collection][TokenId] = true;
     }
 
     function DelistToken(address Collection, uint256 TokenId) public{

@@ -90,7 +90,7 @@ contract PlotsCoreV1 {
         }
 
         uint256 TokenValue = 0;
-        uint256 DurationUnix = (uint8(Duration) + 1) * 90 days;
+        uint256 DurationUnix = (uint8(Duration) + 1) * 90 days; //CHANGE LE
         
         if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].OwnershipOption == ListingType.Ownership){
             TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);

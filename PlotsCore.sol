@@ -471,9 +471,7 @@ contract PlotsLend{
         TokenLocation[Collection][TokenID] = LoanContract;
     }
 
-    function ReturnedFromLoan(address Collection, uint256 TokenID) external OnlyCore{
-        require(ERC721(Collection).ownerOf(TokenID) == address(this), "Token not in User Portfolio");
-        
+    function ReturnedFromLoan(address Collection, uint256 TokenID) external OnlyCore{        
         TokenLocation[Collection][TokenID] = address(this);
     }
 

@@ -77,7 +77,7 @@ contract PlotsCoreV1 {
 
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration, OwnershipPercent Ownership) public payable {
         require(ListedCollectionsMap[Collection] = true, "Collection not listed");
-        uint256 TokenInd
+        uint256 TokenIndex
         require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Token not listed");
 
         address LoanContract;

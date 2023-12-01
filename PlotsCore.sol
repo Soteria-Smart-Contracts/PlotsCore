@@ -169,7 +169,6 @@ contract PlotsCoreV1 {
         require(ListedCollectionsMap[Collection] == true, "Collection not listed");
 
         if(ListingsByCollection[Collection].length == 0){
-            
         }
 
         if(Admins[msg.sender]){

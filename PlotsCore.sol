@@ -283,7 +283,7 @@ contract PlotsCoreV1 {
         AllUserLoansIndex[Lender][_loan] = AllUserLoans[Lender].length - 1;
 
         AllUserBorrows[Borrower].push(_loan);
-        AllUserBorrowsIndex[Borrower][_loan] = AllUserBorrows[Lender].length - 1;
+        AllUserBorrowsIndex[Borrower][_loan] = AllUserBorrows[Borrower].length - 1;
     }
 
     //remove loan from a borrower and a lender with just the loan address IN ONE function

@@ -48,6 +48,8 @@ contract PlotsCoreV1 {
 
     mapping(address => Listing[]) public ListingsByCollection;
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
+    //ListedBool is used to check if a token is listed, and if it is, what the index is in the ListingsByCollection array
+    //mapping(address => mapping(uint256 => bool)) public ListedBool;
 
     mapping(address => address[]) public AllUserLoans; //Outgoing loans
     mapping(address => mapping(address => uint256)) public AllUserLoansIndex;

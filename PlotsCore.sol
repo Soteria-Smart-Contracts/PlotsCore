@@ -116,8 +116,8 @@ contract PlotsCoreV1 {
         payable(Treasury).transfer(address(this).balance);
 
         RemoveListingFromCollection(Collection, TokenId);
-        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][].Lister, LoanContract);
-        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenId].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
+        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister, LoanContract);
+        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }
 

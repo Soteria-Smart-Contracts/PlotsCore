@@ -169,11 +169,9 @@ contract PlotsCoreV1 {
     function ListToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] == true, "Collection not listed");
 
-        if(ListingsByCollection[Collection].length == 0){
-        }
-        else{
-            require(ListedBool[Collection][TokenId] == false, "Token already listed");
-        }
+        
+        require(ListedBool[Collection][TokenId] == false, "Token already listed");
+        
 
         if(Admins[msg.sender]){
             require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");

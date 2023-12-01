@@ -8,6 +8,7 @@ contract PlotsCoreV1 {
     uint256 public CurrentRewardFee;
     address public LendContract;
     address[] public ListedCollections;
+    mapping(address => uint256) public ListedCollections;
     mapping(address => uint256) public ListedCollectionsIndex;
     mapping(OwnershipPercent => uint8) public OwnershipPercentages;
     address[] public AvailableLoanContracts;

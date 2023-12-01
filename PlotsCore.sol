@@ -383,8 +383,7 @@ contract PlotsTreasury{
     function SetFloorPrice(address[] memory Collections, uint256[] memory FloorPrices) public OnlyAdmin{
         require(Collections.length == FloorPrices.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
-            //check if collection is listed
-            
+            require(PlotsCoreV1(PlotsCoreContract).ListedCollectionsMap(Collections[i]) == true, "Collection not listed");
             CollectionFloorPrice[Collections[i]] = FloorPrices[i];
         }
     }

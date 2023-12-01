@@ -165,8 +165,7 @@ contract PlotsCoreV1 {
     // Listings ---------------------------------------------------------------------------------
 
     function ListToken(address Collection, uint256 TokenId) public{
-        //check listed collections mapping
-        require(ListedCollectionsMap[Collection] != true, "Collection not listed");
+        require(ListedCollectionsMap[Collection] = true, "Collection not listed");
         require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == address(0), "Token already listed");
 
         if(Admins[msg.sender]){

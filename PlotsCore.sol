@@ -183,7 +183,6 @@ contract PlotsCoreV1 {
     }
 
     function DelistToken(address Collection, uint256 TokenId) public{
-        require(ListedCollectionsIndex[Collection] != 0, "Collection not listed");
         require(ListingsByCollectionIndex[Collection][TokenId] != 0, "Token not listed");
         if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == Treasury){
             require(Admins[msg.sender], "Only Admin");

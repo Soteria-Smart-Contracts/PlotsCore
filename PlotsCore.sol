@@ -169,13 +169,6 @@ contract PlotsCoreV1 {
         require(ListedCollectionsMap[Collection] == true, "Collection not listed");
 
         if(ListingsByCollectionIndex[Collection][TokenId] == 0){
-            require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == address(0), "Token already listed");
-        }
-
-        if(ListingsByCollection[Collection].length == 0){
-        }
-        else{
-            require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == address(0), "Token already listed");
         }
 
         if(Admins[msg.sender]){

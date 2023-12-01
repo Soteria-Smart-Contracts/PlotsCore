@@ -93,7 +93,7 @@ contract PlotsCoreV1 {
         uint256 TokenValue = 0;
         uint256 DurationUnix = (uint8(Duration) + 1) * 60; //TODO: CHANGE LEGNTH BACK TO 90 DAYS BEFORE MAINNET DEPLOYMENT
         
-        if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].OwnershipOption == ListingType.Ownership){
+        if(ListingsByCollection[Collection][TokenIndex].OwnershipOption == ListingType.Ownership){
             TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
             uint256 Fee = (TokenValue * 25) / 1000;
             uint256 BorrowCost = Fee;
@@ -117,8 +117,8 @@ contract PlotsCoreV1 {
         payable(Treasury).transfer(address(this).balance);
 
         RemoveListingFromCollection(Collection, TokenId);
-        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister, LoanContract);
-        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
+        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, LoanContract);
+        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenIndex].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
         OwnershipByPurchase[Collection][msg.sender] = TokenId;
     }
 

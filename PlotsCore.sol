@@ -161,6 +161,7 @@ contract PlotsCoreV1 {
             PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
 
+        OwnershipByPurchase[Collection][TokenId] = address(0);
         AvailableLoanContracts.push(LoanContract);
         AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
     }

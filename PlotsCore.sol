@@ -44,7 +44,7 @@ contract PlotsCoreV1 {
         _;
     }
 
-    mapping(address => mapping(address => uint256)) public OwnershipByPurchase;
+    mapping(address => mapping(uint256 => address)) public OwnershipByPurchase;
 
     mapping(address => Listing[]) public ListingsByCollection;
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;

@@ -165,7 +165,7 @@ contract PlotsCoreV1 {
     // Listings ---------------------------------------------------------------------------------
 
     function ListToken(address Collection, uint256 TokenId) public{
-        require(ListedCollectionsMap[Collection] = true, "Collection not listed");
+        require(ListedCollectionsMap[Collection] == true, "Collection not listed");
 
         if(ListingsByCollection[Collection].length == 0){
         }

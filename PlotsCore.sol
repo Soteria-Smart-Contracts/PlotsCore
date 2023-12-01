@@ -169,7 +169,9 @@ contract PlotsCoreV1 {
         require(ListedCollectionsMap[Collection] == true, "Collection not listed");
 
         if(ListingsByCollectionIndex[Collection][TokenId] == 0){
-            if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]])
+            if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0)){
+                require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == msg.sender, "Not owner of listing");
+            }
         }
 
         if(Admins[msg.sender]){

@@ -460,8 +460,7 @@ contract PlotsLend{
 
     //send and return from loan functions
 
-    function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external {
-        require(TokenDepositor[Collection][TokenID] == msg.sender, "Not owner of token");
+    function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external  {
         ERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
 
         TokenLocation[Collection][TokenID] = LoanContract;

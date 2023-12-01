@@ -169,9 +169,6 @@ contract PlotsCoreV1 {
 
         if(ListingsByCollection[Collection].length == 0){
             require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == address(0), "Token already listed");
-
-        else{
-            require(ListedCollectionsMap[Collection] = true, "Collection not listed");
         }
         require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == address(0), "Token already listed");
 

@@ -303,7 +303,7 @@ contract PlotsCoreV1 {
     function AddCollection(address _collection) public OnlyAdmin{
         ListedCollections.push(_collection);
         ListedCollectionsIndex[_collection] = ListedCollections.length - 1;
-        
+        ListedCollectionsMap
     }
 
     function RemoveCollection(address _collection) public OnlyAdmin{

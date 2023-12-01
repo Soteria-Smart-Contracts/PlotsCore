@@ -197,6 +197,7 @@ contract PlotsCoreV1 {
         }
 
         RemoveListingFromCollection(Collection, TokenId);
+        ListedBool[Collection][TokenId] = false;
     }
 
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {

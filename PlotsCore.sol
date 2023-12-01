@@ -312,6 +312,7 @@ contract PlotsCoreV1 {
         ListedCollectionsIndex[ListedCollections[index]] = index;
         ListedCollections.pop();
         delete ListedCollectionsIndex[_collection];
+        delete ListedCollectionsMap[_collection];
     }
 }
 

@@ -465,7 +465,7 @@ contract PlotsLend{
 
     //send and return from loan functions
 
-    function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external  {
+    function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external OnlyCore{
         ERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
 
         TokenLocation[Collection][TokenID] = LoanContract;

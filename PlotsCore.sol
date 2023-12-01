@@ -172,7 +172,7 @@ contract PlotsCoreV1 {
         if(ListingsByCollection[Collection].length == 0){
         }
         else{
-            require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == address(0), "Token already listed");
+            require(ListedBool, "Token already listed");
         }
 
         if(Admins[msg.sender]){

@@ -427,6 +427,11 @@ contract PlotsLend{
         uint256 TokenId;
     }
 
+    modifier OnlyCore(){
+        require(msg.sender == address(PlotsCoreContract), "Only Core");
+        _;
+    }
+
     mapping(address => mapping(uint256 => address)) public TokenDepositor;
     mapping(address => mapping(uint256 => address)) public TokenLocation;
 

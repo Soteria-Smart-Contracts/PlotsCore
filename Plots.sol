@@ -95,7 +95,7 @@ contract PlotsCoreV1 {
         uint256 DurationUnix = (uint8(Duration) + 1) * 60; //TODO: CHANGE LEGNTH BACK TO 90 DAYS BEFORE MAINNET DEPLOYMENT
         
         if(ListingsByCollection[Collection][TokenIndex].OwnershipOption == ListingType.Ownership){
-            TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
+            TokenValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
             uint256 Fee = (TokenValue * 25) / 1000;
             uint256 BorrowCost = Fee;
             if(Ownership == OwnershipPercent.Ten){
@@ -105,7 +105,7 @@ contract PlotsCoreV1 {
                 BorrowCost += (TokenValue * 25) / 100;
             }
             require(msg.value >= BorrowCost, "Not enough ether sent");
-            PlotsTreasury(Treasury).SendToLoan(LoanContract, Collection, TokenId);
+            PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
         }
         else{
             require(Ownership == OwnershipPercent.Zero, "Ownership must be zero");
@@ -146,19 +146,19 @@ contract PlotsCoreV1 {
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
             OwnershipPercentage = 10;
             ReturnContract = Treasury;
-            CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
+            CollateralValue = (PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
             NFTLoan(LoanContract).EndLoan(Treasury);
-            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
-            PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
+            PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
+            PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
 
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
             OwnershipPercentage = 25;
             ReturnContract = Treasury;
-            CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
+            CollateralValue = (PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
             NFTLoan(LoanContract).EndLoan(Treasury);
-            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
-            PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
+            PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
+            PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
 
         OwnershipByPurchase[Collection][TokenId] = address(0);
@@ -209,7 +209,7 @@ contract PlotsCoreV1 {
         require(OwnershipPercentages[Ownership] != 0, "Ownership not available");
         require(CurrentOwnership != Ownership, "Ownership already set to this");
 
-        uint256 CurrentValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());
+        uint256 CurrentValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());
         uint256 CollateralValueChange;
 
         if(CurrentOwnership == OwnershipPercent.Ten){
@@ -220,7 +220,7 @@ contract PlotsCoreV1 {
         else if(CurrentOwnership == OwnershipPercent.TwentyFive){
             //15% Inclusive of a 1% fee
             CollateralValueChange = (CurrentValue * 14) / 100;
-            PlotsTreasury(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
+            PlotsTreasuryV1(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
         }
 
         NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
@@ -256,7 +256,7 @@ contract PlotsCoreV1 {
         uint256[] memory _prices = new uint256[](ListingsByCollection[_collection].length);
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
             if(ListingsByCollection[_collection][i].OwnershipOption == ListingType.Ownership){
-                _prices[i] = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(_collection, ListingsByCollection[_collection][i].TokenId);
+                _prices[i] = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(_collection, ListingsByCollection[_collection][i].TokenId);
             }
             else{
                 _prices[i] = 0;

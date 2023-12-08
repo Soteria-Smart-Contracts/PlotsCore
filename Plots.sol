@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: Unlicense
-//The code is the documentation ♥
 
 pragma solidity 0.8.19;
 

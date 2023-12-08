@@ -58,7 +58,7 @@ contract PlotsCoreV1 {
 
 
     constructor(address [] memory _admins, address payable _feeReceiver){
-        Treasury =  payable(new PlotsTreasury(address(this)));
+        Treasury =  payable(new PlotsTreasuryV1(address(this)));
         LendContract = address(new PlotsLend(address(this)));
         FeeReceiver = _feeReceiver;
 
@@ -323,7 +323,7 @@ contract PlotsCoreV1 {
     }
 }
 
-contract PlotsTreasury{
+contract PlotsTreasuryV1{
     //Variable and pointer Declarations
     address public PlotsCoreContract;
 

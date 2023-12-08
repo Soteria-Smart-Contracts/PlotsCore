@@ -59,7 +59,7 @@ contract PlotsCoreV1 {
 
     constructor(address [] memory _admins, address payable _feeReceiver){
         Treasury =  payable(new PlotsTreasuryV1(address(this)));
-        LendContract = address(new PlotsLend(address(this)));
+        LendContract = address(new PlotsLendV1(address(this)));
         FeeReceiver = _feeReceiver;
 
         for(uint256 i = 0; i < _admins.length; i++){
@@ -109,9 +109,9 @@ contract PlotsCoreV1 {
         }
         else{
             require(Ownership == OwnershipPercent.Zero, "Ownership must be zero");
-            require(PlotsLend(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
-            require(PlotsLend(LendContract).GetTokenLocation(Collection, TokenId) == LendContract, "Token not in lending contract");
-            PlotsLend(LendContract).SendToLoan(LoanContract, Collection, TokenId);
+            require(PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
+            require(PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract, "Token not in lending contract");
+            PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
         }
 
         FeeReceiver.transfer((TokenValue * 25) / 1000);
@@ -141,7 +141,7 @@ contract PlotsCoreV1 {
             ReturnContract = LendContract;
             CollateralValue = 0;
             NFTLoan(LoanContract).EndLoan(LendContract);
-            PlotsLend(LendContract).ReturnedFromLoan(Collection, TokenId);
+            PlotsLendV1(LendContract).ReturnedFromLoan(Collection, TokenId);
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
             OwnershipPercentage = 10;
@@ -180,7 +180,7 @@ contract PlotsCoreV1 {
         }
         else{
             require(ERC721(Collection).ownerOf(TokenId) == LendContract, "Token not owned by lending contract");
-            require(PlotsLend(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
+            require(PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
             AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
         }
 
@@ -421,7 +421,7 @@ contract PlotsTreasuryV1{
 
 }
 
-contract PlotsLend{
+contract PlotsLendV1{
     //Variable and pointer Declarations
     address public PlotsCoreContract;
 

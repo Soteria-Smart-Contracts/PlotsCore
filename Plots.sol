@@ -69,8 +69,6 @@ contract PlotsCoreV1 {
         Admins[msg.sender] = true;
         Admins[Treasury] = true;
 
-        ListedCollections.push(address(0));
-
         OwnershipPercentages[OwnershipPercent.Zero] = 0;
         OwnershipPercentages[OwnershipPercent.Ten] = 10;
         OwnershipPercentages[OwnershipPercent.TwentyFive] = 25;

@@ -192,7 +192,8 @@ contract PlotsCoreV1 {
     }
 
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {
-        //require loan to be 
+        //require loan to be ownership loan
+        
         require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
         uint256 DurationUnix = (uint8(Duration) + 1) * 60;

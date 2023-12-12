@@ -580,8 +580,7 @@ contract NFTLoan{
     }
 
     function DisperseRewards(address RewardToken) public {
-        //require the current time to be before the loan end time
-        require(block.timestamp < LoanEndTime || msg.sender == Owner, "Loan is not active or expired, or not owner of token"); //
+        require(block.timestamp < LoanEndTime || msg.sender == Owner, "Loan is not active or expired, or not owner of token"); //Only owner can disperse rewards after loan has ended
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
         require(RewardBalance > 0, "No rewards to disperse");
         //check core contract for fee percentage and fee receiver, calculate fee and send to fee receiver

@@ -191,9 +191,6 @@ contract PlotsCoreV1 {
         NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
     }
 
-
-    //renew loan, only borrower
-
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {
         require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
         require(NFTLoan(LoanContract).Active(), "Loan not active");

@@ -551,6 +551,8 @@ contract NFTLoan{
         Active = true;
     }
 
+    //renew
+
     function EndLoan(address Origin) public OnlyManager {
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
         require(LoanEndTime <= block.timestamp, "Loan not ended yet");

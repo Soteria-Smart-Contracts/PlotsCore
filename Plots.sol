@@ -573,6 +573,7 @@ contract NFTLoan{
         TokenID = 0;
         Owner = address(0);
         Borrower = address(0);
+        OwnershipType = PlotsCoreV1.OwnershipPercent.Zero;
         BorrowerRewardShare = 0;
         UseCounter++;
         Active = false;

@@ -580,6 +580,7 @@ contract NFTLoan{
     }
 
     function DisperseRewards(address RewardToken) public {
+        //require the loan to be 
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
         require(RewardBalance > 0, "No rewards to disperse");
         //check core contract for fee percentage and fee receiver, calculate fee and send to fee receiver

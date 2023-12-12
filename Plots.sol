@@ -167,7 +167,7 @@ contract PlotsCoreV1 {
         AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
     }
 
-    //renew loan
+    //renew loan, only borrower
 
     // Listings ---------------------------------------------------------------------------------
 

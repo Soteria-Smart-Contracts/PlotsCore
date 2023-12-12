@@ -167,6 +167,8 @@ contract PlotsCoreV1 {
         AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
     }
 
+    
+
     // Listings ---------------------------------------------------------------------------------
 
     function ListToken(address Collection, uint256 TokenId) public{

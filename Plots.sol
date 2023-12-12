@@ -194,7 +194,12 @@ contract PlotsCoreV1 {
 
     //renew loan, only borrower
 
-    
+    function RenewLoan(address LoanContract, LengthOption Duration) public payable {
+        require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+        uint256 DurationUnix = (uint8(Duration) + 1) * 60; //TODO: CHANGE LEGNTH BACK TO 90 DAYS BEFORE MAINNET DEPLOYMENT
+        NFTLoan(LoanContract).RenewLoan(DurationUnix);
+    }
 
     // Listings ---------------------------------------------------------------------------------
 

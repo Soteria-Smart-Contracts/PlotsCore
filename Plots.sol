@@ -128,7 +128,7 @@ contract PlotsCoreV1 {
     function CloseLoan(address LoanContract) public{
         //allow admins to close loans early
         require(NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan(LoanContract).Owner() == msg.sender || Admins[msg.sender], "Not involved in loan");
-        require(NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || , "Loan not ended yet");
+        require(NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || Admins[msg.sender], "Loan not ended yet");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
 
         address Collection = NFTLoan(LoanContract).TokenCollection();

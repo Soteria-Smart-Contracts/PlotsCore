@@ -568,6 +568,8 @@ contract NFTLoan{
         ERC721(TokenCollection).transferFrom(address(this), Origin, TokenID);
         
         TokenCollection = address(0);
+        InitialValue = 0;
+        LoanEndTime = 0;
         TokenID = 0;
         Owner = address(0);
         Borrower = address(0);

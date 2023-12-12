@@ -167,7 +167,34 @@ contract PlotsCoreV1 {
         AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
     }
 
+    function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {
+        require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+        OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
+        require(OwnershipPercentages[Ownership] != 0, "Ownership not available");
+        require(CurrentOwnership != Ownership, "Ownership already set to this");
+
+        uint256 CurrentValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());
+        uint256 CollateralValueChange;
+
+        if(CurrentOwnership == OwnershipPercent.Ten){
+            //15% Inclusive of a 1% fee
+            CollateralValueChange = (CurrentValue * 16) / 100;
+            require(msg.value >= CollateralValueChange, "Not enough ether sent");
+        }
+        else if(CurrentOwnership == OwnershipPercent.TwentyFive){
+            //15% Inclusive of a 1% fee
+            CollateralValueChange = (CurrentValue * 14) / 100;
+            PlotsTreasuryV1(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
+        }
+
+        NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
+    }
+
+
     //renew loan, only borrower
+
+    
 
     // Listings ---------------------------------------------------------------------------------
 
@@ -203,30 +230,6 @@ contract PlotsCoreV1 {
 
         RemoveListingFromCollection(Collection, TokenId);
         ListedBool[Collection][TokenId] = false;
-    }
-
-    function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {
-        require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-        OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
-        require(OwnershipPercentages[Ownership] != 0, "Ownership not available");
-        require(CurrentOwnership != Ownership, "Ownership already set to this");
-
-        uint256 CurrentValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());
-        uint256 CollateralValueChange;
-
-        if(CurrentOwnership == OwnershipPercent.Ten){
-            //15% Inclusive of a 1% fee
-            CollateralValueChange = (CurrentValue * 16) / 100;
-            require(msg.value >= CollateralValueChange, "Not enough ether sent");
-        }
-        else if(CurrentOwnership == OwnershipPercent.TwentyFive){
-            //15% Inclusive of a 1% fee
-            CollateralValueChange = (CurrentValue * 14) / 100;
-            PlotsTreasuryV1(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
-        }
-
-        NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
     }
 
     function GetCollectionListings(address _collection) public view returns(Listing[] memory){

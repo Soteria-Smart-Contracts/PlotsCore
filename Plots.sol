@@ -551,7 +551,7 @@ contract NFTLoan{
         Active = true;
     }
 
-    //renew
+    //renew loan function, only manager, extend loan end time
 
     function EndLoan(address Origin) public OnlyManager {
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");

@@ -162,7 +162,7 @@ contract PlotsCoreV1 {
         OwnershipByPurchase[Collection][TokenId] = address(0);
         AvailableLoanContracts.push(LoanContract);
         AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
-        AddListingToCollection(Collection, TokenId, Listing(ReturnContract, Collection, TokenId, ListingType.Ownership));
+        re
     }
 
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {

@@ -163,7 +163,7 @@ contract PlotsCoreV1 {
         OwnershipByPurchase[Collection][TokenId] = address(0);
         AvailableLoanContracts.push(LoanContract);
         AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
-        RemoveLoanFromBorrowerAndLender(Borrower, Lender, _loan);
+        RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
     }
 
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {

@@ -130,6 +130,7 @@ contract PlotsCoreV1 {
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();
         address Borrower = NFTLoan(LoanContract).Borrower();
+        address Lender = NFTLoan(LoanContract).Owner();
         uint256 OwnershipPercentage;
         address ReturnContract;
         uint256 CollateralValue;

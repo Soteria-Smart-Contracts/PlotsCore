@@ -251,6 +251,9 @@ contract PlotsCoreV1 {
         return AllUserLoans[_user];
     }
 
+    //Function to allow frontend see all user borrowed tokens (that they borrowed with collateral)
+    
+
     function GetUserListings(address _collection) public view returns(Listing[] memory){
         Listing[] memory _listings = new Listing[](ListingsByCollection[_collection].length);
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){

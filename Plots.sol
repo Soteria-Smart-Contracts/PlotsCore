@@ -255,8 +255,8 @@ contract PlotsCoreV1 {
     }
 
 
-    function GetUserListingsByUser(address user) public view returns (Listing[] memory){
-        
+    function GetUserListings(address user) public view returns (Listing[] memory){
+
     }
 
 

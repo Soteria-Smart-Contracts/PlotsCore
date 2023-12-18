@@ -463,7 +463,7 @@ contract PlotsTreasuryV1{
 
     //views 
 
-    //get total value of 
+    //get total value of the treasury by loo
 
     function GetFloorPrice(address Collection) public view returns(uint256){
         return CollectionFloorPrice[Collection];

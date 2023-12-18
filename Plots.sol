@@ -290,6 +290,10 @@ contract PlotsCoreV1 {
     }
 
     //add listing to user
+    function AddListingToUser(address _user, address _collection, uint256 _tokenId, Listing memory _listing) internal{
+        ListingsByUser[_user].push(_listing);
+        ListingsByUserIndex[_user][_collection][_tokenId] = ListingsByUser[_user].length - 1;
+    }
 
     //add loan to a borrower and a lender with just the loan address IN ONE function
     function AddLoanToBorrowerAndLender(address Borrower, address Lender, address _loan) internal{

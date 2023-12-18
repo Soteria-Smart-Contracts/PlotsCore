@@ -464,6 +464,13 @@ contract PlotsTreasuryV1{
     //views 
 
     //get total value of the treasury by looping through all collections and getting the locked value
+    function GetTotalValue() public view returns(uint256){
+        uint256 TotalValue;
+        for(uint256 i = 0; i < PlotsCoreV1(PlotsCoreContract).ListedCollections().length; i++){
+            TotalValue += CollectionLockedValue[PlotsCoreV1(PlotsCoreContract).ListedCollections()[i]];
+        }
+        return TotalValue;
+    }
 
     function GetFloorPrice(address Collection) public view returns(uint256){
         return CollectionFloorPrice[Collection];

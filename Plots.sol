@@ -402,6 +402,7 @@ contract PlotsTreasuryV1{
             PlotsCoreV1(PlotsCoreContract).DelistToken(Collection, TokenId);
         }
         
+        CollectionLockedValue[Collection] -= GetTokenValueFloorAdjusted(Collection, TokenId);
         TokenFloorFactor[Collection][TokenId] = 0;
         RemoveTokenFromCollection(Collection, TokenId);
     }

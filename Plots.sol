@@ -289,6 +289,8 @@ contract PlotsCoreV1 {
         ListingsByCollection[_collection].pop();
     }
 
+    //add listing
+
     //add loan to a borrower and a lender with just the loan address IN ONE function
     function AddLoanToBorrowerAndLender(address Borrower, address Lender, address _loan) internal{
         AllUserLoans[Lender].push(_loan);

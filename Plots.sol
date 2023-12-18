@@ -51,7 +51,7 @@ contract PlotsCoreV1 {
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
     mapping(address => mapping(uint256 => bool)) public ListedBool;
     mapping(address => Listing[]) public ListingsByUser;
-    mapping(address => mapping(uint256 => uint256) public ListingsByUserIndex;
+    mapping(address => mapping(address => mapping(uint256 => uint256))) public ListingsByUserIndex;
 
     mapping(address => address[]) public AllUserLoans; //Outgoing loans
     mapping(address => mapping(address => uint256)) public AllUserLoansIndex;
@@ -290,7 +290,7 @@ contract PlotsCoreV1 {
     }
 
     //add listing to user
-    function AddListingToUser(address _user, Listing memory _listing) internal{
+    function AddListingToUser(address _user, address _collection, uint256 _tokenId, Listing memory _listing) internal{
         ListingsByUser[_user].push(_listing);
         ListingsByUserIndex[_user][_collection][_tokenId] = ListingsByUser[_user].length - 1;
     }

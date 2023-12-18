@@ -439,7 +439,19 @@ contract PlotsTreasuryV1{
 
     //internals
 
-    //add token to collec
+    //add token to collection array
+    function AddTokenToCollection(address Collection, uint256 TokenId) internal{
+        AllTokensByCollection[Collection].push(TokenId);
+        AllTokensByCollectionIndex[Collection][TokenId] = AllTokensByCollection[Collection].length - 1;
+    }
+
+    //remove token from collection array
+
+    function RemoveTokenFromCollection(address Collection, uint256 TokenId) internal{
+        AllTokensByCollection[Collection][AllTokensByCollectionIndex[Collection][TokenId]] = AllTokensByCollection[Collection][AllTokensByCollection[Collection].length - 1];
+        AllTokensByCollectionIndex[Collection][AllTokensByCollection[Collection][AllTokensByCollectionIndex[Collection][TokenId]]] = AllTokensByCollectionIndex[Collection][TokenId];
+        AllTokensByCollection[Collection].pop();
+    }
 
 
 

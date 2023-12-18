@@ -358,7 +358,7 @@ contract PlotsTreasuryV1{
     mapping(address => mapping(uint256 => uint256)) public TokenFloorFactor;
     mapping(address => mapping(uint256 => address)) public TokenLocation;
 
-    
+    //mapping of a list of all 
 
     mapping(address => uint256) public CollectionLockedValue;
 

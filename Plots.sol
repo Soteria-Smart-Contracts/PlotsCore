@@ -255,7 +255,8 @@ contract PlotsCoreV1 {
     }
 
     function GetUserListings(address _collection) public view returns(Listing[] memory){
-        //loop through all 
+        //loop through all collections and their listings, if the lister is msg.sender add it to the array
+        
     }
 
 

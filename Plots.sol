@@ -295,6 +295,13 @@ contract PlotsCoreV1 {
         ListingsByUserIndex[_user][_collection][_tokenId] = ListingsByUser[_user].length - 1;
     }
 
+    //remove listing from user
+    function RemoveListingFromUser(address _user, address _collection, uint256 _tokenId) internal{
+        ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]] = ListingsByUser[_user][ListingsByUser[_user].length - 1];
+        ListingsByUserIndex[_user][_collection][ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]].TokenId] = ListingsByUserIndex[_user][_collection][_tokenId];
+        ListingsByUser[_user].pop();
+    }
+
     //add loan to a borrower and a lender with just the loan address IN ONE function
     function AddLoanToBorrowerAndLender(address Borrower, address Lender, address _loan) internal{
         AllUserLoans[Lender].push(_loan);

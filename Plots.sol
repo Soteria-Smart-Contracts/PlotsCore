@@ -112,6 +112,7 @@ contract PlotsCoreV1 {
             require(PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
             require(PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract, "Token not in lending contract");
             PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
+            //remove 
         }
 
         FeeReceiver.transfer((TokenValue * 25) / 1000);

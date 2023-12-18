@@ -254,7 +254,7 @@ contract PlotsCoreV1 {
         return AllUserBorrows[_user];
     }
 
-    function GetUserListings(address _collection) public view returns(Listing[] memory){
+    function GetUserListings() public view returns(Listing[] memory){
         Listing[] memory _listings = new Listing[](ListingsByCollection[_collection].length);
         uint256 counter = 0;
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){

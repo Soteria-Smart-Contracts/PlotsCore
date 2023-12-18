@@ -289,13 +289,11 @@ contract PlotsCoreV1 {
         ListingsByCollection[_collection].pop();
     }
 
-    //add listing to user
     function AddListingToUser(address _user, address _collection, uint256 _tokenId, Listing memory _listing) internal{
         ListingsByUser[_user].push(_listing);
         ListingsByUserIndex[_user][_collection][_tokenId] = ListingsByUser[_user].length - 1;
     }
 
-    //remove listing from user
     function RemoveListingFromUser(address _user, address _collection, uint256 _tokenId) internal{
         ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]] = ListingsByUser[_user][ListingsByUser[_user].length - 1];
         ListingsByUserIndex[_user][_collection][ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]].TokenId] = ListingsByUserIndex[_user][_collection][_tokenId];

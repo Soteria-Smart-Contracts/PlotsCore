@@ -401,7 +401,7 @@ contract PlotsTreasuryV1{
         if(PlotsCoreV1(PlotsCoreContract).ListingsByCollectionIndex(Collection, TokenId) != 0){
             PlotsCoreV1(PlotsCoreContract).DelistToken(Collection, TokenId);
         }
-
+        
         TokenFloorFactor[Collection][TokenId] = 0;
         RemoveTokenFromCollection(Collection, TokenId);
     }

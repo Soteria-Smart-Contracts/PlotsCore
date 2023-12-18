@@ -392,7 +392,7 @@ contract PlotsTreasuryV1{
         TokenFloorFactor[Collection][TokenId] = ((EtherCost * 1000) / CollectionFloorPrice[Collection]);
 
         AddTokenToCollection(Collection, TokenId);
-        CollectionLockedValue[Collection] += GetTokenValueFloorAdjusted(Collection, TokenId);
+        CollectionLockedValue[Collection] += EtherCost;
     }
 
     //allow admin to withdraw nft from treasury

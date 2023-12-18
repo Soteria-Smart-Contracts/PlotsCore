@@ -437,6 +437,11 @@ contract PlotsTreasuryV1{
         TokenLocation[Collection][TokenID] = address(this);
     }
 
+    //internals
+
+
+
+    //views 
 
     function GetFloorPrice(address Collection) public view returns(uint256){
         return CollectionFloorPrice[Collection];

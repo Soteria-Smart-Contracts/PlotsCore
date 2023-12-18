@@ -256,7 +256,6 @@ contract PlotsCoreV1 {
 
     function GetUserListings() public view returns(Listing[] memory){
         //somehow get all listings by a user
-        
     }
 
 

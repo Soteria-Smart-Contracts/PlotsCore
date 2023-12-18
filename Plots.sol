@@ -467,7 +467,7 @@ contract PlotsTreasuryV1{
     function GetTotalValue() public view returns(uint256){
         uint256 TotalValue;
         address[] memory ListedCollections = PlotsCoreV1(PlotsCoreContract).ListedCollections();  
-        for(uint256 i = 0; i < ; i++){
+        for(uint256 i = 0; i < ListedCollections.length; i++){
             TotalValue += CollectionLockedValue[PlotsCoreV1(PlotsCoreContract).ListedCollections()[i]];
         }
         return TotalValue;

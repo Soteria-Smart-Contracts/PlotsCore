@@ -351,7 +351,6 @@ contract PlotsCoreV1 {
 contract PlotsTreasuryV1{
     //Variable and pointer Declarations
     address public PlotsCoreContract;
-    uint256 public TotalTreasuryEtherValue;
 
     //mapping of all collections to a floor price
     mapping(address => uint256) public CollectionFloorPrice;
@@ -401,7 +400,7 @@ contract PlotsTreasuryV1{
         if(PlotsCoreV1(PlotsCoreContract).ListingsByCollectionIndex(Collection, TokenId) != 0){
             PlotsCoreV1(PlotsCoreContract).DelistToken(Collection, TokenId);
         }
-        
+
         CollectionLockedValue[Collection] -= GetTokenValueFloorAdjusted(Collection, TokenId);
         TokenFloorFactor[Collection][TokenId] = 0;
         RemoveTokenFromCollection(Collection, TokenId);

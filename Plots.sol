@@ -351,6 +351,7 @@ contract PlotsCoreV1 {
 contract PlotsTreasuryV1{
     //Variable and pointer Declarations
     address public PlotsCoreContract;
+    uint256 public TotalTreasuryEtherValue;
 
     //mapping of all collections to a floor price
     mapping(address => uint256) public CollectionFloorPrice;

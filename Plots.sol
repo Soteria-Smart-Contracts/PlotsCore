@@ -231,7 +231,7 @@ contract PlotsCoreV1 {
         }
         else{
             require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == msg.sender, "Not owner of listing");
-            //
+            RemoveListingFromUser(msg.sender, Collection, TokenId);
         }
 
         RemoveListingFromCollection(Collection, TokenId);

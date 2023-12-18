@@ -453,8 +453,6 @@ contract PlotsTreasuryV1{
         AllTokensByCollection[Collection].pop();
     }
 
-
-
     //views 
 
     function GetFloorPrice(address Collection) public view returns(uint256){

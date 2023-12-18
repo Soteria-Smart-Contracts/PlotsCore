@@ -241,7 +241,7 @@ contract PlotsCoreV1 {
 
     //get list of all collections  
     function GetCollections() public view returns(Listing[] memory){
-        return ;
+        return 
     }
 
     function GetCollectionListings(address _collection) public view returns(Listing[] memory){

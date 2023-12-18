@@ -239,9 +239,7 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = false;
     }
 
-    function GetCollectionListings(address _collection) public view returns(Listing[] memory){
-        return ListingsByCollection[_collection];
-    }
+    //get list of all 
 
     function GetCollectionListings(address _collection) public view returns(Listing[] memory){
         return ListingsByCollection[_collection];

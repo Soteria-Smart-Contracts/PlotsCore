@@ -402,6 +402,7 @@ contract PlotsTreasuryV1{
         }
 
         TokenFloorFactor[Collection][TokenId] = 0;
+        RemoveTokenFromCollection(Collection, TokenId);
     }
 
     function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {

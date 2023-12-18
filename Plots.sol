@@ -473,7 +473,7 @@ contract PlotsTreasuryV1{
         uint256 TotalValue;
         address[] memory ListedCollections = PlotsCoreV1(PlotsCoreContract).GetCollections();  
         for(uint256 i = 0; i < ListedCollections.length; i++){
-            TotalValue += CollectionLockedValue[PlotsCoreV1(PlotsCoreContract).ListedCollections()[i]];
+            TotalValue += CollectionLockedValue[ListedCollections[i]];
         }
         return TotalValue;
     }

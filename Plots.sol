@@ -255,7 +255,15 @@ contract PlotsCoreV1 {
     }
 
     function GetUserListings(address _collection) public view returns(Listing[] memory){
-        
+        Listing[] memory _listings = new Listing[](ListingsByCollection[_collection].length);
+        uint256 counter = 0;
+        for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
+            if(ListingsByCollection[_collection][i].Lister == msg.sender){
+                _listings[counter] = ListingsByCollection[_collection][i];
+                counter++;
+            }
+        }
+        return _listings;        
     }
 
 

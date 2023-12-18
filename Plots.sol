@@ -421,7 +421,7 @@ contract PlotsTreasuryV1{
             require(PlotsCoreV1(PlotsCoreContract).ListedCollectionsMap(Collections[i]) == true, "Collection not listed");
             CollectionFloorPrice[Collections[i]] = FloorPrices[i];
 
-            //loop 
+            //loop through all tokens in collection and get their value floor adjusted, 
         }
     }
 

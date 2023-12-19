@@ -353,6 +353,8 @@ contract PlotsCoreV1 {
         delete ListedCollectionsIndex[_collection];
         delete ListedCollectionsMap[_collection];
     }
+
+    //function update payout tracker only 
 }
 
 contract PlotsTreasuryV1{

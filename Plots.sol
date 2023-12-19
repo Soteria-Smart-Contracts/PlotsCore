@@ -15,7 +15,7 @@ contract PlotsCoreV1 {
     address[] public AvailableLoanContracts;
     mapping(address => uint256) public AvailableLoanContractsIndex;
     mapping(address => bool) public IsLoanContract;
-    mapping(address => mapping())
+    mapping(address => mapping(address => uint256))
 
 
     enum ListingType{

@@ -259,7 +259,15 @@ contract PlotsCoreV1 {
         return ListedCollections;
     }
 
-    //get ownership by purchase, but if the
+    //get ownership by purchase, but if the loan is expired, return the owner of the token
+    function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
+        if(OwnershipByPurchase[Collection][TokenId] == address(0)){
+            return ERC721(Collection).ownerOf(TokenId);
+        }
+        else{
+            return OwnershipByPurchase[Collection][TokenId];
+        }
+    }
     
     function GetUserLoans(address _user) public view returns(address[] memory){
         return AllUserLoans[_user];

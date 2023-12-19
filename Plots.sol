@@ -270,7 +270,9 @@ contract PlotsCoreV1 {
         }
     }
 
-    
+    function GetRewardTokenClaimants(address Token) public view returns(address[] memory){
+        return RewardTokenClaimants[Token];
+    }
     
     function GetUserLoans(address _user) public view returns(address[] memory){
         return AllUserLoans[_user];

@@ -261,7 +261,7 @@ contract PlotsCoreV1 {
     }
 
     function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
-        LoanContractByToken[Collection][TokenId]
+        uint256 Expiry = LoanContractByToken[Collection][TokenId].
     }
     
     function GetUserLoans(address _user) public view returns(address[] memory){

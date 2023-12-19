@@ -17,8 +17,7 @@ contract PlotsCoreV1 {
     mapping(address => mapping(uint256 => address)) public LoanContractByToken;
     mapping(address => bool) public IsLoanContract;
     mapping(address => mapping(address => uint256)) RewardPayoutTracker;
-    //map a list of users to a reward token
-    mapping(address => address[]) public RewardTokensByUser;
+    mapping(address => address[]) public RewardTokenClaimants;
 
     enum ListingType{
         Ownership,

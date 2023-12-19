@@ -280,6 +280,7 @@ contract PlotsCoreV1 {
 
     function GetUserListings(address user) public view returns (Listing[] memory){
         return ListingsByUser[user];
+        at
     }
 
     function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory, uint256[] memory Prices){

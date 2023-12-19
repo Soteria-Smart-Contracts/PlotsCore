@@ -258,6 +258,8 @@ contract PlotsCoreV1 {
     function GetListedCollections() public view returns(address[] memory){
         return ListedCollections;
     }
+
+    //get ownership by purchase, but if the
     
     function GetUserLoans(address _user) public view returns(address[] memory){
         return AllUserLoans[_user];

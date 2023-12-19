@@ -355,6 +355,10 @@ contract PlotsCoreV1 {
     }
 
     //function update payout tracker only callable by loan contracts (isloancontract mapping), input for a user and a token
+    function UpdatePayoutTracker(address User, address Token) public{
+        require(IsLoanContract[msg.sender] == true, "Only Loan Contracts");
+        RewardPayoutTracker[User][Token] = block.timestamp;
+    }
 }
 
 contract PlotsTreasuryV1{

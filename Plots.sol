@@ -269,6 +269,8 @@ contract PlotsCoreV1 {
             return OwnershipByPurchase[Collection][TokenId];
         }
     }
+
+    
     
     function GetUserLoans(address _user) public view returns(address[] memory){
         return AllUserLoans[_user];

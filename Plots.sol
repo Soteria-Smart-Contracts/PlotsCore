@@ -354,7 +354,7 @@ contract PlotsCoreV1 {
         delete ListedCollectionsMap[_collection];
     }
 
-    //function update payout tracker only callable by loan contracts (is)
+    //function update payout tracker only callable by loan contracts (isloancontract mapping), input for a 
 }
 
 contract PlotsTreasuryV1{

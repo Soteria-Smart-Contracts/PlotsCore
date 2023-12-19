@@ -261,12 +261,7 @@ contract PlotsCoreV1 {
     }
 
     function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
-        if(OwnershipByPurchase[Collection][TokenId] == address(0)){
-            return ERC721(Collection).ownerOf(TokenId);
-        }
-        else{
-            return OwnershipByPurchase[Collection][TokenId];
-        }
+        LoanContractByToken[Collection][TokenId]
     }
     
     function GetUserLoans(address _user) public view returns(address[] memory){

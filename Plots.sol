@@ -18,8 +18,7 @@ contract PlotsCoreV1 {
     mapping(address => bool) public IsLoanContract;
     mapping(address => mapping(address => uint256)) RewardPayoutTracker;
     //map a list of users to a reward token
-    
-
+    mapping(address => address[]) public RewardTokensByUser;
 
     enum ListingType{
         Ownership,

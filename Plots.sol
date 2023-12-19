@@ -90,6 +90,7 @@ contract PlotsCoreV1 {
         }
         else{
             LoanContract = address(new NFTLoan());
+            IsLoanContract[LoanContract] = true;
         }
 
         uint256 TokenValue = 0;

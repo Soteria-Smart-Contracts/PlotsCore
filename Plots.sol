@@ -366,6 +366,12 @@ contract PlotsCoreV1 {
     //function update payout tracker only callable by loan contracts (isloancontract mapping), input for a user and a token and amount
     function UpdatePayoutTracker(address User, address Token, uint256 Amount) public{
         require(IsLoanContract[msg.sender] == true, "Only Loan Contracts");
+
+        if(RewardPayoutTracker[User][Token] == 0){
+            RewardTokenClaimants[Token].push(User);
+        }
+
+
         RewardPayoutTracker[User][Token] += Amount;
     }
 }

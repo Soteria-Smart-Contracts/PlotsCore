@@ -372,11 +372,11 @@ contract PlotsCoreV1 {
     function UpdatePayoutTracker(address User, address Token, uint256 Amount) public{
         require(IsLoanContract[msg.sender] == true, "Only Loan Contracts");
 
-        if(RewardPayoutTracker[User][Token] == 0){
+        if(BorrowerRewardPayoutTracker[User][Token] == 0){
             RewardTokenClaimants[Token].push(User);
         }
 
-        RewardPayoutTracker[User][Token] += Amount;
+        BorrowerRewardPayoutTracker[User][Token] += Amount;
     }
 }
 

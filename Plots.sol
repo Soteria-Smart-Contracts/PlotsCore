@@ -261,7 +261,13 @@ contract PlotsCoreV1 {
     }
 
     function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
-        uint256 Expiry = LoanLoanContractByToken[Collection][TokenId].
+        uint256 Expiry = NFTLoan(LoanContractByToken[Collection][TokenId]).LoanEndTime();
+        if(Expiry > block.timestamp){
+            return address(0);
+        }
+        else{
+            return OwnershipByPurchase[Collection][TokenId];
+        }
     }
     
     function GetUserLoans(address _user) public view returns(address[] memory){

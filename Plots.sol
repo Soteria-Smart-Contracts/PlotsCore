@@ -694,8 +694,8 @@ contract NFTLoan{
 
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;
 
-        PlotsCoreV1(Manager).UpdatePayoutTracker(Owner, RewardToken, OwnerReward);
-        PlotsCoreV1(Manager).UpdatePayoutTracker(Borrower, RewardToken, RewardBalance - OwnerReward);
+        PlotsCoreV1(Manager).UpdateOwnerPayoutTracker(Owner, RewardToken, OwnerReward);
+        PlotsCoreV1(Manager).UpdateBorrowerPayoutTracker(Borrower, RewardToken, RewardBalance - OwnerReward);
         
         ERC20(RewardToken).transfer(Owner, OwnerReward);
         ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));

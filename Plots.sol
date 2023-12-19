@@ -14,6 +14,7 @@ contract PlotsCoreV1 {
     mapping(OwnershipPercent => uint8) public OwnershipPercentages;
     address[] public AvailableLoanContracts;
     mapping(address => uint256) public AvailableLoanContractsIndex;
+    mapping()
     mapping(address => bool) public IsLoanContract;
     mapping(address => mapping(address => uint256)) RewardPayoutTracker;
 

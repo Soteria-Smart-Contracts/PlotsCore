@@ -445,15 +445,12 @@ contract PlotsTreasuryV1{
         CollectionLockedValue[Collection] += EtherCost;
     }
 
-    //allow admin to deposit multiple nfts into treasury
     function DepositNFTs(address[] memory Collections, uint256[] memory TokenIds, uint256[] memory EtherCosts) public OnlyAdmin {
         require(Collections.length == TokenIds.length && Collections.length == EtherCosts.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
             DepositNFT(Collections[i], TokenIds[i], EtherCosts[i]);
         }
     }
-
-    //allow admin to withdraw nft from treasury
 
     function WithdrawNFT(address Collection, uint256 TokenId) public OnlyAdmin {
         require(ERC721(Collection).ownerOf(TokenId) == address(this), "Not owner of token");
@@ -468,6 +465,8 @@ contract PlotsTreasuryV1{
         TokenFloorFactor[Collection][TokenId] = 0;
         RemoveTokenFromCollection(Collection, TokenId);
     }
+
+    
 
     function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {
         require(address(this).balance >= Amount, "Not enough ether in treasury");

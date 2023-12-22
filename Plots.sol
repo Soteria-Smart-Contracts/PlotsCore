@@ -254,7 +254,11 @@ contract PlotsCoreV1 {
     function GetCollectionListings(address _collection) public view returns(Listing[] memory){
         return ListingsByCollection[_collection];
     }
-    
+
+    //get listedbool for a token
+    function Is(address Collection, uint256 TokenId) public view returns(bool){
+        return ListedBool[Collection][TokenId];
+    }
 
     function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
         return ListingsByCollection[_collection][_tokenId];

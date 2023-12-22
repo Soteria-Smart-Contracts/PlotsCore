@@ -581,6 +581,8 @@ contract PlotsLendV1{
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
     }
 
+    
+
     function WithdrawToken(address Collection, uint256 TokenId) public{
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
         require(TokenLocation[Collection][TokenId] == address(this), "Token not in lending contract");

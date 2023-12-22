@@ -581,7 +581,12 @@ contract PlotsLendV1{
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
     }
 
-    
+    function DepositTokens(address[] memory Collections, uint256[] memory TokenIds) public{
+        require(Collections.length == TokenIds.length, "Arrays not same length");
+        for(uint256 i = 0; i < Collections.length; i++){
+            DepositToken(Collections[i], TokenIds[i]);
+        }
+    }
 
     function WithdrawToken(address Collection, uint256 TokenId) public{
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");

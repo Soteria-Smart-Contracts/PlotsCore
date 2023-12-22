@@ -255,8 +255,7 @@ contract PlotsCoreV1 {
         return ListingsByCollection[_collection];
     }
 
-    //get listedbool for a token
-    function Is(address Collection, uint256 TokenId) public view returns(bool){
+    function IsListed(address Collection, uint256 TokenId) public view returns(bool){
         return ListedBool[Collection][TokenId];
     }
 

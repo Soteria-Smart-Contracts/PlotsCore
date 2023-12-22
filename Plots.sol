@@ -466,7 +466,12 @@ contract PlotsTreasuryV1{
         RemoveTokenFromCollection(Collection, TokenId);
     }
 
-    
+    function WithdrawNFTs(address[] memory Collections, uint256[] memory TokenIds) public OnlyAdmin {
+        require(Collections.length == TokenIds.length, "Arrays not same length");
+        for(uint256 i = 0; i < Collections.length; i++){
+            WithdrawNFT(Collections[i], TokenIds[i]);
+        }
+    }
 
     function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {
         require(address(this).balance >= Amount, "Not enough ether in treasury");

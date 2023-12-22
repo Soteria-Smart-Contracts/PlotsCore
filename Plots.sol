@@ -313,6 +313,8 @@ contract PlotsCoreV1 {
         ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]] = ListingsByCollection[_collection][ListingsByCollection[_collection].length - 1];
         ListingsByCollectionIndex[_collection][ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]].TokenId] = ListingsByCollectionIndex[_collection][_tokenId];
         ListingsByCollection[_collection].pop();
+
+        ListingsByCollectionIndex[_collection][_tokenId] = 0;
     }
 
     function AddListingToUser(address _user, address _collection, uint256 _tokenId, Listing memory _listing) internal{
@@ -324,6 +326,8 @@ contract PlotsCoreV1 {
         ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]] = ListingsByUser[_user][ListingsByUser[_user].length - 1];
         ListingsByUserIndex[_user][_collection][ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]].TokenId] = ListingsByUserIndex[_user][_collection][_tokenId];
         ListingsByUser[_user].pop();
+
+        ListingsByUserIndex[_user][_collection][_tokenId] = 0;
     }
 
     //add loan to a borrower and a lender with just the loan address IN ONE function

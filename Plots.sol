@@ -344,12 +344,12 @@ contract PlotsCoreV1 {
         AllUserLoans[Lender][AllUserLoansIndex[Lender][_loan]] = AllUserLoans[Lender][AllUserLoans[Lender].length - 1];
         AllUserLoansIndex[Lender][AllUserLoans[Lender][AllUserLoansIndex[Lender][_loan]]] = AllUserLoansIndex[Lender][_loan];
         AllUserLoans[Lender].pop();
-        //reset index
         AllUserLoansIndex[Lender][_loan] = 0;
 
         AllUserBorrows[Borrower][AllUserBorrowsIndex[Borrower][_loan]] = AllUserBorrows[Borrower][AllUserBorrows[Borrower].length - 1];
         AllUserBorrowsIndex[Borrower][AllUserBorrows[Borrower][AllUserBorrowsIndex[Borrower][_loan]]] = AllUserBorrowsIndex[Borrower][_loan];
         AllUserBorrows[Borrower].pop();
+        AllUserBorrowsIndex[Borrower][_loan] = 0;
     }
 
     function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{

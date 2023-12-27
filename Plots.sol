@@ -604,6 +604,7 @@ contract PlotsLendV1{
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         //handle if listed
+        
 
         TokenDepositor[Collection][TokenId] = address(0);
         TokenLocation[Collection][TokenId] = address(0);

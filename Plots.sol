@@ -605,7 +605,7 @@ contract PlotsLendV1{
 
         // if listed revert
         if(PlotsCoreV1(PlotsCoreContract).IsListed(Collection, TokenId) == true){
-            PlotsCoreV1(PlotsCoreContract).DelistToken(Collection, TokenId);
+            revert();
         }
 
         TokenDepositor[Collection][TokenId] = address(0);

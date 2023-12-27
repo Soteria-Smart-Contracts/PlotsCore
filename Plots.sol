@@ -438,7 +438,6 @@ contract PlotsTreasuryV1{
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
-        //calculate floor factor
         TokenFloorFactor[Collection][TokenId] = ((EtherCost * 1000) / CollectionFloorPrice[Collection]);
 
         AddTokenToCollection(Collection, TokenId);
@@ -489,7 +488,6 @@ contract PlotsTreasuryV1{
             require(PlotsCoreV1(PlotsCoreContract).ListedCollectionsMap(Collections[i]) == true, "Collection not listed");
             CollectionFloorPrice[Collections[i]] = FloorPrices[i];
 
-            //reset the collection locked value, then loop through all tokens in collection and get their value floor adjusted, add it to the collection locked value
             CollectionLockedValue[Collections[i]] = 0;
             for(uint256 j = 0; j < AllTokensByCollection[Collections[i]].length; j++){
                 CollectionLockedValue[Collections[i]] += GetTokenValueFloorAdjusted(Collections[i], AllTokensByCollection[Collections[i]][j]);
@@ -604,6 +602,8 @@ contract PlotsLendV1{
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
         require(TokenLocation[Collection][TokenId] == address(this), "Token not in lending contract");
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
+
+        //handle if listed
 
         TokenDepositor[Collection][TokenId] = address(0);
         TokenLocation[Collection][TokenId] = address(0);

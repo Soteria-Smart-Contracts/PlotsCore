@@ -603,8 +603,9 @@ contract PlotsLendV1{
         require(TokenLocation[Collection][TokenId] == address(this), "Token not in lending contract");
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
-        //handle if listed
+        // if listed revert
         
+
 
         TokenDepositor[Collection][TokenId] = address(0);
         TokenLocation[Collection][TokenId] = address(0);

@@ -604,8 +604,9 @@ contract PlotsLendV1{
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         // if listed revert
-        
-
+        if(PlotsCoreV1(PlotsCoreContract).IsListed(Collection, TokenId) == true){
+            PlotsCoreV1(PlotsCoreContract).DelistToken(Collection, TokenId);
+        }
 
         TokenDepositor[Collection][TokenId] = address(0);
         TokenLocation[Collection][TokenId] = address(0);

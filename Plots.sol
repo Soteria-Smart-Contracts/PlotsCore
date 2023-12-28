@@ -494,7 +494,7 @@ contract PlotsTreasuryV1{
     }
 
     function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {
-        require(address(this).balance >= Amount, "Not enough ether in treasury");
+        require(address(this).balance - PlotsCoreV1 >= Amount, "Not enough ether in treasury");
         Recipient.transfer(Amount);
     }
 

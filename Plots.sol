@@ -450,7 +450,8 @@ contract PlotsTreasuryV1{
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Value = (Amount * VLNDPrice) / 10 ** 18;
 
-        
+        require((address(this).balance - PlotsCoreV1(PlotsCoreContract).LockedValue()) >= Value, "Not enough ether in treasury");
+
         ERC20(VLND).transferFrom(msg.sender, address(this), Amount);
         payable(msg.sender).transfer(Value);
     }

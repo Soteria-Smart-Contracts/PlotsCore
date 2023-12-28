@@ -449,6 +449,8 @@ contract PlotsTreasuryV1{
     function SellVLND(uint256 Amount) public{
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Value = (Amount * VLNDPrice) / 10 ** 18;
+
+        
         ERC20(VLND).transferFrom(msg.sender, address(this), Amount);
         payable(msg.sender).transfer(Value);
     }

@@ -606,10 +606,12 @@ contract PlotsLendV1{
 
         TokenDepositor[Collection][TokenId] = address(0);
         TokenLocation[Collection][TokenId] = address(0);
-        
-        AllUserTokens[msg.sender][AllUserTokensIndex[msg.sender][Collection][TokenId]] = AllUserTokens[msg.sender][AllUserTokens[msg.sender].length - 1];
+
+        uint256 lastIndex = AllUserTokens[msg.sender].length - 1;
+        uint256 currentIndex = AllUserTokensIndex[msg.sender][Collection][TokenId];
+        AllUserTokens[msg.sender][currentIndex] = AllUserTokens[msg.sender][lastIndex];
         AllUserTokens[msg.sender].pop();
-        AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][AllUserTokensIndex[msg.sender][Collection][TokenId]].TokenId] = AllUserTokensIndex[msg.sender][Collection][TokenId];
+        AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][currentIndex].TokenId] = currentIndex;
         AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
     }
 

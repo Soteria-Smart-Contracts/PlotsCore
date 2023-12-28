@@ -435,7 +435,12 @@ contract PlotsTreasuryV1{
 
     //buy and sell vlnd functions starting next line
 
-    
+    //buy vlnd
+    function BuyVLND() public payable{
+        uint256 VLNDPrice = GetVLNDPrice();
+        uint256 Amount = (msg.value * 10 ** 18) / VLNDPrice;
+        ERC20(VLND).transfer(msg.sender, Amount);
+    }
 
 
     //allow admin to deposit nft into treasury

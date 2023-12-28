@@ -604,7 +604,7 @@ contract PlotsLendV1{
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         // if listed revert
-        require(!PlotsCoreV1(PlotsCoreContract).IsListed(Collection, TokenId));
+        require(!PlotsCoreV1(PlotsCoreContract).IsListed(Collection, TokenId), "Token sho listed");
     
 
         TokenDepositor[Collection][TokenId] = address(0);

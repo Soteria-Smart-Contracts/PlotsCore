@@ -603,9 +603,6 @@ contract PlotsLendV1{
         require(TokenLocation[Collection][TokenId] == address(this), "Token not in lending contract");
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
-        // if listed revert
-        require(!PlotsCoreV1(PlotsCoreContract).IsListed(Collection, TokenId), "Token should not be listed");
-
         TokenDepositor[Collection][TokenId] = address(0);
         TokenLocation[Collection][TokenId] = address(0);
         AllUserTokens[msg.sender][AllUserTokensIndex[msg.sender][Collection][TokenId]] = AllUserTokens[msg.sender][AllUserTokens[msg.sender].length - 1];

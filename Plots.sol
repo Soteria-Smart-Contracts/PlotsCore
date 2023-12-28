@@ -556,11 +556,7 @@ contract PlotsTreasuryV1{
     }
 
     //get the price of VLND in ether by dividing the total value of the treasury by the circulating supply of vlnd whcih is all vlnd minus the vlnd in the treasury
-    function GetVLNDPrice() public view returns(uint256){
-        uint256 TotalValue = GetTotalValue();
-        uint256 CirculatingSupply = ERC20(VLND).totalSupply() - ERC20(VLND).balanceOf(address(this));
-        return(TotalValue / CirculatingSupply);
-    }
+    
 
     receive() external payable{}
 

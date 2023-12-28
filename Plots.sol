@@ -433,6 +433,8 @@ contract PlotsTreasuryV1{
         PlotsCoreContract = Core;
     }
 
+    //buy and sell 
+
     //allow admin to deposit nft into treasury
     function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public OnlyAdmin {
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");

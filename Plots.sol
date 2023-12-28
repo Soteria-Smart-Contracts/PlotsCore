@@ -610,9 +610,7 @@ contract PlotsLendV1{
         uint256 lastIndex = AllUserTokens[msg.sender].length - 1;
         uint256 currentIndex = AllUserTokensIndex[msg.sender][Collection][TokenId];
 
-        require(currentIndex < AllUserTokens[msg.sender].length, "Token does not exist");
-
-        if (currentIndex != lastIndex) {
+        if(currentIndex != lastIndex) {
             AllUserTokens[msg.sender][currentIndex] = AllUserTokens[msg.sender][lastIndex];
             AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][currentIndex].TokenId] = currentIndex;
         }

@@ -157,7 +157,8 @@ contract PlotsCoreV1 {
             CollateralValue = (PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
             NFTLoan(LoanContract).EndLoan(Treasury);
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
-            payable(Borrower).transfer(CollateralValue);
+            PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
+
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
             OwnershipPercentage = 25;
@@ -416,6 +417,7 @@ contract PlotsTreasuryV1{
 
     mapping(address => uint256) public CollectionLockedValue;
 
+
     modifier OnlyCore(){
         require(msg.sender == address(PlotsCoreContract), "Only Core");
         _;
@@ -538,7 +540,7 @@ contract PlotsTreasuryV1{
         for(uint256 i = 0; i < ListedCollections.length; i++){
             TotalValue += CollectionLockedValue[ListedCollections[i]];
         }
-        TotalValue += (address(this).balance - LockedEther);
+        TotalValue += address(this).balance;
         return TotalValue;
     }
 

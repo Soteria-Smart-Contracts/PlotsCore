@@ -549,7 +549,7 @@ contract PlotsTreasuryV1{
         return((CollectionFloorPrice[Collection] * TokenFloorFactor[Collection][TokenId]) / 1000);
     }
 
-    //get the price of VLND in 
+    //get the price of VLND in ether by 
 
     receive() external payable{}
 

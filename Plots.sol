@@ -112,6 +112,9 @@ contract PlotsCoreV1 {
             }
             require(msg.value >= BorrowCost, "Not enough ether sent");
             PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
+
+            FeeReceiver.transfer((TokenValue * 25) / 1000);
+            payable(Treasury).transfer(address(this).balance);
         }
         else{
             require(Ownership == OwnershipPercent.Zero, "Ownership must be zero");
@@ -119,9 +122,6 @@ contract PlotsCoreV1 {
             PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
             RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         }
-
-        FeeReceiver.transfer((TokenValue * 25) / 1000);
-        payable(Treasury).transfer(address(this).balance);
 
         LoanContractByToken[Collection][TokenId] = LoanContract;
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, LoanContract);

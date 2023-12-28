@@ -436,16 +436,12 @@ contract PlotsTreasuryV1{
         PlotsCoreContract = Core;
     }
 
-    //buy and sell vlnd functions starting next line
-
-    //buy vlnd
     function BuyVLND() public payable{
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Amount = (msg.value / VLNDPrice) * 10**18;
         ERC20(VLND).transfer(msg.sender, Amount);
     }
 
-    //sell vlnd
     function SellVLND(uint256 Amount) public{
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Value = (Amount * VLNDPrice) / 10 ** 18;

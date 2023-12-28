@@ -561,7 +561,7 @@ contract PlotsTreasuryV1{
         for(uint256 i = 0; i < ListedCollections.length; i++){
             TotalValue += CollectionLockedValue[ListedCollections[i]];
         }
-        TotalValue += address(this).balance;
+        TotalValue += (address(this).balance - PlotsCoreV1(PlotsCoreContract).LockedValue());
         return TotalValue;
     }
 

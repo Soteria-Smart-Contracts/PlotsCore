@@ -157,7 +157,7 @@ contract PlotsCoreV1 {
             CollateralValue = (PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
             NFTLoan(LoanContract).EndLoan(Treasury);
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
-            PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
+            payable(Borrower).transfer( CollateralValue);
 
         }
         else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){

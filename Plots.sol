@@ -433,7 +433,8 @@ contract PlotsTreasuryV1{
         PlotsCoreContract = Core;
     }
 
-    //buy and sell 
+    //buy and sell vlnd functions
+    
 
     //allow admin to deposit nft into treasury
     function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public OnlyAdmin {

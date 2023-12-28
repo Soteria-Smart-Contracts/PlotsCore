@@ -494,7 +494,6 @@ contract PlotsTreasuryV1{
     }
 
     function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {
-        //require amount is less than balance minus locked value
         require((address(this).balance - PlotsCoreV1(PlotsCoreContract).LockedValue()) >= Amount, "Not enough ether in treasury");
         Recipient.transfer(Amount);
     }

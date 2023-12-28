@@ -405,7 +405,7 @@ contract PlotsCoreV1 {
 contract PlotsTreasuryV1{
     //Variable and pointer Declarations
     address public PlotsCoreContract;
-    a
+    address public VLND;
 
     //mapping of all collections to a floor price
     mapping(address => uint256) public CollectionFloorPrice;

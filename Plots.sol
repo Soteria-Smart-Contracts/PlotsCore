@@ -559,6 +559,7 @@ contract PlotsTreasuryV1{
     function GetVLNDPrice() public view returns(uint256){
         uint256 TotalValue = GetTotalValue();
         uint256 VLNDInCirculation = ERC20(VLND).totalSupply() - ERC20(VLND).balanceOf(address(this));
+        
         return(TotalValue / VLNDInCirculation);
     }
     

@@ -193,7 +193,7 @@ contract PlotsCoreV1 {
         else if(CurrentOwnership == OwnershipPercent.TwentyFive){
             //15% Inclusive of a 1% fee
             CollateralValueChange = (CurrentValue * 14) / 100;
-            PlotsTreasuryV1(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
+            payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
         }
 
         NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);

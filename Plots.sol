@@ -609,9 +609,15 @@ contract PlotsLendV1{
 
         uint256 lastIndex = AllUserTokens[msg.sender].length - 1;
         uint256 currentIndex = AllUserTokensIndex[msg.sender][Collection][TokenId];
+
+        require(currentIndex < AllUserTokens[msg.sender].length, "Token does not exist");
+
         AllUserTokens[msg.sender][currentIndex] = AllUserTokens[msg.sender][lastIndex];
         AllUserTokens[msg.sender].pop();
-        AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][currentIndex].TokenId] = currentIndex;
+
+        if (currentIndex < AllUserTokens[msg.sender].length) {
+            AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][currentIndex].TokenId] = currentIndex;
+        }
         AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
     }
 

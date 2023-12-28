@@ -435,7 +435,6 @@ contract PlotsTreasuryV1{
 
     //buy and sell vlnd functions
 
-    //buy vlnd function, only callable by the core contract, input for a user and an amount
 
     //allow admin to deposit nft into treasury
     function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public OnlyAdmin {

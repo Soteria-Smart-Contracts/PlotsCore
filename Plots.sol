@@ -555,7 +555,8 @@ contract PlotsTreasuryV1{
         return((CollectionFloorPrice[Collection] * TokenFloorFactor[Collection][TokenId]) / 1000);
     }
 
-    //get the price of VLND in ether by dividing the total value of the treasury by the circulating supply of vlnd whcih is all vlnd minus the vlnd in the treasury, to get an exchange rate and avoid overflow, get the price of an entire vlnd
+    //get the price of VLND in ether by dividing the total value of the treasury by the circulating supply of vlnd whcih is all vlnd minus the vlnd in the treasury, to get an exchange rate and avoid overflow, get the price of an entire vlnd and not just one wei
+    
     
 
     receive() external payable{}

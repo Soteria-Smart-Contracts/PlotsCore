@@ -495,7 +495,10 @@ contract PlotsTreasuryV1{
         }
     }
 
-    //allow admin to set the vlnd token address but only once
+    function SetVLND(address _vlnd) public OnlyAdmin{
+        require(VLND == address(0), "VLND already set");
+        VLND = _vlnd;
+    }
 
     //OnlyCore Functions
 

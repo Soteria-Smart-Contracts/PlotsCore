@@ -442,6 +442,14 @@ contract PlotsTreasuryV1{
         ERC20(VLND).transfer(msg.sender, Amount);
     }
 
+    //sell vlnd
+    function SellVLND(uint256 Amount) public{
+        uint256 VLNDPrice = GetVLNDPrice();
+        uint256 Value = (Amount * VLNDPrice) / 10 ** 18;
+        ERC20(VLND).transferFrom(msg.sender, address(this), Amount);
+        payable(msg.sender).transfer(Value);
+    }
+
 
     //allow admin to deposit nft into treasury
     function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public OnlyAdmin {

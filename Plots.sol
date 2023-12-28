@@ -540,7 +540,7 @@ contract PlotsTreasuryV1{
         for(uint256 i = 0; i < ListedCollections.length; i++){
             TotalValue += CollectionLockedValue[ListedCollections[i]];
         }
-        //add any ether 
+        TotalValue += address(this).balance;
         return TotalValue;
     }
 

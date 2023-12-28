@@ -116,6 +116,7 @@ contract PlotsCoreV1 {
 
             FeeReceiver.transfer((TokenValue * 25) / 1000);
             payable(Treasury).transfer(address(this).balance);
+            Lock
         }
         else{
             require(Ownership == OwnershipPercent.Zero, "Ownership must be zero");

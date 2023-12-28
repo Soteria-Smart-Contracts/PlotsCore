@@ -549,6 +549,8 @@ contract PlotsTreasuryV1{
         return((CollectionFloorPrice[Collection] * TokenFloorFactor[Collection][TokenId]) / 1000);
     }
 
+    //
+
     receive() external payable{}
 
 }

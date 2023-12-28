@@ -7,6 +7,7 @@ contract PlotsCoreV1 {
     address payable public Treasury;
     address payable public FeeReceiver;
     uint256 public CurrentRewardFee;
+    uint256 public LockedValue;
     address public LendContract;
     address[] public ListedCollections;
     mapping(address => bool) public ListedCollectionsMap;

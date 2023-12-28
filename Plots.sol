@@ -495,6 +495,8 @@ contract PlotsTreasuryV1{
         }
     }
 
+    
+
     //OnlyCore Functions
 
     function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external OnlyCore{

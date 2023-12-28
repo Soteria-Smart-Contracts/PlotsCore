@@ -601,6 +601,8 @@ contract PlotsLendV1{
     function WithdrawToken(address Collection, uint256 TokenId) public{
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
         require(TokenLocation[Collection][TokenId] == address(this), "Token not in lending contract");
+        require(!PlotsCoreV1(PlotsCoreContract).IsListed(Collection, TokenId), "Token should not be listed");
+
         ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         TokenDepositor[Collection][TokenId] = address(0);

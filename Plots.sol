@@ -495,7 +495,7 @@ contract PlotsTreasuryV1{
         }
     }
 
-    
+    //allow admin to set the vlnd token address but only once
 
     //OnlyCore Functions
 

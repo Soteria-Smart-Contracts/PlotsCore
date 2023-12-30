@@ -48,6 +48,7 @@ contract PlotsCoreV1 {
     struct Payout{
         address Token;
         uint256 Amount;
+        uint256 Time;
     }
 
     mapping(address => bool) public Admins;

@@ -398,7 +398,7 @@ contract PlotsCoreV1 {
             RewardTokenClaimants[Token].push(User);
         }
 
-        RewardTokenPayouts[User].push(Payout(Token, Amount));
+        RewardTokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
 
         BorrowerRewardPayoutTracker[User][Token] += Amount;
     }
@@ -410,7 +410,7 @@ contract PlotsCoreV1 {
             RewardTokenClaimants[Token].push(User);
         }
 
-        RewardTokenPayouts[User].push(Payout(Token, Amount));
+        RewardTokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
 
         OwnerRewardPayoutTracker[User][Token] += Amount;
     }

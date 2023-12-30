@@ -257,7 +257,12 @@ contract PlotsCoreV1 {
     }
 
     //claim multiple rewards at once function, input an array of loan contracts and reward tokens
-    
+    function ClaimRewards(address[] memory LoanContracts, address[] memory RewardTokens) public{
+        require(LoanContracts.length == RewardTokens.length, "Arrays not same length");
+        for(uint256 i = 0; i < LoanContracts.length; i++){
+            ClaimReward(LoanContracts[i], RewardTokens[i]);
+        }
+    }
 
     //get list of all collections  
     function GetCollections() public view returns(address[] memory){

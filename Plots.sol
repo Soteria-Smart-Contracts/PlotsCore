@@ -791,7 +791,26 @@ contract NFTLoan{
     }
 
     //create a view function that will return the unclaimed reward tokens for a user with the output depending on if the user is the owner or borrower, in a similar fashion to dispense rewards
-    
+    function GetUnclaimedRewards(address RewardToken, address User) public view returns(uint256){
+        uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
+        if(RewardBalance == 0){
+            return 0;
+        }
+        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).CurrentRewardFee()) / 10000;
+        RewardBalance -= Fee;
+
+        uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;
+
+        if(User == Owner){
+            return OwnerReward;
+        }
+        else if(User == Borrower){
+            return RewardBalance - OwnerReward;
+        }
+        else{
+            return 0;
+        }
+    }
 
     //update borrower reward share (only manager)
     function UpdateBorrowerRewardShare(PlotsCoreV1.OwnershipPercent Ownership) public OnlyManager {

@@ -260,7 +260,7 @@ contract PlotsCoreV1 {
     function ClaimRewards(address[] memory LoanContracts, address[] memory RewardTokens) public{
         require(LoanContracts.length == RewardTokens.length, "Arrays not same length");
         for(uint256 i = 0; i < LoanContracts.length; i++){
-            NFTLoan(LoanContracts[] ClaimReward(LoanContracts[i], RewardTokens[i]);
+            NFTLoan(LoanContracts[i]).ClaimReward(LoanContracts[i], RewardTokens[i]);
         }
     }
 

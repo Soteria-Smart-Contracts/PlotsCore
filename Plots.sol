@@ -397,7 +397,7 @@ contract PlotsCoreV1 {
             RewardTokenClaimants[Token].push(User);
         }
 
-        //push 
+        //push payout to user payout history
 
         BorrowerRewardPayoutTracker[User][Token] += Amount;
     }

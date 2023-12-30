@@ -790,7 +790,7 @@ contract NFTLoan{
         ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));
     }
 
-    //create a view function that will return the unclaimed reward tokens for a user by c
+    //create a view function that will return the unclaimed reward tokens for a user 
 
     //update borrower reward share (only manager)
     function UpdateBorrowerRewardShare(PlotsCoreV1.OwnershipPercent Ownership) public OnlyManager {

@@ -409,6 +409,8 @@ contract PlotsCoreV1 {
             RewardTokenClaimants[Token].push(User);
         }
 
+        RewardTokenPayouts[User].push(Payout(Token, Amount));
+
         OwnerRewardPayoutTracker[User][Token] += Amount;
     }
 }

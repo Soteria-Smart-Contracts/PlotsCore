@@ -20,7 +20,7 @@ contract PlotsCoreV1 {
     mapping(address => mapping(address => uint256)) BorrowerRewardPayoutTracker;
     mapping(address => mapping(address => uint256)) OwnerRewardPayoutTracker;
     mapping(address => address[]) public RewardTokenClaimants;
-    ma
+    mapping(address =>)
 
     enum ListingType{
         Ownership,
@@ -44,6 +44,8 @@ contract PlotsCoreV1 {
         uint256 TokenId;
         ListingType OwnershipOption;
     }
+
+    struct
 
     mapping(address => bool) public Admins;
     modifier OnlyAdmin(){

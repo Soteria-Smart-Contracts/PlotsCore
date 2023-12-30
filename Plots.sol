@@ -256,7 +256,7 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = false;
     }
 
-    //cl
+    //claim multiple rewards at once function, ju
 
     //get list of all collections  
     function GetCollections() public view returns(address[] memory){

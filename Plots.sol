@@ -20,7 +20,7 @@ contract PlotsCoreV1 {
     mapping(address => mapping(address => uint256)) BorrowerRewardPayoutTracker;
     mapping(address => mapping(address => uint256)) OwnerRewardPayoutTracker;
     mapping(address => address[]) public RewardTokenClaimants;
-    ma
+    mapping(address => mapping(address => uint256)) public RewardTokenClaimantsIndex;                                       
 
     enum ListingType{
         Ownership,

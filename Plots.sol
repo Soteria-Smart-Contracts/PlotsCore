@@ -602,7 +602,6 @@ contract PlotsTreasuryV1{
         return(TotalValue / VLNDInCirculation);
     }
     
-
     receive() external payable{}
 
 }

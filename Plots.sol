@@ -602,7 +602,10 @@ contract PlotsTreasuryV1{
         return(TotalValue / VLNDInCirculation);
     }
 
-    //get vlnd price in ether
+    //get vlnd in circulation by subtracting the vlnd in the treasury from the total supply
+    function GetVLNDInCirculation() public view returns(uint256){
+        return(ERC20(VLND).totalSupply() - ERC20(VLND).balanceOf(address(this)));
+    }
     
     receive() external payable{}
 

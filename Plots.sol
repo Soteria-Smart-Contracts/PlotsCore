@@ -73,8 +73,8 @@ contract PlotsCoreV1 {
 
 
     constructor(address [] memory _admins, address payable _feeReceiver){
-        Treasury =  payable(new PlotsTreasuryV1(address(this)));
-        LendContract = address(new PlotsLendV1(address(this)));
+        Treasury =  payable(new PlotsTreasuryV1());
+        LendContract = address(new PlotsLendV1());
         FeeReceiver = _feeReceiver;
 
         for(uint256 i = 0; i < _admins.length; i++){
@@ -452,8 +452,8 @@ contract PlotsTreasuryV1{
         _;
     }
 
-    constructor(address Core){
-        PlotsCoreContract = Core;
+    constructor(){
+        PlotsCoreContract = msg.sender;
     }
 
     function BuyVLND() public payable{
@@ -616,9 +616,8 @@ contract PlotsLendV1{
     //Variable and pointer Declarations
     address public PlotsCoreContract;
 
-    constructor(address Core){
-        PlotsCoreContract = Core;
-        
+    constructor(){
+        PlotsCoreContract = msg.sender;
     }
 
     struct Token{

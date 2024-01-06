@@ -601,6 +601,8 @@ contract PlotsTreasuryV1{
 
         return(TotalValue / VLNDInCirculation);
     }
+
+    //get vlnd price in ether
     
     receive() external payable{}
 

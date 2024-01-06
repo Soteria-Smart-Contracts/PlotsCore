@@ -299,6 +299,10 @@ contract PlotsCoreV1 {
     function GetRewardTokenClaimants(address Token) public view returns(address[] memory){
         return RewardTokenClaimants[Token];
     }
+
+    function GetRewardTokenPayouts(address User) public view returns(Payout[] memory){
+        return RewardTokenPayouts[User];
+    }
     
     function GetUserLoans(address _user) public view returns(address[] memory){
         return AllUserLoans[_user];

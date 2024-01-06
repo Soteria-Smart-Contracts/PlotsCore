@@ -189,6 +189,7 @@ contract PlotsCoreV1 {
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {
         require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
+        //require that the loan is not 
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
         require(OwnershipPercentages[Ownership] != 0, "Ownership not available");
         require(CurrentOwnership != Ownership, "Ownership already set to this");

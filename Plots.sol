@@ -837,6 +837,8 @@ contract NFTLoan{
 
         BorrowerRewardShare = 0;
 
+        OwnershipType = Ownership;
+
         if(Ownership == PlotsCoreV1.OwnershipPercent.Ten){
             BorrowerRewardShare = 5000;
         }

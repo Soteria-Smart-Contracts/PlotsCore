@@ -4,7 +4,7 @@ pragma solidity 0.8.19;
 
 contract PlotsCoreV1 {
     //Variable and pointer Declarations
-    address payable public Treasury;
+    address payable public immutable Treasury;
     address payable public FeeReceiver;
     uint256 public CurrentRewardFee;
     uint256 public LockedValue;

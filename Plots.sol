@@ -465,9 +465,11 @@ contract PlotsTreasuryV1{
     function BuyVLND() public payable{
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Amount = (msg.value * 10**18) / VLNDPrice;
+
+        require(Amount >= 1, "Minimum amount not met");
+
         ERC20(VLND).transfer(msg.sender, Amount);
     }
-
     function SellVLND(uint256 Amount) public{
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Value = (Amount * VLNDPrice) / 10 ** 18;

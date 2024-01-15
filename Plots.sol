@@ -110,7 +110,7 @@ contract PlotsCoreV1 {
         
         if(ListingsByCollection[Collection][TokenIndex].OwnershipOption == ListingType.Ownership){
             TokenValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
-            uint256 Fee = (TokenValue * 25) / 1000;
+            uint256 Fee = (TokenValue * 20) / 1000;
             uint256 BorrowCost = Fee;
             if(Ownership == OwnershipPercent.Ten){
                 BorrowCost += (TokenValue * 10) / 100;

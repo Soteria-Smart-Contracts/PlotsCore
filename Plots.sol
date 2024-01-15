@@ -433,7 +433,7 @@ contract PlotsCoreV1 {
 
 contract PlotsTreasuryV1{
     //Variable and pointer Declarations
-    address public PlotsCoreContract;
+    address public immutable PlotsCoreContract;
     address public VLND;
 
     //mapping of all collections to a floor price

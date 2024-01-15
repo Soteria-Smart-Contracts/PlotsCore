@@ -624,7 +624,7 @@ contract PlotsTreasuryV1{
 
 contract PlotsLendV1{
     //Variable and pointer Declarations
-    address public PlotsCoreContract;
+    address public immutable PlotsCoreContract;
 
     constructor(){
         PlotsCoreContract = msg.sender;

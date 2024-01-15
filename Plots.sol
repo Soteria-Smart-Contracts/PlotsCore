@@ -188,6 +188,7 @@ contract PlotsCoreV1 {
     }
 
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {
+        require(IsLoanContract[LoanContract] == true, "Not Loan Contract");
         require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
         require(NFTLoan(LoanContract).LoanEndTime() > block.timestamp, "Loan expired");

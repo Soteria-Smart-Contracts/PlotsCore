@@ -199,6 +199,8 @@ contract PlotsCoreV1 {
         uint256 CurrentValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());
         uint256 CollateralValueChange;
 
+        NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
+
         if(CurrentOwnership == OwnershipPercent.Ten){
             //15% Inclusive of a 1% fee
             CollateralValueChange = (CurrentValue * 16) / 100;
@@ -209,8 +211,6 @@ contract PlotsCoreV1 {
             CollateralValueChange = (CurrentValue * 14) / 100;
             PlotsTreasuryV1(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
         }
-
-        NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
     }
 
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {

@@ -211,9 +211,7 @@ contract PlotsCoreV1 {
     }
 
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {
-        require(NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero, "Loan not ownership loan");
-        require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
+        require(NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero && NFTLoan(LoanContract).Borrower() == msg.sender && NFTLoan(LoanContract).Active(), "Invalid loan conditions");
         uint256 DurationUnix = (uint8(Duration) + 1) * 60;
         NFTLoan(LoanContract).RenewLoan(DurationUnix);
     }

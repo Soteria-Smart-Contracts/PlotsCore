@@ -185,6 +185,10 @@ contract PlotsCoreV1 {
         AvailableLoanContracts.push(LoanContract);
         AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
         RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
+
+        if(relist == true){
+            ListToken(Collection, TokenId);
+        }
     }
 
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {

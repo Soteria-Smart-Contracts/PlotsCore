@@ -72,7 +72,7 @@ contract PlotsCoreV1 {
 
 
     constructor(address [] memory _admins, address payable _feeReceiver){
-        Treasury =  payable(new PlotsTreasuryV1());
+        Treasury = payable(new PlotsTreasuryV1());
         LendContract = address(new PlotsLendV1());
         FeeReceiver = _feeReceiver;
 

@@ -27,6 +27,11 @@ contract PlotsCoreV1 {
         Usage
     }
 
+    enum LengthOption{ 
+        ThreeMonths,
+        SixMonths
+    }
+
     enum OwnershipPercent{
         Zero,
         Ten,
@@ -84,8 +89,7 @@ contract PlotsCoreV1 {
     }
 
 
-    function BorrowToken(address Collection, uint256 TokenId, uint8 Duration, OwnershipPercent Ownership) public payable {
-        require(Duration == 3 || Duration == 6, "Duration must be 3 or 6");
+    function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration, OwnershipPercent Ownership) public payable {
         require(ListedCollectionsMap[Collection] == true, "Collection not listed");
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token not listed");
@@ -215,12 +219,11 @@ contract PlotsCoreV1 {
         }
     }
 
-    function RenewLoan(address LoanContract, uint8 Duration) public payable {
-        require(Duration == 3 || Duration == 6, "Duration must be 3 or 6");
+    function RenewLoan(address LoanContract, LengthOption Duration) public payable {
         require(NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero, "Loan not ownership loan");
         require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
-        uint256 DurationUnix = Duration * 60; //TODO: Set to months time before mainnet deployment
+        uint256 DurationUnix = (uint8(Duration) + 1) * 60;
         NFTLoan(LoanContract).RenewLoan(DurationUnix);
     }
 

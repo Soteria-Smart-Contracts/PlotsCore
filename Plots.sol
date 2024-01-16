@@ -286,10 +286,6 @@ contract PlotsCoreV1 {
         return ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]];
     }
 
-    function GetListedCollections() public view returns(address[] memory){
-        return ListedCollections;
-    }
-
     function GetRewardTokenClaimants(address Token) public view returns(address[] memory){
         return RewardTokenClaimants[Token];
     }

@@ -12,14 +12,14 @@ contract PlotsCoreV1 {
     address[] public ListedCollections;
     mapping(address => bool) public ListedCollectionsMap;
     mapping(address => uint256) public ListedCollectionsIndex;
-    address[] public AvailLoanHolders;
+    address[] public AvailableLoanContracts;
     mapping(address => uint256) public AvailableLoanContractsIndex;
     mapping(address => mapping(uint256 => address)) public LoanContractByToken;
     mapping(address => bool) public IsLoanContract;
     mapping(address => mapping(address => uint256)) BorrowerRewardPayoutTracker;
     mapping(address => mapping(address => uint256)) OwnerRewardPayoutTracker;
     mapping(address => address[]) public RewardTokenClaimants;
-    mapping(address => Payout[]) public TokenPayouts; 
+    mapping(address => Payout[]) public RewardTokenPayouts; 
 
     enum ListingType{
         Ownership,
@@ -90,10 +90,10 @@ contract PlotsCoreV1 {
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token not listed");
 
         address LoanContract;
-        if(AvailLoanHolders.length > 0){
-            LoanContract = AvailLoanHolders[AvailLoanHolders.length - 1];
+        if(AvailableLoanContracts.length > 0){
+            LoanContract = AvailableLoanContracts[AvailableLoanContracts.length - 1];
             AvailableLoanContractsIndex[LoanContract] = 0;
-            AvailLoanHolders.pop();
+            AvailableLoanContracts.pop();
         }
         else{
             LoanContract = address(new NFTLoan());
@@ -176,8 +176,8 @@ contract PlotsCoreV1 {
 
         LoanContractByToken[Collection][TokenId] = address(0);
         OwnershipByPurchase[Collection][TokenId] = address(0);
-        AvailLoanHolders.push(LoanContract);
-        AvailableLoanContractsIndex[LoanContract] = AvailLoanHolders.length - 1;
+        AvailableLoanContracts.push(LoanContract);
+        AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
         RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
 
         if(relist == true){
@@ -291,7 +291,7 @@ contract PlotsCoreV1 {
     }
 
     function GetRewardTokenPayouts(address User) public view returns(Payout[] memory){
-        return TokenPayouts[User];
+        return RewardTokenPayouts[User];
     }
     
     function GetUserLoans(address _user) public view returns(address[] memory){
@@ -401,7 +401,7 @@ contract PlotsCoreV1 {
             RewardTokenClaimants[Token].push(User);
         }
 
-        TokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
+        RewardTokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
 
         BorrowerRewardPayoutTracker[User][Token] += Amount;
     }
@@ -413,7 +413,7 @@ contract PlotsCoreV1 {
             RewardTokenClaimants[Token].push(User);
         }
 
-        TokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
+        RewardTokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
 
         OwnerRewardPayoutTracker[User][Token] += Amount;
     }

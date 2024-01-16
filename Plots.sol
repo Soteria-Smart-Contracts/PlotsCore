@@ -189,12 +189,9 @@ contract PlotsCoreV1 {
 
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {
         require(IsLoanContract[LoanContract] == true, "Not Loan Contract");
-        require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
-        require(NFTLoan(LoanContract).Active(), "Loan not active");
-        require(NFTLoan(LoanContract).LoanEndTime() > block.timestamp, "Loan expired");
+        require(NFTLoan(LoanContract).Borrower() == msg.sender && NFTLoan(LoanContract).Active() && NFTLoan(LoanContract).LoanEndTime() > block.timestamp, "Invalid loan conditions");
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
-        require(CurrentOwnership != OwnershipPercent.Zero, "Loan not ownership loan");
-        require(CurrentOwnership != Ownership, "Ownership already set to this");
+        require(CurrentOwnership != OwnershipPercent.Zero && CurrentOwnership != Ownership, "Invalid ownership conditions");
 
         uint256 CurrentValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());
         uint256 CollateralValueChange;

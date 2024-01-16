@@ -283,7 +283,7 @@ contract PlotsCoreV1 {
     }
 
     function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
-        return ListingsByCollection[_collection][_tokenId];
+        return ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]];
     }
 
     function GetListedCollections() public view returns(address[] memory){

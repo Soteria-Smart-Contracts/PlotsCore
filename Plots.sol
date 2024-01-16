@@ -19,7 +19,7 @@ contract PlotsCoreV1 {
     mapping(address => mapping(address => uint256)) BorrowerRewardPayoutTracker;
     mapping(address => mapping(address => uint256)) OwnerRewardPayoutTracker;
     mapping(address => address[]) public RewardTokenClaimants;
-    mapping(address => Payout[]) public RewardTokenPayouts; 
+    mapping(address => Payout[]) public TokenPayouts; 
 
     enum ListingType{
         Ownership,
@@ -291,7 +291,7 @@ contract PlotsCoreV1 {
     }
 
     function GetRewardTokenPayouts(address User) public view returns(Payout[] memory){
-        return RewardTokenPayouts[User];
+        return TokenPayouts[User];
     }
     
     function GetUserLoans(address _user) public view returns(address[] memory){
@@ -401,7 +401,7 @@ contract PlotsCoreV1 {
             RewardTokenClaimants[Token].push(User);
         }
 
-        RewardTokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
+        TokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
 
         BorrowerRewardPayoutTracker[User][Token] += Amount;
     }
@@ -413,7 +413,7 @@ contract PlotsCoreV1 {
             RewardTokenClaimants[Token].push(User);
         }
 
-        RewardTokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
+        TokenPayouts[User].push(Payout(Token, Amount, block.timestamp));
 
         OwnerRewardPayoutTracker[User][Token] += Amount;
     }

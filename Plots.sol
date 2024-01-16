@@ -12,7 +12,7 @@ contract PlotsCoreV1 {
     address[] public ListedCollections;
     mapping(address => bool) public ListedCollectionsMap;
     mapping(address => uint256) public ListedCollectionsIndex;
-    address[] public AvailLoanHolder;
+    address[] public AvailLoanHolders;
     mapping(address => uint256) public AvailableLoanContractsIndex;
     mapping(address => mapping(uint256 => address)) public LoanContractByToken;
     mapping(address => bool) public IsLoanContract;
@@ -90,10 +90,10 @@ contract PlotsCoreV1 {
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token not listed");
 
         address LoanContract;
-        if(AvailLoanHolder.length > 0){
-            LoanContract = AvailLoanHolder[AvailLoanHolder.length - 1];
+        if(AvailLoanHolders.length > 0){
+            LoanContract = AvailLoanHolders[AvailLoanHolders.length - 1];
             AvailableLoanContractsIndex[LoanContract] = 0;
-            AvailLoanHolder.pop();
+            AvailLoanHolders.pop();
         }
         else{
             LoanContract = address(new NFTLoan());
@@ -176,8 +176,8 @@ contract PlotsCoreV1 {
 
         LoanContractByToken[Collection][TokenId] = address(0);
         OwnershipByPurchase[Collection][TokenId] = address(0);
-        AvailLoanHolder.push(LoanContract);
-        AvailableLoanContractsIndex[LoanContract] = AvailLoanHolder.length - 1;
+        AvailLoanHolders.push(LoanContract);
+        AvailableLoanContractsIndex[LoanContract] = AvailLoanHolders.length - 1;
         RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
 
         if(relist == true){

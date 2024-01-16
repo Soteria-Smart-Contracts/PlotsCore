@@ -27,11 +27,6 @@ contract PlotsCoreV1 {
         Usage
     }
 
-    enum LengthOption{ 
-        ThreeMonths,
-        SixMonths
-    }
-
     enum OwnershipPercent{
         Zero,
         Ten,

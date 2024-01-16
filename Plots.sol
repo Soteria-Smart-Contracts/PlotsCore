@@ -198,7 +198,6 @@ contract PlotsCoreV1 {
         require(NFTLoan(LoanContract).Active(), "Loan not active");
         require(NFTLoan(LoanContract).LoanEndTime() > block.timestamp, "Loan expired");
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
-        //require that ownership is not 0
         require(CurrentOwnership != OwnershipPercent.Zero, "Loan not ownership loan");
         require(CurrentOwnership != Ownership, "Ownership already set to this");
 

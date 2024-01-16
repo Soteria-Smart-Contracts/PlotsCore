@@ -259,7 +259,13 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = false;
     }
 
-    //bulk list and delist functions
+    //bulk list and delist functions, input an array of collections and token ids
+    function ListTokens(address[] memory Collections, uint256[] memory TokenIds) public{
+        require(Collections.length == TokenIds.length, "Arrays not same length");
+        for(uint256 i = 0; i < Collections.length; i++){
+            ListToken(Collections[i], TokenIds[i]);
+        }
+    }
 
     //claim multiple rewards at once function, input an array of loan contracts and reward tokens
     function ClaimRewards(address[] memory LoanContracts, address[] memory RewardTokens) public{

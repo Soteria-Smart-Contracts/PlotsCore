@@ -82,6 +82,10 @@ contract PlotsCoreV1 {
         }
         Admins[msg.sender] = true;
         Admins[Treasury] = true;
+
+        OwnershipPercentages[OwnershipPercent.Zero] = 0;
+        OwnershipPercentages[OwnershipPercent.Ten] = 10;
+        OwnershipPercentages[OwnershipPercent.TwentyFive] = 25;
     }
 
 
@@ -185,7 +189,6 @@ contract PlotsCoreV1 {
         if(relist == true){
             AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
             AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
-            ListedBool[Collection][TokenId] = true;
         }
     }
 
@@ -195,6 +198,7 @@ contract PlotsCoreV1 {
         require(NFTLoan(LoanContract).Active(), "Loan not active");
         require(NFTLoan(LoanContract).LoanEndTime() > block.timestamp, "Loan expired");
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
+        require(OwnershipPercentages[Ownership] != 0, "Ownership not available");
         require(CurrentOwnership != Ownership, "Ownership already set to this");
 
         uint256 CurrentValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());

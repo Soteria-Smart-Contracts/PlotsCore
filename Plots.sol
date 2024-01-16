@@ -254,17 +254,14 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = false;
     }
 
-    function ListTokens(address[] memory Collections, uint256[] memory TokenIds) public{
+    function ManageTokens(address[] memory Collections, uint256[] memory TokenIds, bool isList) public {
         require(Collections.length == TokenIds.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
-            ListToken(Collections[i], TokenIds[i]);
-        }
-    }
-
-    function DelistTokens(address[] memory Collections, uint256[] memory TokenIds) public{
-        require(Collections.length == TokenIds.length, "Arrays not same length");
-        for(uint256 i = 0; i < Collections.length; i++){
-            DelistToken(Collections[i], TokenIds[i]);
+            if (isList) {
+                ListToken(Collections[i], TokenIds[i]);
+            } else {
+                DelistToken(Collections[i], TokenIds[i]);
+            }
         }
     }
 

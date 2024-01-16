@@ -85,7 +85,6 @@ contract PlotsCoreV1 {
 
 
     function BorrowToken(address Collection, uint256 TokenId, uint8 Duration, OwnershipPercent Ownership) public payable {
-        //require duration to be 3 or 6
         require(Duration == 3 || Duration == 6, "Duration must be 3 or 6");
         require(ListedCollectionsMap[Collection] == true, "Collection not listed");
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];

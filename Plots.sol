@@ -121,8 +121,10 @@ contract PlotsCoreV1 {
             LockedValue += BorrowCost - Fee;
         }
         else{
-            require(Ownership == OwnershipPercent.Zero, "Ownership must be zero");
-            require(PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract, "Token not in lending contract");
+            require(Ownership == OwnershipPercent.Zero &&
+                PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract,
+                "Ownership must be zero and token not in lending contract"
+            );
             PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
             RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         }

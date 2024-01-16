@@ -220,7 +220,7 @@ contract PlotsCoreV1 {
         require(NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero, "Loan not ownership loan");
         require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
         require(NFTLoan(LoanContract).Active(), "Loan not active");
-        uint256 DurationUnix = Duration * 60; //TODO: Set to months time 
+        uint256 DurationUnix = Duration * 60; //TODO: Set to months time before mainnet deployment
         NFTLoan(LoanContract).RenewLoan(DurationUnix);
     }
 

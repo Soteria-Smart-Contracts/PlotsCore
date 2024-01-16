@@ -259,6 +259,8 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = false;
     }
 
+    //bulk list and delist functions
+
     //claim multiple rewards at once function, input an array of loan contracts and reward tokens
     function ClaimRewards(address[] memory LoanContracts, address[] memory RewardTokens) public{
         require(LoanContracts.length == RewardTokens.length, "Arrays not same length");

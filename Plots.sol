@@ -259,11 +259,17 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = false;
     }
 
-    //bulk list and delist functions, input an array of collections and token ids
     function ListTokens(address[] memory Collections, uint256[] memory TokenIds) public{
         require(Collections.length == TokenIds.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
             ListToken(Collections[i], TokenIds[i]);
+        }
+    }
+
+    function DelistTokens(address[] memory Collections, uint256[] memory TokenIds) public{
+        require(Collections.length == TokenIds.length, "Arrays not same length");
+        for(uint256 i = 0; i < Collections.length; i++){
+            DelistToken(Collections[i], TokenIds[i]);
         }
     }
 

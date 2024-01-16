@@ -231,8 +231,7 @@ contract PlotsCoreV1 {
 
         }
         else{
-            require(ERC721(Collection).ownerOf(TokenId) == LendContract, "Token not owned by lending contract");
-            require(PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
+            require(ERC721(Collection).ownerOf(TokenId) == LendContract && PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Invalid ownership or token not owned by lending contract");
             AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
             AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
         }

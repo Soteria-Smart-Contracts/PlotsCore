@@ -1,0 +1,1191 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "_admins",
+						"type": "address[]"
+					},
+					{
+						"internalType": "address payable",
+						"name": "_feeReceiver",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_collection",
+						"type": "address"
+					}
+				],
+				"name": "AddCollection",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "Admins",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "AllUserBorrows",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "AllUserBorrowsIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "AllUserLoans",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "AllUserLoansIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "AvailableLoanContracts",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "AvailableLoanContractsIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "Collection",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "TokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum PlotsCoreV1.LengthOption",
+						"name": "Duration",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum PlotsCoreV1.OwnershipPercent",
+						"name": "Ownership",
+						"type": "uint8"
+					}
+				],
+				"name": "BorrowToken",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "NewReceiver",
+						"type": "address"
+					}
+				],
+				"name": "ChangeFeeReceiver",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "LoanContract",
+						"type": "address"
+					},
+					{
+						"internalType": "enum PlotsCoreV1.OwnershipPercent",
+						"name": "Ownership",
+						"type": "uint8"
+					}
+				],
+				"name": "ChangeOwnershipPercentage",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "NewFee",
+						"type": "uint256"
+					}
+				],
+				"name": "ChangeRewardFee",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "LoanContracts",
+						"type": "address[]"
+					},
+					{
+						"internalType": "address[]",
+						"name": "RewardTokens",
+						"type": "address[]"
+					}
+				],
+				"name": "ClaimRewards",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "LoanContract",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "relist",
+						"type": "bool"
+					}
+				],
+				"name": "CloseLoan",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "CurrentRewardFee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "Collection",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "TokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "DelistToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "FeeReceiver",
+				"outputs": [
+					{
+						"internalType": "address payable",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_collection",
+						"type": "address"
+					}
+				],
+				"name": "GetCollectionListings",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "Lister",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "Collection",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "TokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "enum PlotsCoreV1.ListingType",
+								"name": "OwnershipOption",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct PlotsCoreV1.Listing[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "GetCollections",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_collection",
+						"type": "address"
+					}
+				],
+				"name": "GetListedCollectionWithPrices",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "Lister",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "Collection",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "TokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "enum PlotsCoreV1.ListingType",
+								"name": "OwnershipOption",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct PlotsCoreV1.Listing[]",
+						"name": "",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "Prices",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "GetListedCollections",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "Token",
+						"type": "address"
+					}
+				],
+				"name": "GetRewardTokenClaimants",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "User",
+						"type": "address"
+					}
+				],
+				"name": "GetRewardTokenPayouts",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "Token",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "Amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "Time",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct PlotsCoreV1.Payout[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_collection",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "GetSingularListing",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "Lister",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "Collection",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "TokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "enum PlotsCoreV1.ListingType",
+								"name": "OwnershipOption",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct PlotsCoreV1.Listing",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "GetUserBorrows",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "GetUserListings",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "Lister",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "Collection",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "TokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "enum PlotsCoreV1.ListingType",
+								"name": "OwnershipOption",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct PlotsCoreV1.Listing[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "GetUserLoans",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "Collection",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "TokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "IsListed",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "IsLoanContract",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "LendContract",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "Collection",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "TokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "ListToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "ListedBool",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "ListedCollections",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "ListedCollectionsIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "ListedCollectionsMap",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "ListingsByCollection",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "Lister",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "Collection",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "TokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum PlotsCoreV1.ListingType",
+						"name": "OwnershipOption",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "ListingsByCollectionIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "ListingsByUser",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "Lister",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "Collection",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "TokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum PlotsCoreV1.ListingType",
+						"name": "OwnershipOption",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "ListingsByUserIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "LoanContractByToken",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "LockedValue",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "Collections",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "TokenIds",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "bool",
+						"name": "isList",
+						"type": "bool"
+					}
+				],
+				"name": "ManageTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "OwnershipByPurchase",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_collection",
+						"type": "address"
+					}
+				],
+				"name": "RemoveCollection",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "LoanContract",
+						"type": "address"
+					},
+					{
+						"internalType": "enum PlotsCoreV1.LengthOption",
+						"name": "Duration",
+						"type": "uint8"
+					}
+				],
+				"name": "RenewLoan",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "RewardTokenClaimants",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "RewardTokenPayouts",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "Token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "Time",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "Treasury",
+				"outputs": [
+					{
+						"internalType": "address payable",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "User",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "Token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "Amount",
+						"type": "uint256"
+					}
+				],
+				"name": "UpdateBorrowerPayoutTracker",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "User",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "Token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "Amount",
+						"type": "uint256"
+					}
+				],
+				"name": "UpdateOwnerPayoutTracker",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Plots.sol": "PlotsCoreV1"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Plots.sol": {
+			"keccak256": "0xd38a3713dd6e046c6c974135ba5b80233b91e1ff7d3043bdb71dd0267db2a6c5",
+			"license": "Unlicense",
+			"urls": [
+				"bzz-raw://2cb0fe8e17b46b2332c7580842ff33ef7e1e484ddefadb5a8f828172e122907c",
+				"dweb:/ipfs/QmPxZ5rgWGoJYh5MukUYCsM8J6aUHTPzzk1yqarTUErMCT"
+			]
+		}
+	},
+	"version": 1
+}

@@ -388,19 +388,19 @@ contract PlotsCoreV1 {
         CurrentRewardFee = NewFee;
     }
 
-    function AddCollection(address _collection) public OnlyAdmin{
-        ListedCollections.push(_collection);
-        ListedCollectionsIndex[_collection] = ListedCollections.length - 1;
-        ListedCollectionsMap[_collection] = true;
-    }
-
-    function RemoveCollection(address _collection) public OnlyAdmin{
-        uint256 index = ListedCollectionsIndex[_collection];
-        ListedCollections[index] = ListedCollections[ListedCollections.length - 1];
-        ListedCollectionsIndex[ListedCollections[index]] = index;
-        ListedCollections.pop();
-        delete ListedCollectionsIndex[_collection];
-        delete ListedCollectionsMap[_collection];
+    function ModifyCollection(address _collection, bool addRemove) public OnlyAdmin {
+        if (addRemove) {
+            ListedCollections.push(_collection);
+            ListedCollectionsIndex[_collection] = ListedCollections.length - 1;
+            ListedCollectionsMap[_collection] = true;
+        } else {
+            uint256 index = ListedCollectionsIndex[_collection];
+            ListedCollections[index] = ListedCollections[ListedCollections.length - 1];
+            ListedCollectionsIndex[ListedCollections[index]] = index;
+            ListedCollections.pop();
+            delete ListedCollectionsIndex[_collection];
+            delete ListedCollectionsMap[_collection];
+        }
     }
 
     //function update payout tracker only callable by loan contracts (isloancontract mapping), input for a user and a token and amount

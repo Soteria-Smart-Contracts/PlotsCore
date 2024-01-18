@@ -4,11 +4,11 @@ pragma solidity 0.8.19;
 
 contract PlotsCoreV1 {
     //Variable and pointer Declarations
-    address payable public immutable Treasury;
+    address payable public Treasury;
     address payable public FeeReceiver;
     uint256 public CurrentRewardFee;
     uint256 public LockedValue;
-    address public immutable LendContract;
+    address public LendContract;
     address[] public ListedCollections;
     mapping(address => bool) public ListedCollectionsMap;
     mapping(address => uint256) public ListedCollectionsIndex;
@@ -286,6 +286,16 @@ contract PlotsCoreV1 {
         return ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]];
     }
 
+    function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
+        uint256 Expiry = NFTLoan(LoanContractByToken[Collection][TokenId]).LoanEndTime();
+        if(Expiry > block.timestamp){
+            return address(0);
+        }
+        else{
+            return OwnershipByPurchase[Collection][TokenId];
+        }
+    }
+
     function GetRewardTokenClaimants(address Token) public view returns(address[] memory){
         return RewardTokenClaimants[Token];
     }
@@ -421,7 +431,7 @@ contract PlotsCoreV1 {
 
 contract PlotsTreasuryV1{
     //Variable and pointer Declarations
-    address public immutable PlotsCoreContract;
+    address public PlotsCoreContract;
     address public VLND;
 
     //mapping of all collections to a floor price
@@ -612,7 +622,7 @@ contract PlotsTreasuryV1{
 
 contract PlotsLendV1{
     //Variable and pointer Declarations
-    address public immutable PlotsCoreContract;
+    address public PlotsCoreContract;
 
     constructor(){
         PlotsCoreContract = msg.sender;
@@ -709,7 +719,7 @@ contract PlotsLendV1{
 }
 
 contract NFTLoan{
-    address public immutable Manager;
+    address public Manager;
     address public TokenCollection;
     uint256 public TokenID;
 

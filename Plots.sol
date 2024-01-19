@@ -182,8 +182,8 @@ contract PlotsCoreV1 {
         RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
 
         if(relist == true){
-            AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
-            AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
+            AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
+            AddListingToUser(msg.sender, Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
         }
     }
 

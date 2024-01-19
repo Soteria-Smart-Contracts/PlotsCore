@@ -183,7 +183,7 @@ contract PlotsCoreV1 {
 
         if(relist == true){
             //require if relist is true, that msg.sender or the treasury contract is the owner of the token
-            
+            require(ERC721(Collection).ownerOf(TokenId) == msg.sender || ERC721(Collection).ownerOf(TokenId) == Treasury, "Not owner of token");
             AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
             AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
         }

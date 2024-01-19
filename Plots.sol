@@ -182,7 +182,6 @@ contract PlotsCoreV1 {
         RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
 
         if(relist == true){
-            //require if relist is true, that msg.sender or the treasury contract is the owner of the token
             require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
             AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
             AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));

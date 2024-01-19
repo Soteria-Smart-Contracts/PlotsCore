@@ -138,7 +138,7 @@ contract PlotsCoreV1 {
         require(
             IsLoanContract[LoanContract] == true &&
             NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan(LoanContract).Owner() == msg.sender || Admins[msg.sender] &&
-            NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || Admins[msg.sender]) || NFTLoan(LoanContract).Borrower() == msg.sender &&
+            NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || Admins[msg.sender] || NFTLoan(LoanContract).Borrower() == msg.sender &&
             NFTLoan(LoanContract).Active(),
             "Invalid loan"
         );

@@ -183,7 +183,7 @@ contract PlotsCoreV1 {
 
         if(relist == true){
             AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
-            AddListingToUser(msg.sender, Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
+            AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
         }
     }
 

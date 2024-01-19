@@ -173,8 +173,6 @@ contract PlotsCoreV1 {
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
             PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
-
-                //require if relist is true, that msg.sender or the treasury contract is the owner of the token
     
 
         LoanContractByToken[Collection][TokenId] = address(0);
@@ -184,6 +182,8 @@ contract PlotsCoreV1 {
         RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
 
         if(relist == true){
+            //require if relist is true, that msg.sender or the treasury contract is the owner of the token
+            
             AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
             AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
         }

@@ -142,7 +142,7 @@ contract PlotsCoreV1 {
             NFTLoan(LoanContract).Active(),
             "Invalid loan"
         );
-        //require if r
+        //require if relist is true, that msg.sender is the owner of the token
 
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();

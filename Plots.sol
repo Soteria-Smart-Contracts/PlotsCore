@@ -142,7 +142,6 @@ contract PlotsCoreV1 {
             NFTLoan(LoanContract).Active(),
             "Invalid loan"
         );
-        //require if relist is true, that msg.sender or the treasury contract is the owner of the token
 
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();
@@ -174,6 +173,9 @@ contract PlotsCoreV1 {
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
             PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
+
+                //require if relist is true, that msg.sender or the treasury contract is the owner of the token
+    
 
         LoanContractByToken[Collection][TokenId] = address(0);
         OwnershipByPurchase[Collection][TokenId] = address(0);

@@ -142,6 +142,7 @@ contract PlotsCoreV1 {
             NFTLoan(LoanContract).Active(),
             "Invalid loan"
         );
+        //require if r
 
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();

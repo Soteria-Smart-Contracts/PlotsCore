@@ -495,7 +495,6 @@ contract PlotsTreasuryV1{
 
         AllTokensByCollection[Collection].push(TokenId);
         AllTokensByCollectionIndex[Collection][TokenId] = AllTokensByCollection[Collection].length - 1;
-
         CollectionLockedValue[Collection] += EtherCost;
     }
 
@@ -571,6 +570,12 @@ contract PlotsTreasuryV1{
     }
 
     //internals
+
+    //add token to collection array
+    function AddTokenToCollection(address Collection, uint256 TokenId) internal{
+        AllTokensByCollection[Collection].push(TokenId);
+        AllTokensByCollectionIndex[Collection][TokenId] = AllTokensByCollection[Collection].length - 1;
+    }
 
     //remove token from collection array
 

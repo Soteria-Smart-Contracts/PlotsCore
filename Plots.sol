@@ -6,7 +6,7 @@ contract PlotsCoreV1 {
     //Variable and pointer Declarations
     address payable public Treasury;
     address payable public FeeReceiver;
-    uint256 public CurrentRewardFee;
+    uint256 public RewardFee;
     uint256 public LockedValue;
     address public LendContract;
     address[] public ListedCollections;
@@ -388,7 +388,7 @@ contract PlotsCoreV1 {
 
     function ChangeRewardFee(uint256 NewFee) public OnlyAdmin{
         require(NewFee <= 1500, "Fee must be less than 15%");
-        CurrentRewardFee = NewFee;
+        RewardFee = NewFee;
     }
 
     function ModifyCollection(address _collection, bool addRemove) public OnlyAdmin {
@@ -804,7 +804,7 @@ contract NFTLoan{
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
         require(RewardBalance > 0, "No rewards to disperse");
         //check core contract for fee percentage and fee receiver, calculate fee and send to fee receiver
-        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).CurrentRewardFee()) / 10000;
+        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).RewardFee()) / 10000;
         ERC20(RewardToken).transfer(PlotsCoreV1(Manager).FeeReceiver(), Fee);
         RewardBalance -= Fee;
 
@@ -823,7 +823,7 @@ contract NFTLoan{
         if(RewardBalance == 0){
             return 0;
         }
-        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).CurrentRewardFee()) / 10000;
+        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).RewardFee()) / 10000;
         RewardBalance -= Fee;
 
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;

@@ -468,9 +468,7 @@ contract PlotsTreasuryV1{
         uint256 VLNDInCirculation = GetVLNDInCirculation();
         VLNDInCirculation = VLNDInCirculation / 10 ** 18;
 
-        return(TotalValue / VLNDInCirculation);
-
-        uint256 VLNDPrice = GetVLNDPrice();
+        uint256 VLNDPrice = TotalValue / VLNDInCirculation;
         uint256 Amount = (msg.value * 10**18) / VLNDPrice;
 
         require(Amount >= minOut, "Amount must be greater than or equal to minOut");

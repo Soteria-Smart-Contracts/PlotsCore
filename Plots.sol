@@ -464,7 +464,7 @@ contract PlotsTreasuryV1{
     }
 
     function BuyVLND(uint256 minOut) public payable{
-        uint256 TotalValue = GetTotalValue();
+        uint256 TotalValue = GetTotalValue() - msg.value;
         uint256 VLNDInCirculation = GetVLNDInCirculation();
         VLNDInCirculation = VLNDInCirculation / 10 ** 18;
 

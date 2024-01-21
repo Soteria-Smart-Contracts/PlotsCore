@@ -493,7 +493,9 @@ contract PlotsTreasuryV1{
 
         TokenFloorFactor[Collection][TokenId] = ((EtherCost * 1000) / CollectionFloorPrice[Collection]);
 
-        AddTokenToCollection(Collection, TokenId);
+        AllTokensByCollection[Collection].push(TokenId);
+        AllTokensByCollectionIndex[Collection][TokenId] = AllTokensByCollection[Collection].length - 1;
+        
         CollectionLockedValue[Collection] += EtherCost;
     }
 

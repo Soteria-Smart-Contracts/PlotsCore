@@ -116,7 +116,7 @@ contract PlotsCoreV1 {
             require(msg.value >= BorrowCost, "Not enough ether sent");
             PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
 
-            FeeReceiver.transfer((TokenValue * 25) / 1000);
+            FeeReceiver.transfer(Fee);
             payable(Treasury).transfer(address(this).balance);
             LockedValue += BorrowCost - Fee;
         }

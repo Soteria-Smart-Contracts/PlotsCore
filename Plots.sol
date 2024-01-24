@@ -492,6 +492,7 @@ contract PlotsTreasuryV1{
         ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenFloorFactor[Collection][TokenId] = ((EtherCost * 1000) / CollectionFloorPrice[Collection]);
+        TokenLocation[Collection][TokenId] = address(this);
 
         AddTokenToCollection(Collection, TokenId);
         CollectionLockedValue[Collection] += EtherCost;

@@ -121,7 +121,7 @@ contract PlotsCoreV1 {
             LockedValue += BorrowCost - Fee;
         }
         else{
-            require(Ownership == OwnershipPercent.Zero && PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract || ERC721(Collection).ownerOf(TokenID) == Treasury, "Invalid ownership or token location");
+            require(Ownership == OwnershipPercent.Zero && PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract || PlotsTre, "Invalid ownership or token location");
             PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
             RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         }

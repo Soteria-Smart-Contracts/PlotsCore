@@ -765,7 +765,7 @@ contract NFTLoan{
         Manager = msg.sender;
     }
 
-    function BeginLoan(PlotsCoreV1.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, uint256 Duration, uint256 InitialVal, address Origin) public OnlyManager {
+    function BeginLoan(PlotsCoreV1.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, uint256 Duration, uint256 InitialVal, address _Origin) public OnlyManager {
         require(ERC721(Collection).ownerOf(TokenId) == address(this), "Token not in loan");
 
         TokenCollection = Collection;

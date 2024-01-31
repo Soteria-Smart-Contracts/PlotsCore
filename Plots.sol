@@ -740,7 +740,7 @@ contract NFTLoan{
 
     address public Owner;
     address public Borrower;
-    a
+    address public Origin;
     PlotsCoreV1.OwnershipPercent public OwnershipType;
     uint256 public LoanEndTime;
     uint256 public InitialValue;

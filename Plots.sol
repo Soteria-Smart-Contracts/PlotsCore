@@ -125,7 +125,13 @@ contract PlotsCoreV1 {
             PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
             RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         }
-        else if(ERC721)
+        else if(ERC721(Collection).ownerOf(TokenId) == Treasury){
+            require(Ownership == OwnershipPercent.Zero);
+            ERC721(Collection).transferFrom(Treasury, LoanContract, TokenId);
+        }
+        else{
+            revert("Invalid token");
+        }
 
         LoanContractByToken[Collection][TokenId] = LoanContract;
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, LoanContract);

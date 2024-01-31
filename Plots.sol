@@ -127,7 +127,8 @@ contract PlotsCoreV1 {
         }
         else if(ERC721(Collection).ownerOf(TokenId) == Treasury){
             require(Ownership == OwnershipPercent.Zero);
-            ERC721(Collection).transferFrom(Treasury, LoanContract, TokenId);
+            //send token to loan contract
+            PlotsTr
         }
         else{
             revert("Invalid token");

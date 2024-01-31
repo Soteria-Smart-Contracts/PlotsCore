@@ -125,7 +125,7 @@ contract PlotsCoreV1 {
             PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
             RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         }
-        else if()
+        else if(ERC721)
 
         LoanContractByToken[Collection][TokenId] = LoanContract;
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, LoanContract);

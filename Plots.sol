@@ -120,11 +120,13 @@ contract PlotsCoreV1 {
             FeeReceiver.transfer(Fee);
             payable(Treasury).transfer(address(this).balance);
             LockedValue += BorrowCost - Fee;
+            Origin = Treasury;
         }
         else if(PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract){
             require(Ownership == OwnershipPercent.Zero);
             PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
             RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
+            Origin = LendContract;
         }
         else if(ERC721(Collection).ownerOf(TokenId) == Treasury){
             require(Ownership == OwnershipPercent.Zero);

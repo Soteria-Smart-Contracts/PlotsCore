@@ -158,18 +158,19 @@ contract PlotsCoreV1 {
         address ReturnContract;
         uint256 CollateralValue;
 
+        if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
+            OwnershipPercentage = 10;
+        }
+        else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
+            OwnershipPercentage = 25;
+        }
+
         if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
             OwnershipPercentage = 0;
             ReturnContract = LendContract;
             CollateralValue = 0;
             NFTLoan(LoanContract).EndLoan(LendContract);
             PlotsLendV1(LendContract).ReturnedFromLoan(Collection, TokenId);
-        }
-        if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
-            OwnershipPercentage = 10;
-        }
-        else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
-            OwnershipPercentage = 25;
         }
 
         if(OwnershipPercentage != 0){

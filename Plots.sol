@@ -128,7 +128,7 @@ contract PlotsCoreV1 {
         else if(ERC721(Collection).ownerOf(TokenId) == Treasury){
             require(Ownership == OwnershipPercent.Zero);
             //send token to loan contract
-            PlotsTr
+            PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
         }
         else{
             revert("Invalid token");

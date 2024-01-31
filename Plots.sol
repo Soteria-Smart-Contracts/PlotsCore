@@ -131,6 +131,7 @@ contract PlotsCoreV1 {
         else if(ERC721(Collection).ownerOf(TokenId) == Treasury){
             require(Ownership == OwnershipPercent.Zero);
             PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
+            Origin = Treasury;
         }
         else{
             revert("Invalid token");
@@ -138,7 +139,7 @@ contract PlotsCoreV1 {
 
         LoanContractByToken[Collection][TokenId] = LoanContract;
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, LoanContract);
-        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenIndex].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
+        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenIndex].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue, Origin);
         RemoveListingFromCollection(Collection, TokenId);
         OwnershipByPurchase[Collection][TokenId] = msg.sender;
         ListedBool[Collection][TokenId] = false;

@@ -183,7 +183,6 @@ contract PlotsCoreV1 {
             PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
         else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
-            ReturnContract = Treasury;
             NFTLoan(LoanContract).EndLoan();
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
         }

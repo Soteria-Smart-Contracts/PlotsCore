@@ -185,6 +185,15 @@ contract PlotsCoreV1 {
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
             PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
+        else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
+            ReturnContract = Treasury;
+            CollateralValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
+            NFTLoan(LoanContract).EndLoan();
+            PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
+        }
+        else{
+            revert("Invalid loan");
+        }
     
 
         LoanContractByToken[Collection][TokenId] = address(0);

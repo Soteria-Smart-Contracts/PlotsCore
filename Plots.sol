@@ -170,7 +170,7 @@ contract PlotsCoreV1 {
             OwnershipPercentage = 25;
         }
 
-        if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
+        if(Origin == LendContract){
             OwnershipPercentage = 0;
             ReturnContract = LendContract;
             CollateralValue = 0;

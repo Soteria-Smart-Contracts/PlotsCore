@@ -190,10 +190,6 @@ contract PlotsCoreV1 {
             NFTLoan(LoanContract).EndLoan();
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
         }
-        else{
-            revert("Invalid loan");
-        }
-    
 
         LoanContractByToken[Collection][TokenId] = address(0);
         OwnershipByPurchase[Collection][TokenId] = address(0);

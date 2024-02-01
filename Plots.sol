@@ -187,7 +187,6 @@ contract PlotsCoreV1 {
         }
         else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
             ReturnContract = Treasury;
-            CollateralValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
             NFTLoan(LoanContract).EndLoan();
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
         }

@@ -160,7 +160,6 @@ contract PlotsCoreV1 {
         address Lender = NFTLoan(LoanContract).Owner();
         address Origin = NFTLoan(LoanContract).Origin();
         uint256 OwnershipPercentage;
-        address ReturnContract;
         uint256 CollateralValue;
 
         if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
@@ -172,13 +171,11 @@ contract PlotsCoreV1 {
 
         if(Origin == LendContract){
             OwnershipPercentage = 0;
-            ReturnContract = LendContract;
             CollateralValue = 0;
             NFTLoan(LoanContract).EndLoan();
             PlotsLendV1(LendContract).ReturnedFromLoan(Collection, TokenId);
         }
         else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero){
-            ReturnContract = Treasury;
             CollateralValue = (PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
             LockedValue -= NFTLoan(LoanContract).InitialValue() * OwnershipPercentage / 100;
             NFTLoan(LoanContract).EndLoan();

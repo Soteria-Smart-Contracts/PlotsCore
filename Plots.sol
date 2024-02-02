@@ -6,7 +6,7 @@ contract PlotsCoreV1 {
     //Variable and pointer Declarations
     address payable public Treasury;
     address payable public FeeReceiver;
-    uint256 public RewardFee;
+    uint256 public CurrentRewardFee;
     uint256 public LockedValue;
     address public LendContract;
     address[] public ListedCollections;
@@ -19,7 +19,7 @@ contract PlotsCoreV1 {
     mapping(address => mapping(address => uint256)) BorrowerRewardPayoutTracker;
     mapping(address => mapping(address => uint256)) OwnerRewardPayoutTracker;
     mapping(address => address[]) public RewardTokenClaimants;
-    mapping(address => Payout[]) public RewardTokenPayouts; 
+    mapping(address => Payout[]) public RewardTokenPayouts;
 
     enum ListingType{
         Ownership,
@@ -72,7 +72,7 @@ contract PlotsCoreV1 {
 
 
     constructor(address [] memory _admins, address payable _feeReceiver){
-        Treasury = payable(new PlotsTreasuryV1());
+        Treasury =  payable(new PlotsTreasuryV1());
         LendContract = address(new PlotsLendV1());
         FeeReceiver = _feeReceiver;
 
@@ -85,9 +85,9 @@ contract PlotsCoreV1 {
 
 
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration, OwnershipPercent Ownership) public payable {
-        require(ListedCollectionsMap[Collection] == true, "Collection N/Listed");
+        require(ListedCollectionsMap[Collection] == true);
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
-        require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
+        require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token not listed");
 
         address LoanContract;
         if(AvailableLoanContracts.length > 0){
@@ -102,11 +102,10 @@ contract PlotsCoreV1 {
 
         uint256 TokenValue = 0;
         uint256 DurationUnix = (uint8(Duration) + 1) * 60; //TODO: CHANGE LEGNTH BACK TO 90 DAYS BEFORE MAINNET DEPLOYMENT
-        address Origin;
         
         if(ListingsByCollection[Collection][TokenIndex].OwnershipOption == ListingType.Ownership){
             TokenValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
-            uint256 Fee = (TokenValue * 20) / 1000;
+            uint256 Fee = (TokenValue * 25) / 1000;
             uint256 BorrowCost = Fee;
             if(Ownership == OwnershipPercent.Ten){
                 BorrowCost += (TokenValue * 10) / 100;
@@ -117,77 +116,62 @@ contract PlotsCoreV1 {
             require(msg.value >= BorrowCost, "Not enough ether sent");
             PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
 
-            FeeReceiver.transfer(Fee);
+            FeeReceiver.transfer((TokenValue * 25) / 1000);
             payable(Treasury).transfer(address(this).balance);
             LockedValue += BorrowCost - Fee;
-            Origin = Treasury;
-        }
-        else if(PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract){
-            require(Ownership == OwnershipPercent.Zero);
-            PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
-            RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
-            Origin = LendContract;
-        }
-        else if(ERC721(Collection).ownerOf(TokenId) == Treasury){
-            require(Ownership == OwnershipPercent.Zero);
-            PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
-            Origin = Treasury;
         }
         else{
-            revert("Invalid token");
+            require(Ownership == OwnershipPercent.Zero);
+            require(PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract);
+            PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
+            RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         }
 
         LoanContractByToken[Collection][TokenId] = LoanContract;
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, LoanContract);
-        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenIndex].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue, Origin);
+        NFTLoan(LoanContract).BeginLoan(Ownership, ListingsByCollection[Collection][TokenIndex].Lister , msg.sender, Collection, TokenId, DurationUnix, TokenValue);
         RemoveListingFromCollection(Collection, TokenId);
         OwnershipByPurchase[Collection][TokenId] = msg.sender;
         ListedBool[Collection][TokenId] = false;
     }
 
-    function CloseLoan(address LoanContract, bool relist) public{
-        require(
-            IsLoanContract[LoanContract] == true &&
-            NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan(LoanContract).Owner() == msg.sender || Admins[msg.sender] &&
-            NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || Admins[msg.sender] || NFTLoan(LoanContract).Borrower() == msg.sender &&
-            NFTLoan(LoanContract).Active(),
-            "Invalid loan"
-        );
+    function CloseLoan(address LoanContract) public{
+        require(NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan(LoanContract).Owner() == msg.sender || Admins[msg.sender]);
+        require(NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || Admins[msg.sender]);
+        require(NFTLoan(LoanContract).Active());
 
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();
         address Borrower = NFTLoan(LoanContract).Borrower();
         address Lender = NFTLoan(LoanContract).Owner();
-        address Origin = NFTLoan(LoanContract).Origin();
         uint256 OwnershipPercentage;
+        address ReturnContract;
         uint256 CollateralValue;
 
-        if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
-            OwnershipPercentage = 10;
-        }
-        else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
-            OwnershipPercentage = 25;
-        }
-
-        if(Origin == LendContract){
+        if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
             OwnershipPercentage = 0;
+            ReturnContract = LendContract;
             CollateralValue = 0;
-            NFTLoan(LoanContract).EndLoan();
+            NFTLoan(LoanContract).EndLoan(LendContract);
             PlotsLendV1(LendContract).ReturnedFromLoan(Collection, TokenId);
         }
-        else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero){
+        else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
+            OwnershipPercentage = 10;
+            ReturnContract = Treasury;
             CollateralValue = (PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
             LockedValue -= NFTLoan(LoanContract).InitialValue() * OwnershipPercentage / 100;
-            NFTLoan(LoanContract).EndLoan();
+            NFTLoan(LoanContract).EndLoan(Treasury);
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
             PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
-        else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
-            NFTLoan(LoanContract).EndLoan();
+        else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
+            OwnershipPercentage = 25;
+            ReturnContract = Treasury;
+            CollateralValue = (PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
+            LockedValue -= NFTLoan(LoanContract).InitialValue() * OwnershipPercentage / 100;
+            NFTLoan(LoanContract).EndLoan(Treasury);
             PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
-        }
-        else{
-            revert("Invalid loan");
+            PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
 
         LoanContractByToken[Collection][TokenId] = address(0);
@@ -195,27 +179,18 @@ contract PlotsCoreV1 {
         AvailableLoanContracts.push(LoanContract);
         AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
         RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
-
-        if(relist == true){
-            require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
-            AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
-            if(Lender != Treasury){
-                AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
-            }
-            ListedBool[Collection][TokenId] = true;
-        }
     }
 
     function ChangeOwnershipPercentage(address LoanContract, OwnershipPercent Ownership) public payable {
-        require(IsLoanContract[LoanContract] == true, "Not Loan Contract");
-        require(NFTLoan(LoanContract).Borrower() == msg.sender && NFTLoan(LoanContract).Active() && NFTLoan(LoanContract).LoanEndTime() > block.timestamp, "Invalid loan conditions");
+        require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
+        require(NFTLoan(LoanContract).LoanEndTime() > block.timestamp);
         OwnershipPercent CurrentOwnership = NFTLoan(LoanContract).OwnershipType();
-        require(CurrentOwnership != OwnershipPercent.Zero && CurrentOwnership != Ownership, "Invalid ownership conditions");
+        require(Ownership != OwnershipPercent(0));
+        require(CurrentOwnership != Ownership);
 
         uint256 CurrentValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(NFTLoan(LoanContract).TokenCollection(), NFTLoan(LoanContract).TokenID());
         uint256 CollateralValueChange;
-
-        NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
 
         if(CurrentOwnership == OwnershipPercent.Ten){
             //15% Inclusive of a 1% fee
@@ -227,10 +202,14 @@ contract PlotsCoreV1 {
             CollateralValueChange = (CurrentValue * 14) / 100;
             PlotsTreasuryV1(Treasury).SendEther(payable(NFTLoan(LoanContract).Borrower()), CollateralValueChange);
         }
+
+        NFTLoan(LoanContract).UpdateBorrowerRewardShare(Ownership);
     }
 
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {
-        require(NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero && NFTLoan(LoanContract).Borrower() == msg.sender && NFTLoan(LoanContract).Active(), "Invalid loan conditions");
+        require(NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero, "Loan not ownership loan");
+        require(NFTLoan(LoanContract).Borrower() == msg.sender, "Not borrower of loan");
+        require(NFTLoan(LoanContract).Active(), "Loan not active");
         uint256 DurationUnix = (uint8(Duration) + 1) * 60;
         NFTLoan(LoanContract).RenewLoan(DurationUnix);
     }
@@ -238,7 +217,8 @@ contract PlotsCoreV1 {
     // Listings ---------------------------------------------------------------------------------
 
     function ListToken(address Collection, uint256 TokenId) public{
-        require(ListedCollectionsMap[Collection] == true && ListedBool[Collection][TokenId] == false, "Collection not listed or token already listed");
+        require(ListedCollectionsMap[Collection] == true, "Collection not listed");
+        require(ListedBool[Collection][TokenId] == false, "Token already listed");
         
 
         if(Admins[msg.sender]){
@@ -247,7 +227,8 @@ contract PlotsCoreV1 {
 
         }
         else{
-            require(ERC721(Collection).ownerOf(TokenId) == LendContract && PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Invalid ownership or token not owned by lending contract");
+            require(ERC721(Collection).ownerOf(TokenId) == LendContract, "Token not owned by lending contract");
+            require(PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Not owner of token");
             AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
             AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
         }
@@ -256,7 +237,8 @@ contract PlotsCoreV1 {
     }
 
     function DelistToken(address Collection, uint256 TokenId) public{
-        require(ListedCollectionsMap[Collection] == true && ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Collection not listed or token not listed");
+        require(ListedCollectionsMap[Collection] == true, "Collection not listed");
+        require(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Token not listed");
     
         if(ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister == Treasury){
             require(Admins[msg.sender], "Only Admin");
@@ -300,10 +282,6 @@ contract PlotsCoreV1 {
 
     function IsListed(address Collection, uint256 TokenId) public view returns(bool){
         return ListedBool[Collection][TokenId];
-    }
-
-    function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
-        return ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]];
     }
 
     function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
@@ -405,22 +383,22 @@ contract PlotsCoreV1 {
 
     function ChangeRewardFee(uint256 NewFee) public OnlyAdmin{
         require(NewFee <= 1500, "Fee must be less than 15%");
-        RewardFee = NewFee;
+        CurrentRewardFee = NewFee;
     }
 
-    function ModifyCollection(address _collection, bool addRemove) public OnlyAdmin {
-        if (addRemove) {
-            ListedCollections.push(_collection);
-            ListedCollectionsIndex[_collection] = ListedCollections.length - 1;
-            ListedCollectionsMap[_collection] = true;
-        } else {
-            uint256 index = ListedCollectionsIndex[_collection];
-            ListedCollections[index] = ListedCollections[ListedCollections.length - 1];
-            ListedCollectionsIndex[ListedCollections[index]] = index;
-            ListedCollections.pop();
-            delete ListedCollectionsIndex[_collection];
-            delete ListedCollectionsMap[_collection];
-        }
+    function AddCollection(address _collection) public OnlyAdmin{
+        ListedCollections.push(_collection);
+        ListedCollectionsIndex[_collection] = ListedCollections.length - 1;
+        ListedCollectionsMap[_collection] = true;
+    }
+
+    function RemoveCollection(address _collection) public OnlyAdmin{
+        uint256 index = ListedCollectionsIndex[_collection];
+        ListedCollections[index] = ListedCollections[ListedCollections.length - 1];
+        ListedCollectionsIndex[ListedCollections[index]] = index;
+        ListedCollections.pop();
+        delete ListedCollectionsIndex[_collection];
+        delete ListedCollectionsMap[_collection];
     }
 
     //function update payout tracker only callable by loan contracts (isloancontract mapping), input for a user and a token and amount
@@ -480,25 +458,17 @@ contract PlotsTreasuryV1{
         PlotsCoreContract = msg.sender;
     }
 
-    function BuyVLND(uint256 minOut) public payable{
-        uint256 TotalValue = GetTotalValue() - msg.value;
-        uint256 VLNDInCirculation = GetVLNDInCirculation();
-        VLNDInCirculation = VLNDInCirculation / 10 ** 18;
-
-        uint256 VLNDPrice = TotalValue / VLNDInCirculation;
+    function BuyVLND() public payable{
+        uint256 VLNDPrice = GetVLNDPrice();
         uint256 Amount = (msg.value * 10**18) / VLNDPrice;
-
-        require(Amount >= minOut, "Amount must be greater than or equal to minOut");
-
         ERC20(VLND).transfer(msg.sender, Amount);
     }
-    
-    function SellVLND(uint256 Amount, uint256 minOut) public {
+
+    function SellVLND(uint256 Amount) public{
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Value = (Amount * VLNDPrice) / 10 ** 18;
 
-        require(((address(this).balance - PlotsCoreV1(PlotsCoreContract).LockedValue()) - Value) >= ((GetTotalValue() * 5) / 100), "Not enough ether in treasury, must leave 5%");
-        require(Value >= minOut, "Value must be greater than or equal to minOut");
+        require((address(this).balance - PlotsCoreV1(PlotsCoreContract).LockedValue()) >= Value, "Not enough ether in treasury");
 
         ERC20(VLND).transferFrom(msg.sender, address(this), Amount);
         payable(msg.sender).transfer(Value);
@@ -509,7 +479,6 @@ contract PlotsTreasuryV1{
         ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenFloorFactor[Collection][TokenId] = ((EtherCost * 1000) / CollectionFloorPrice[Collection]);
-        TokenLocation[Collection][TokenId] = address(this);
 
         AddTokenToCollection(Collection, TokenId);
         CollectionLockedValue[Collection] += EtherCost;
@@ -750,7 +719,6 @@ contract NFTLoan{
 
     address public Owner;
     address public Borrower;
-    address public Origin;
     PlotsCoreV1.OwnershipPercent public OwnershipType;
     uint256 public LoanEndTime;
     uint256 public InitialValue;
@@ -771,7 +739,8 @@ contract NFTLoan{
         Manager = msg.sender;
     }
 
-    function BeginLoan(PlotsCoreV1.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, uint256 Duration, uint256 InitialVal, address TokenOrigin) public OnlyManager {
+    function BeginLoan(PlotsCoreV1.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, uint256 Duration, uint256 InitialVal) public OnlyManager {
+        require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
         require(ERC721(Collection).ownerOf(TokenId) == address(this), "Token not in loan");
 
         TokenCollection = Collection;
@@ -781,7 +750,6 @@ contract NFTLoan{
         OwnershipType = Ownership;
         LoanEndTime = block.timestamp + Duration;
         InitialValue = InitialVal;
-        Origin = TokenOrigin;
 
         if(Ownership == PlotsCoreV1.OwnershipPercent.Zero){
             BorrowerRewardShare = 3000;
@@ -803,7 +771,7 @@ contract NFTLoan{
         LoanEndTime += Duration;
     }
 
-    function EndLoan() public OnlyManager {
+    function EndLoan(address Origin) public OnlyManager {
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
         ERC721(TokenCollection).transferFrom(address(this), Origin, TokenID);
         
@@ -824,7 +792,7 @@ contract NFTLoan{
         uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
         require(RewardBalance > 0, "No rewards to disperse");
         //check core contract for fee percentage and fee receiver, calculate fee and send to fee receiver
-        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).RewardFee()) / 10000;
+        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).CurrentRewardFee()) / 10000;
         ERC20(RewardToken).transfer(PlotsCoreV1(Manager).FeeReceiver(), Fee);
         RewardBalance -= Fee;
 
@@ -843,7 +811,7 @@ contract NFTLoan{
         if(RewardBalance == 0){
             return 0;
         }
-        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).RewardFee()) / 10000;
+        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).CurrentRewardFee()) / 10000;
         RewardBalance -= Fee;
 
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;
@@ -864,8 +832,6 @@ contract NFTLoan{
         require(Ownership != OwnershipType, "Ownership already set to this");
 
         BorrowerRewardShare = 0;
-
-        OwnershipType = Ownership;
 
         if(Ownership == PlotsCoreV1.OwnershipPercent.Ten){
             BorrowerRewardShare = 5000;

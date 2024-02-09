@@ -234,6 +234,14 @@ contract PlotsCoreV1 {
 
     function AutoList(address Collection, uint256 TokenId, address User) public{
         require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
+
+        if(msg.sender == Treasury){
+            AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId, ListingType.Ownership));
+        }
+        else{
+            AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
+            AddListingToUser(User, Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
+        }
         AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
         AddListingToUser(User, Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
         ListedBool[Collection][TokenId] = true;

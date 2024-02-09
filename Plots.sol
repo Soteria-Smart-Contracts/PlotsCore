@@ -242,8 +242,7 @@ contract PlotsCoreV1 {
             AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
             AddListingToUser(User, Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
         }
-        AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
-        AddListingToUser(User, Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
+
         ListedBool[Collection][TokenId] = true;
     }
 

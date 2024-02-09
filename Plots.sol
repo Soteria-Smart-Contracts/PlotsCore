@@ -506,7 +506,7 @@ contract PlotsTreasuryV1{
         CollectionLockedValue[Collection] += EtherCost;
 
         if(Autolist == true){
-            PlotsCoreV1(PlotsCoreContract).AutoList(Collection, TokenId, msg.sender);
+            PlotsCoreV1(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
         }
     }
 

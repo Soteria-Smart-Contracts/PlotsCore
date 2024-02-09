@@ -673,6 +673,10 @@ contract PlotsLendV1{
         TokenLocation[Collection][TokenId] = address(this);
         AllUserTokens[msg.sender].push(Token(Collection, TokenId));
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
+
+        if(autolist == true){
+            PlotsCoreV1(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
+        }
     }
 
     function DepositTokens(address[] memory Collections, uint256[] memory TokenIds, bool autolist) public{

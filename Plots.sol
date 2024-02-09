@@ -81,7 +81,6 @@ contract PlotsCoreV1 {
         }
         Admins[msg.sender] = true;
         Admins[Treasury] = true;
-        Admins[LendContract] = true;
     }
 
 

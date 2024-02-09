@@ -232,7 +232,7 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = true;
     }
 
-    //auto list 
+    //auto list function so tha
 
     function DelistToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] == true && ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Collection not listed or token not listed");

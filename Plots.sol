@@ -246,7 +246,7 @@ contract PlotsCoreV1 {
         RemoveListingFromCollection(Collection, TokenId);
         ListedBool[Collection][TokenId] = false;
     }
-    
+
     function AutoList(address Collection, uint256 TokenId, address User) public{
         require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
 
@@ -495,7 +495,7 @@ contract PlotsTreasuryV1{
         payable(msg.sender).transfer(Value);
     }
 
-    function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost) public OnlyAdmin {
+    function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost, bool Autolist) public OnlyAdmin {
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
@@ -504,6 +504,10 @@ contract PlotsTreasuryV1{
 
         AddTokenToCollection(Collection, TokenId);
         CollectionLockedValue[Collection] += EtherCost;
+
+        if(Autolist == true){
+            PlotsCoreV1(PlotsCoreContract).AutoList(Collection, TokenId, msg.sender);
+        }
     }
 
     function DepositNFTs(address[] memory Collections, uint256[] memory TokenIds, uint256[] memory EtherCosts) public OnlyAdmin {

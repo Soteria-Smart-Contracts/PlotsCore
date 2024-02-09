@@ -232,7 +232,8 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = true;
     }
 
-    //auto list function for that can be called by treasury or lending contract to lsit as soon as a token is deposited, have an input for the collection and token id
+    //auto list function for that can be called by treasury or lending contract to lsit as soon as a token is deposited, have an input for the collection, token id and the user
+    
 
     function DelistToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] == true && ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Collection not listed or token not listed");

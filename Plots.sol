@@ -675,10 +675,10 @@ contract PlotsLendV1{
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
     }
 
-    function DepositTokens(address[] memory Collections, uint256[] memory TokenIds) public{
+    function DepositTokens(address[] memory Collections, uint256[] memory TokenIds, bool autolist) public{
         require(Collections.length == TokenIds.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
-            DepositToken(Collections[i], TokenIds[i]);
+            DepositToken(Collections[i], TokenIds[i], autolist);
         }
     }
 

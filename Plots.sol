@@ -233,7 +233,12 @@ contract PlotsCoreV1 {
     }
 
     //auto list function for that can be called by treasury or lending contract to lsit as soon as a token is deposited, have an input for the collection, token id and the user
-    
+    function AutoList(address Collection, uint256 TokenId, address User) public{
+        require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
+        AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
+        AddListingToUser(User, Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
+        ListedBool[Collection][TokenId] = true;
+    }
 
     function DelistToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] == true && ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Collection not listed or token not listed");

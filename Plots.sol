@@ -509,10 +509,10 @@ contract PlotsTreasuryV1{
         }
     }
 
-    function DepositNFTs(address[] memory Collections, uint256[] memory TokenIds, uint256[] memory EtherCosts) public OnlyAdmin {
+    function DepositNFTs(address[] memory Collections, uint256[] memory TokenIds, uint256[] memory EtherCosts, bool autolist) public OnlyAdmin {
         require(Collections.length == TokenIds.length && Collections.length == EtherCosts.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
-            DepositNFT(Collections[i], TokenIds[i], EtherCosts[i]);
+            DepositNFT(Collections[i], TokenIds[i], EtherCosts[i], autolist);
         }
     }
 

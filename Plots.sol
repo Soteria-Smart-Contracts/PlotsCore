@@ -665,7 +665,7 @@ contract PlotsLendV1{
     mapping(address => mapping(address => mapping(uint256 => uint256))) public AllUserTokensIndex;
 
     //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract
-    function DepositToken(address Collection, uint256 TokenId) public{
+    function DepositToken(address Collection, uint256 TokenId, bool autolist) public{
         require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 

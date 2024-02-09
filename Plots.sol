@@ -232,20 +232,6 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = true;
     }
 
-    function AutoList(address Collection, uint256 TokenId, address User) public{
-        require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
-
-        if(msg.sender == Treasury){
-            AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId, ListingType.Ownership));
-        }
-        else{
-            AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
-            AddListingToUser(User, Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
-        }
-
-        ListedBool[Collection][TokenId] = true;
-    }
-
     function DelistToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] == true && ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Collection not listed or token not listed");
     
@@ -259,6 +245,20 @@ contract PlotsCoreV1 {
 
         RemoveListingFromCollection(Collection, TokenId);
         ListedBool[Collection][TokenId] = false;
+    }
+    
+    function AutoList(address Collection, uint256 TokenId, address User) public{
+        require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
+
+        if(msg.sender == Treasury){
+            AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId, ListingType.Ownership));
+        }
+        else{
+            AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
+            AddListingToUser(User, Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));
+        }
+
+        ListedBool[Collection][TokenId] = true;
     }
 
     function ManageTokens(address[] memory Collections, uint256[] memory TokenIds, bool isList) public {

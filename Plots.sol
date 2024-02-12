@@ -218,7 +218,7 @@ contract PlotsCoreV1 {
         }
         else{
             require(ERC721(Collection).ownerOf(TokenId) == LendContract && PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Invalid ownership or token not owned by lending contract");
-            AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
+            AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId));
             AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId));
         }
 
@@ -244,7 +244,7 @@ contract PlotsCoreV1 {
         require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
 
         if(msg.sender == Treasury){
-            AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId, ListingType.Ownership));
+            AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));
         }
         else{
             AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId, ListingType.Usage));

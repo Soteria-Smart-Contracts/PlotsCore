@@ -36,7 +36,6 @@ contract PlotsCoreV1 {
         address Lister;
         address Collection;
         uint256 TokenId;
-        ListingType OwnershipOption;
     }
 
     struct Payout{

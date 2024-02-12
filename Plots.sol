@@ -329,7 +329,7 @@ contract PlotsCoreV1 {
     function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory, uint256[] memory Prices){
         uint256[] memory _prices = new uint256[](ListingsByCollection[_collection].length);
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
-            if(ListingsByCollection[_collection][i].OwnershipOption == ListingType.Ownership){
+            if(ERC721(_collection).ownerOf(ListingsByCollection[_collection][i].TokenId) == Treasury){
                 _prices[i] = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(_collection, ListingsByCollection[_collection][i].TokenId);
             }
             else{

@@ -192,9 +192,9 @@ contract PlotsCoreV1 {
 
         if(relist == true){
             require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
-            AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
+            AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId));
             if(Lender != Treasury){
-                AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId, ListingType.Usage));
+                AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId));
             }
             ListedBool[Collection][TokenId] = true;
         }

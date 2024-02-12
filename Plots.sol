@@ -214,12 +214,12 @@ contract PlotsCoreV1 {
 
         if(Admins[msg.sender]){
             require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
-            AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId, ListingType.Ownership));
+            AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));
         }
         else{
             require(ERC721(Collection).ownerOf(TokenId) == LendContract && PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Invalid ownership or token not owned by lending contract");
             AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
-            AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId, ListingType.Usage));
+            AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId));
         }
 
         ListedBool[Collection][TokenId] = true;

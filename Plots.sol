@@ -21,11 +21,6 @@ contract PlotsCoreV1 {
     mapping(address => address[]) public RewardTokenClaimants;
     mapping(address => Payout[]) public RewardTokenPayouts; 
 
-    enum ListingType{
-        Ownership,
-        Usage
-    }
-
     enum LengthOption{ 
         ThreeMonths,
         SixMonths

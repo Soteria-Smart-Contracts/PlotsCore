@@ -122,7 +122,7 @@ contract PlotsCoreV1 {
             LockedValue += BorrowCost - Fee;
             Origin = Treasury;
         }
-        else if(ERC721(Collection).ownerOf(TokenId) == Treasury ){
+        else if(ERC721(Collection).ownerOf(TokenId) == Treasury && Ownership == OwnershipPercent.Zero){
             require(Ownership == OwnershipPercent.Zero);
             PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
             Origin = Treasury;

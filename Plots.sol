@@ -104,7 +104,7 @@ contract PlotsCoreV1 {
         uint256 DurationUnix = (uint8(Duration) + 1) * 60; //TODO: CHANGE LEGNTH BACK TO 90 DAYS BEFORE MAINNET DEPLOYMENT
         address Origin;
         
-        if(ListingsByCollection[Collection][TokenIndex].OwnershipOption == ListingType.Ownership){
+        if(ERC721(Collection).ownerOf(TokenId) == Treasury && ){
             TokenValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
             uint256 Fee = (TokenValue * 20) / 1000;
             uint256 BorrowCost = Fee;

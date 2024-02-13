@@ -240,7 +240,7 @@ contract PlotsCoreV1 {
         ListedBool[Collection][TokenId] = false;
     }
 
-    function AutoList(address Collection, uint256 TokenId, address User) public{
+    function AutoList(address Collection, uint256 TokenId, address User) external{
         require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
 
         if(msg.sender == Treasury){
@@ -408,7 +408,7 @@ contract PlotsCoreV1 {
     }
 
     //function update payout tracker only callable by loan contracts (isloancontract mapping), input for a user and a token and amount
-    function UpdateBorrowerPayoutTracker(address User, address Token, uint256 Amount) public{
+    function UpdateBorrowerPayoutTracker(address User, address Token, uint256 Amount) external{
         require(IsLoanContract[msg.sender] == true, "Only Loan Contracts");
 
         if(BorrowerRewardPayoutTracker[User][Token] == 0){
@@ -420,7 +420,7 @@ contract PlotsCoreV1 {
         BorrowerRewardPayoutTracker[User][Token] += Amount;
     }
 
-    function UpdateOwnerPayoutTracker(address User, address Token, uint256 Amount) public{
+    function UpdateOwnerPayoutTracker(address User, address Token, uint256 Amount) external{
         require(IsLoanContract[msg.sender] == true, "Only Loan Contracts");
 
         if(OwnerRewardPayoutTracker[User][Token] == 0){

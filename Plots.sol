@@ -201,7 +201,7 @@ contract PlotsCoreV1 {
     }
 
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {
-        require(NFTLoan(LoanContract).Origin == Treasury && NFTLoan(LoanContract).Borrower() == msg.sender && NFTLoan(LoanContract).Active(), "Invalid loan conditions");
+        require(NFTLoan(LoanContract).Origin() == Treasury && NFTLoan(LoanContract).Borrower() == msg.sender && NFTLoan(LoanContract).Active(), "Invalid loan conditions");
         uint256 DurationUnix = (uint8(Duration) + 1) * 60; //TODO: Update to correct number before final deployment
         NFTLoan(LoanContract).RenewLoan(DurationUnix);
     }

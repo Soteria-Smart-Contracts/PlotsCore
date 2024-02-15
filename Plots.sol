@@ -626,7 +626,7 @@ contract PlotsTreasuryV1{
 
     //get vlnd in circulation by subtracting the vlnd in the treasury from the total supply
     function GetVLNDInCirculation() public view returns(uint256){
-        return(ERC20(VLND).totalSupply() - ERC20(VLND).balanceOf(address(this)));
+        return(ERC20(VLND).totalSupply());
     }
     
     receive() external payable{}

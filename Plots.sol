@@ -485,6 +485,7 @@ contract PlotsTreasuryV1{
         require(Value >= minOut, "Value must be greater than or equal to minOut");
 
         ERC20(VLND).transferFrom(msg.sender, address(this), Amount);
+        //burn the 
         payable(msg.sender).transfer(Value);
     }
 

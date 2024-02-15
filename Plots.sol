@@ -474,7 +474,7 @@ contract PlotsTreasuryV1{
 
         require(Amount >= minOut, "Amount must be greater than or equal to minOut");
 
-        ERC20(VLND).transfer(msg.sender, Amount);
+        ERC20(VLND).Mint(msg.sender, Amount);
     }
     
     function SellVLND(uint256 Amount, uint256 minOut) public {

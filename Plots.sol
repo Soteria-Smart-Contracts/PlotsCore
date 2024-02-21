@@ -1,8 +1,7 @@
-// SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.24;
 
-pragma solidity 0.8.19;
-
-contract PlotsCoreV1 {
+contract PlotsCore {
     //Variable and pointer Declarations
     address payable public Treasury;
     address payable public FeeReceiver;
@@ -66,8 +65,8 @@ contract PlotsCoreV1 {
 
 
     constructor(address [] memory _admins, address payable _feeReceiver){
-        Treasury = payable(new PlotsTreasuryV1());
-        LendContract = address(new PlotsLendV1());
+        Treasury = payable(new PlotsTreasury());
+        LendContract = address(new PlotsLend());
         FeeReceiver = _feeReceiver;
 
         for(uint256 i = 0; i < _admins.length; i++){
@@ -98,8 +97,8 @@ contract PlotsCoreV1 {
         uint256 DurationUnix = (uint8(Duration) + 1) * 60; //TODO: CHANGE LEGNTH BACK TO 90 DAYS BEFORE MAINNET DEPLOYMENT
         address Origin;
         
-        if(ERC721(Collection).ownerOf(TokenId) == Treasury && Ownership != OwnershipPercent.Zero){
-            TokenValue = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
+        if(IERC721(Collection).ownerOf(TokenId) == Treasury && Ownership != OwnershipPercent.Zero){
+            TokenValue = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId);
             uint256 Fee = (TokenValue * 20) / 1000;
             uint256 BorrowCost = Fee;
             if(Ownership == OwnershipPercent.Ten){
@@ -109,21 +108,21 @@ contract PlotsCoreV1 {
                 BorrowCost += (TokenValue * 25) / 100;
             }
             require(msg.value >= BorrowCost, "Not enough ether sent");
-            PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
+            PlotsTreasury(Treasury).SendToLoan(LoanContract, Collection, TokenId);
 
             FeeReceiver.transfer(Fee);
             payable(Treasury).transfer(address(this).balance);
             LockedValue += BorrowCost - Fee;
             Origin = Treasury;
         }
-        else if(ERC721(Collection).ownerOf(TokenId) == Treasury && Ownership == OwnershipPercent.Zero){
+        else if(IERC721(Collection).ownerOf(TokenId) == Treasury && Ownership == OwnershipPercent.Zero){
             require(Ownership == OwnershipPercent.Zero);
-            PlotsTreasuryV1(Treasury).SendToLoan(LoanContract, Collection, TokenId);
+            PlotsTreasury(Treasury).SendToLoan(LoanContract, Collection, TokenId);
             Origin = Treasury;
         }
-        else if(PlotsLendV1(LendContract).GetTokenLocation(Collection, TokenId) == LendContract){
+        else if(PlotsLend(LendContract).GetTokenLocation(Collection, TokenId) == LendContract){
             require(Ownership == OwnershipPercent.Zero);
-            PlotsLendV1(LendContract).SendToLoan(LoanContract, Collection, TokenId);
+            PlotsLend(LendContract).SendToLoan(LoanContract, Collection, TokenId);
             RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
             Origin = LendContract;
         }
@@ -167,18 +166,18 @@ contract PlotsCoreV1 {
             OwnershipPercentage = 0;
             CollateralValue = 0;
             NFTLoan(LoanContract).EndLoan();
-            PlotsLendV1(LendContract).ReturnedFromLoan(Collection, TokenId);
+            PlotsLend(LendContract).ReturnedFromLoan(Collection, TokenId);
         }
         else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero){
-            CollateralValue = (PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
+            CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
             LockedValue -= NFTLoan(LoanContract).InitialValue() * OwnershipPercentage / 100;
             NFTLoan(LoanContract).EndLoan();
-            PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
-            PlotsTreasuryV1(Treasury).SendEther(payable(Borrower), CollateralValue);
+            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
+            PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
         else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
             NFTLoan(LoanContract).EndLoan();
-            PlotsTreasuryV1(Treasury).ReturnedFromLoan(Collection, TokenId);
+            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
         }
         else{
             revert("Invalid loan");
@@ -213,11 +212,11 @@ contract PlotsCoreV1 {
         
 
         if(Admins[msg.sender]){
-            require(ERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
+            require(IERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
             AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));
         }
         else{
-            require(ERC721(Collection).ownerOf(TokenId) == LendContract && PlotsLendV1(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Invalid ownership or token not owned by lending contract");
+            require(IERC721(Collection).ownerOf(TokenId) == LendContract && PlotsLend(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Invalid ownership or token not owned by lending contract");
             AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId));
             AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId));
         }
@@ -323,8 +322,8 @@ contract PlotsCoreV1 {
     function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory, uint256[] memory Prices){
         uint256[] memory _prices = new uint256[](ListingsByCollection[_collection].length);
         for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
-            if(ERC721(_collection).ownerOf(ListingsByCollection[_collection][i].TokenId) == Treasury){
-                _prices[i] = PlotsTreasuryV1(Treasury).GetTokenValueFloorAdjusted(_collection, ListingsByCollection[_collection][i].TokenId);
+            if(IERC721(_collection).ownerOf(ListingsByCollection[_collection][i].TokenId) == Treasury){
+                _prices[i] = PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(_collection, ListingsByCollection[_collection][i].TokenId);
             }
             else{
                 _prices[i] = 0;
@@ -433,10 +432,12 @@ contract PlotsCoreV1 {
     }
 }
 
-contract PlotsTreasuryV1{
+contract PlotsTreasury {
     //Variable and pointer Declarations
     address public PlotsCoreContract;
     address public VLND;
+
+    uint private InitialVLNDPrice = 500 * (10**12);
 
     //mapping of all collections to a floor price
     mapping(address => uint256) public CollectionFloorPrice;
@@ -456,7 +457,7 @@ contract PlotsTreasuryV1{
 
     //only admin modifier using the core contract
     modifier OnlyAdmin(){
-        require(PlotsCoreV1(PlotsCoreContract).Admins(msg.sender) == true || msg.sender == PlotsCoreContract, "Only Admin");
+        require(PlotsCore(PlotsCoreContract).Admins(msg.sender) == true || msg.sender == PlotsCoreContract, "Only Admin");
         _;
     }
 
@@ -464,34 +465,30 @@ contract PlotsTreasuryV1{
         PlotsCoreContract = msg.sender;
     }
 
-    function BuyVLND(uint256 minOut) public payable{
+    function BuyVLND() public payable{
         uint256 TotalValue = GetTotalValue() - msg.value;
         uint256 VLNDInCirculation = GetVLNDInCirculation();
-        VLNDInCirculation = VLNDInCirculation / 10 ** 18;
 
-        uint256 VLNDPrice = TotalValue / VLNDInCirculation;
+        uint256 VLNDPrice = CalculateVLNDPrice(TotalValue, VLNDInCirculation);
         uint256 Amount = (msg.value * 10**18) / VLNDPrice;
 
-        require(Amount >= minOut, "Amount must be greater than or equal to minOut");
-
-        ERC20(VLND).Mint(msg.sender, Amount);
+        IERC20(VLND).Mint(msg.sender, Amount);
     }
     
-    function SellVLND(uint256 Amount, uint256 minOut) public {
+    function SellVLND(uint256 Amount) public {
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Value = (Amount * VLNDPrice) / 10 ** 18;
 
-        require(((address(this).balance - PlotsCoreV1(PlotsCoreContract).LockedValue()) - Value) >= ((GetTotalValue() * 5) / 100), "Not enough ether in treasury, must leave 5%");
-        require(Value >= minOut, "Value must be greater than or equal to minOut");
+        require(((address(this).balance - PlotsCore(PlotsCoreContract).LockedValue()) - Value) >= ((GetTotalValue() * 5) / 100), "Not enough ether in treasury, must leave 5%");
 
-        ERC20(VLND).transferFrom(msg.sender, address(this), Amount);
-        ERC20(VLND).Burn(Amount);
+        IERC20(VLND).transferFrom(msg.sender, address(this), Amount);
+        IERC20(VLND).Burn(Amount);
         payable(msg.sender).transfer(Value);
     }
 
     function DepositNFT(address Collection, uint256 TokenId, uint256 EtherCost, bool Autolist) public OnlyAdmin {
-        require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
-        ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
+        require(IERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
+        IERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenFloorFactor[Collection][TokenId] = ((EtherCost * 1000) / CollectionFloorPrice[Collection]);
         TokenLocation[Collection][TokenId] = address(this);
@@ -500,7 +497,7 @@ contract PlotsTreasuryV1{
         CollectionLockedValue[Collection] += EtherCost;
 
         if(Autolist == true){
-            PlotsCoreV1(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
+            PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
         }
     }
 
@@ -512,12 +509,12 @@ contract PlotsTreasuryV1{
     }
 
     function WithdrawNFT(address Collection, uint256 TokenId) public OnlyAdmin {
-        require(ERC721(Collection).ownerOf(TokenId) == address(this), "Not owner of token");
-        ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
+        require(IERC721(Collection).ownerOf(TokenId) == address(this), "Not owner of token");
+        IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         //check if listed, if so remove listing
-        if(PlotsCoreV1(PlotsCoreContract).IsListed(Collection, TokenId) == true){
-            PlotsCoreV1(PlotsCoreContract).DelistToken(Collection, TokenId);
+        if(PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId) == true){
+            PlotsCore(PlotsCoreContract).DelistToken(Collection, TokenId);
         }
 
         CollectionLockedValue[Collection] -= GetTokenValueFloorAdjusted(Collection, TokenId);
@@ -533,19 +530,19 @@ contract PlotsTreasuryV1{
     }
 
     function SendEther(address payable Recipient, uint256 Amount) public OnlyAdmin {
-        require((address(this).balance - PlotsCoreV1(PlotsCoreContract).LockedValue()) >= Amount, "Not enough ether in treasury");
+        require((address(this).balance - PlotsCore(PlotsCoreContract).LockedValue()) >= Amount, "Not enough ether in treasury");
         Recipient.transfer(Amount);
     }
 
     function SendERC20(address Token, address Recipient, uint256 Amount) public OnlyAdmin {
-        ERC20(Token).transfer(Recipient, Amount);
+        IERC20(Token).transfer(Recipient, Amount);
     }
 
     //allow admin to set floor price for multiple collections at once, with an array with the collections and an array with the floor prices
     function SetFloorPrice(address[] memory Collections, uint256[] memory FloorPrices) public OnlyAdmin{
         require(Collections.length == FloorPrices.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
-            require(PlotsCoreV1(PlotsCoreContract).ListedCollectionsMap(Collections[i]) == true, "Collection not listed");
+            require(PlotsCore(PlotsCoreContract).ListedCollectionsMap(Collections[i]) == true, "Collection not listed");
             CollectionFloorPrice[Collections[i]] = FloorPrices[i];
 
             CollectionLockedValue[Collections[i]] = 0;
@@ -563,14 +560,14 @@ contract PlotsTreasuryV1{
     //OnlyCore Functions
 
     function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external OnlyCore{
-        ERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
+        IERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
 
         TokenLocation[Collection][TokenID] = LoanContract;
     }
 
     //return from loan (transferfrom the token location back to the treeasury, set token location to this)
     function ReturnedFromLoan(address Collection, uint256 TokenID) external OnlyCore(){
-        require(ERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");
+        require(IERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");
         
         TokenLocation[Collection][TokenID] = address(this);
     }
@@ -596,11 +593,11 @@ contract PlotsTreasuryV1{
     //get total value of the treasury by looping through all collections and getting the locked value
     function GetTotalValue() public view returns(uint256){
         uint256 TotalValue;
-        address[] memory ListedCollections = PlotsCoreV1(PlotsCoreContract).GetCollections();  
+        address[] memory ListedCollections = PlotsCore(PlotsCoreContract).GetCollections();  
         for(uint256 i = 0; i < ListedCollections.length; i++){
             TotalValue += CollectionLockedValue[ListedCollections[i]];
         }
-        TotalValue += (address(this).balance - PlotsCoreV1(PlotsCoreContract).LockedValue());
+        TotalValue += (address(this).balance - PlotsCore(PlotsCoreContract).LockedValue());
         return TotalValue;
     }
 
@@ -620,21 +617,29 @@ contract PlotsTreasuryV1{
     function GetVLNDPrice() public view returns(uint256){
         uint256 TotalValue = GetTotalValue();
         uint256 VLNDInCirculation = GetVLNDInCirculation();
-        VLNDInCirculation = VLNDInCirculation / 10 ** 18;
 
-        return(TotalValue / VLNDInCirculation);
+        return CalculateVLNDPrice(TotalValue, VLNDInCirculation);
     }
 
     //get vlnd in circulation by subtracting the vlnd in the treasury from the total supply
     function GetVLNDInCirculation() public view returns(uint256){
-        return(ERC20(VLND).totalSupply());
+        return(IERC20(VLND).totalSupply());
     }
     
+    function CalculateVLNDPrice(uint256 TotalValue, uint256 VLNDSupply) internal view returns(uint256){
+        if (VLNDSupply == 0){
+            return InitialVLNDPrice;
+        }
+        else {
+            return TotalValue / (VLNDSupply / 10 ** 18);
+        }
+    }
+
     receive() external payable{}
 
 }
 
-contract PlotsLendV1{
+contract PlotsLend {
     //Variable and pointer Declarations
     address public PlotsCoreContract;
 
@@ -661,8 +666,8 @@ contract PlotsLendV1{
 
     //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract
     function DepositToken(address Collection, uint256 TokenId, bool autolist) public{
-        require(ERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
-        ERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
+        require(IERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
+        IERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenDepositor[Collection][TokenId] = msg.sender;
         TokenLocation[Collection][TokenId] = address(this);
@@ -670,7 +675,7 @@ contract PlotsLendV1{
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
 
         if(autolist == true){
-            PlotsCoreV1(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
+            PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
         }
     }
 
@@ -684,9 +689,9 @@ contract PlotsLendV1{
     function WithdrawToken(address Collection, uint256 TokenId) public{
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
         require(TokenLocation[Collection][TokenId] == address(this), "Token not in lending contract");
-        require(!PlotsCoreV1(PlotsCoreContract).IsListed(Collection, TokenId), "Token should not be listed");
+        require(!PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId), "Token should not be listed");
 
-        ERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
+        IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         TokenDepositor[Collection][TokenId] = address(0);
         TokenLocation[Collection][TokenId] = address(0);
@@ -712,7 +717,7 @@ contract PlotsLendV1{
     //send and return from loan functions
 
     function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external OnlyCore{
-        ERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
+        IERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
 
         TokenLocation[Collection][TokenID] = LoanContract;
     }
@@ -744,7 +749,7 @@ contract NFTLoan{
     address public Owner;
     address public Borrower;
     address public Origin;
-    PlotsCoreV1.OwnershipPercent public OwnershipType;
+    PlotsCore.OwnershipPercent public OwnershipType;
     uint256 public LoanEndTime;
     uint256 public InitialValue;
 
@@ -764,8 +769,8 @@ contract NFTLoan{
         Manager = msg.sender;
     }
 
-    function BeginLoan(PlotsCoreV1.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, uint256 Duration, uint256 InitialVal, address TokenOrigin) public OnlyManager {
-        require(ERC721(Collection).ownerOf(TokenId) == address(this), "Token not in loan");
+    function BeginLoan(PlotsCore.OwnershipPercent Ownership, address TokenOwner, address TokenBorrower, address Collection, uint256 TokenId, uint256 Duration, uint256 InitialVal, address TokenOrigin) public OnlyManager {
+        require(IERC721(Collection).ownerOf(TokenId) == address(this), "Token not in loan");
 
         TokenCollection = Collection;
         TokenID = TokenId;
@@ -776,13 +781,13 @@ contract NFTLoan{
         InitialValue = InitialVal;
         Origin = TokenOrigin;
 
-        if(Ownership == PlotsCoreV1.OwnershipPercent.Zero){
+        if(Ownership == PlotsCore.OwnershipPercent.Zero){
             BorrowerRewardShare = 3000;
         }
-        else if(Ownership == PlotsCoreV1.OwnershipPercent.Ten){
+        else if(Ownership == PlotsCore.OwnershipPercent.Ten){
             BorrowerRewardShare = 5000;
         }
-        else if(Ownership == PlotsCoreV1.OwnershipPercent.TwentyFive){
+        else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
             BorrowerRewardShare = 6500;
         }
 
@@ -798,7 +803,7 @@ contract NFTLoan{
 
     function EndLoan() public OnlyManager {
         require(msg.sender == Manager, "Only Loans Or Treasury Contract can interact with this contract");
-        ERC721(TokenCollection).transferFrom(address(this), Origin, TokenID);
+        IERC721(TokenCollection).transferFrom(address(this), Origin, TokenID);
         
         TokenCollection = address(0);
         InitialValue = 0;
@@ -806,7 +811,7 @@ contract NFTLoan{
         TokenID = 0;
         Owner = address(0);
         Borrower = address(0);
-        OwnershipType = PlotsCoreV1.OwnershipPercent.Zero;
+        OwnershipType = PlotsCore.OwnershipPercent.Zero;
         BorrowerRewardShare = 0;
         UseCounter++;
         Active = false;
@@ -814,29 +819,29 @@ contract NFTLoan{
 
     function DisperseRewards(address RewardToken) public {
         require(msg.sender == Owner || msg.sender == Borrower || msg.sender == Manager, "Only Owner or Borrower can disperse rewards");
-        uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
+        uint256 RewardBalance = IERC20(RewardToken).balanceOf(address(this));
         require(RewardBalance > 0, "No rewards to disperse");
         //check core contract for fee percentage and fee receiver, calculate fee and send to fee receiver
-        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).RewardFee()) / 10000;
-        ERC20(RewardToken).transfer(PlotsCoreV1(Manager).FeeReceiver(), Fee);
+        uint256 Fee = (RewardBalance * PlotsCore(Manager).RewardFee()) / 10000;
+        IERC20(RewardToken).transfer(PlotsCore(Manager).FeeReceiver(), Fee);
         RewardBalance -= Fee;
 
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;
 
-        PlotsCoreV1(Manager).UpdateOwnerPayoutTracker(Owner, RewardToken, OwnerReward);
-        PlotsCoreV1(Manager).UpdateBorrowerPayoutTracker(Borrower, RewardToken, RewardBalance - OwnerReward);
+        PlotsCore(Manager).UpdateOwnerPayoutTracker(Owner, RewardToken, OwnerReward);
+        PlotsCore(Manager).UpdateBorrowerPayoutTracker(Borrower, RewardToken, RewardBalance - OwnerReward);
         
-        ERC20(RewardToken).transfer(Owner, OwnerReward);
-        ERC20(RewardToken).transfer(Borrower, ERC20(RewardToken).balanceOf(address(this)));
+        IERC20(RewardToken).transfer(Owner, OwnerReward);
+        IERC20(RewardToken).transfer(Borrower, IERC20(RewardToken).balanceOf(address(this)));
     }
 
     //create a view function that will return the unclaimed reward tokens for a user with the output depending on if the user is the owner or borrower, in a similar fashion to dispense rewards
     function GetUnclaimedRewards(address RewardToken, address User) public view returns(uint256){
-        uint256 RewardBalance = ERC20(RewardToken).balanceOf(address(this));
+        uint256 RewardBalance = IERC20(RewardToken).balanceOf(address(this));
         if(RewardBalance == 0){
             return 0;
         }
-        uint256 Fee = (RewardBalance * PlotsCoreV1(Manager).RewardFee()) / 10000;
+        uint256 Fee = (RewardBalance * PlotsCore(Manager).RewardFee()) / 10000;
         RewardBalance -= Fee;
 
         uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;
@@ -853,37 +858,24 @@ contract NFTLoan{
     }
 
     //update borrower reward share (only manager)
-    function UpdateBorrowerRewardShare(PlotsCoreV1.OwnershipPercent Ownership) public OnlyManager {
+    function UpdateBorrowerRewardShare(PlotsCore.OwnershipPercent Ownership) public OnlyManager {
         require(Ownership != OwnershipType, "Ownership already set to this");
 
         BorrowerRewardShare = 0;
 
         OwnershipType = Ownership;
 
-        if(Ownership == PlotsCoreV1.OwnershipPercent.Ten){
+        if(Ownership == PlotsCore.OwnershipPercent.Ten){
             BorrowerRewardShare = 5000;
         }
-        else if(Ownership == PlotsCoreV1.OwnershipPercent.TwentyFive){
+        else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
             BorrowerRewardShare = 6500;
         }
     }
 
 }
 
-
-
-interface ERC721 {
-    function balanceOf(address _owner) external view returns (uint256);
-    function ownerOf(uint256 _tokenId) external view returns (address);
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable;
-    function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
-    function approve(address _approved, uint256 _tokenId) external payable;
-    function setApprovalForAll(address _operator, bool _approved) external;
-    function getApproved(uint256 _tokenId) external view returns (address);
-    function isApprovedForAll(address _owner, address _operator) external view returns (bool);
-}
-
-interface ERC20 {
+interface IERC20 {
   function balanceOf(address owner) external view returns (uint256);
   function allowance(address owner, address spender) external view returns (uint256);
   function approve(address spender, uint256 value) external returns (bool);
@@ -892,4 +884,15 @@ interface ERC20 {
   function totalSupply() external view returns (uint256);
   function Mint(address _MintTo, uint256 _MintAmount) external;
   function Burn(uint256 _BurnAmount) external;
+}
+
+interface IERC721 {
+    function balanceOf(address _owner) external view returns (uint256);
+    function ownerOf(uint256 _tokenId) external view returns (address);
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable;
+    function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+    function approve(address _approved, uint256 _tokenId) external payable;
+    function setApprovalForAll(address _operator, bool _approved) external;
+    function getApproved(uint256 _tokenId) external view returns (address);
+    function isApprovedForAll(address _owner, address _operator) external view returns (bool);
 }

@@ -675,7 +675,7 @@ contract PlotsLend {
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
 
         if(autolist == true){
-            PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
+            PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, msg.sender);
         }
     }
 

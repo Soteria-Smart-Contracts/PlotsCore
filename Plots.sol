@@ -844,13 +844,8 @@ contract NFTLoan{
         uint256 Fee = (RewardBalance * PlotsCore(Manager).RewardFee()) / 10000;
         RewardBalance -= Fee;
 
-        uint256 OwnerReward = (RewardBalance * (10000 - BorrowerRewardShare)) / 10000;
-
         if(User == Owner){
-            return OwnerReward;
-        }
-        else if(User == Borrower){
-            return RewardBalance - OwnerReward;
+            return RewardBalance;
         }
         else{
             return 0;

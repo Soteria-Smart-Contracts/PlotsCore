@@ -2,19 +2,19 @@ pragma solidity ^0.8.4;
 
 
 
-contract CLS_Crowdsale {
-    address payable CLS;
-    address payable wETC;
-    uint256 public CLS_Sale_Allocation;
-    uint256 public Total_wETC_Deposited; 
+contract PLOTS_Crowdsale {
+    address payable PLOTS;
+    address payable wETH;
+    uint256 public PLOTS_Sale_Allocation;
+    uint256 public Total_wETH_Deposited; 
     uint256 public Allocation_Exchange_Rate = 0;
-    uint256 public Total_CLS_Distributed;
+    uint256 public Total_PLOTS_Distributed;
     address public CrowdSale_Operator;
     uint256 public Crowdsale_End_Unix;
     
     //DEV WALLETS
     
-    address LiquidityAddress = 0xC61A70Fb5F8A967C71c1E9A42374FbE460D0a341; //This address will be used to add the 80% of crowdsale funds as liquidity for wETC-CLS
+    address LiquidityAddress = 0xC61A70Fb5F8A967C71c1E9A42374FbE460D0a341; //This address will be used to add the 80% of crowdsale funds as liquidity for wETH-PLOTS
     
     address Dev_1 = 0x19b2a627Dd49587E021290b3eEF38ea8DE541eE5; //Personal Wallet of one of the developers () 62%
     address Dev_2 = 0xb24f9473Fee391c8FE0ED3fF423E135AaEC8023E; //Personal Wallet of one of the developers () 4.5%
@@ -33,84 +33,84 @@ contract CLS_Crowdsale {
     Mode Crowdsale_Mode;
     //Crowdsale Modes
     //1: Before sale preperation Mode
-    //2: Sale is Open to buy CLS
-    //3: Sale is over, CLS buyer withdrawal period
-    //99 Emergency Shutdown mode, in case any issues or bugs need to be dealt with, Safe for buyers, and ETC withdrawls will be available
+    //2: Sale is Open to buy PLOTS
+    //3: Sale is over, PLOTS buyer withdrawal period
+    //99 Emergency Shutdown mode, in case any issues or bugs need to be dealt with, Safe for buyers, and ETH withdrawls will be available
     
     
     //Crowdsale Contract constructor
-    constructor(uint256 Sale_Allocation, address payable _CLS, address payable _wETC){
-        CLS_Sale_Allocation = Sale_Allocation;
-        CLS = _CLS;
-        wETC = _wETC;
+    constructor(uint256 Sale_Allocation, address payable _PLOTS, address payable _wETH){
+        PLOTS_Sale_Allocation = Sale_Allocation;
+        PLOTS = _PLOTS;
+        wETH = _wETH;
         Crowdsale_Mode = Mode("Before sale preperation", 1);
         CrowdSale_Operator = msg.sender;
     }
     
     //Event Declarations
     event CrowdsaleStarted(address Operator, uint256 Crowdsale_Allocation, uint256 Unix_End);
-    event CrowdsaleEnded(address Operator, uint256 wETCraised, uint256 BlockTimestamp);
-    event wETCdeposited(address Depositor, uint256 Amount);
-    event wETCwithdrawn(address Withdrawee, uint256 Amount);
-    event CLSwithdrawn(address Withdrawee, uint256 Amount);
+    event CrowdsaleEnded(address Operator, uint256 wETHraised, uint256 BlockTimestamp);
+    event wETHdeposited(address Depositor, uint256 Amount);
+    event wETHwithdrawn(address Withdrawee, uint256 Amount);
+    event PLOTSwithdrawn(address Withdrawee, uint256 Amount);
     event VariableChange(string Change);
     
     
     
     //Deposit Tracker
-    mapping(address => uint256) wETC_Deposited;
+    mapping(address => uint256) wETH_Deposited;
     
     
     //Buyer Functions
     
-    function DepositETC(uint256 amount) public returns(bool success){
+    function DepositETH(uint256 amount) public returns(bool success){
         require(Crowdsale_Mode.Sale_Mode == 2);
         require(block.timestamp < Crowdsale_End_Unix);
         require(amount >= 1000000000000000);
         
-        ERC20(wETC).transferFrom(msg.sender, address(this), amount);
+        ERC20(wETH).transferFrom(msg.sender, address(this), amount);
         
-        wETC_Deposited[msg.sender] = (wETC_Deposited[msg.sender] + amount);
+        wETH_Deposited[msg.sender] = (wETH_Deposited[msg.sender] + amount);
         
-        Total_wETC_Deposited = (Total_wETC_Deposited + amount);
-        emit wETCdeposited(msg.sender, amount);
+        Total_wETH_Deposited = (Total_wETH_Deposited + amount);
+        emit wETHdeposited(msg.sender, amount);
         return(success);
     }
     
-    //There is a 5% fee for withdrawing deposited wETC
-    function WithdrawETC(uint256 amount) public returns(bool success){
-        require(amount <= wETC_Deposited[msg.sender]);
+    //There is a 5% fee for withdrawing deposited wETH
+    function WithdrawETH(uint256 amount) public returns(bool success){
+        require(amount <= wETH_Deposited[msg.sender]);
         require(Crowdsale_Mode.Sale_Mode != 3 && Crowdsale_Mode.Sale_Mode != 1);
         require(amount >= 1000000000000000);
         uint256 amount_wFee;
         amount_wFee = (amount * 95 / 100);
         
-        wETC_Deposited[msg.sender] = (wETC_Deposited[msg.sender] - amount);
+        wETH_Deposited[msg.sender] = (wETH_Deposited[msg.sender] - amount);
         
-        ERC20(wETC).transfer(msg.sender, amount_wFee);
+        ERC20(wETH).transfer(msg.sender, amount_wFee);
         
-        Total_wETC_Deposited = (Total_wETC_Deposited - amount_wFee);
-        emit wETCwithdrawn(msg.sender, amount);
+        Total_wETH_Deposited = (Total_wETH_Deposited - amount_wFee);
+        emit wETHwithdrawn(msg.sender, amount);
         return(success);
     }
     
-    function WithdrawCLS() public returns(uint256 _CLSwithdrawn){
+    function WithdrawPLOTS() public returns(uint256 _PLOTSwithdrawn){
         require(Crowdsale_Mode.Sale_Mode == 3);
         require(block.timestamp > Crowdsale_End_Unix);
-        require(wETC_Deposited[msg.sender] >= 1000000000000000);
+        require(wETH_Deposited[msg.sender] >= 1000000000000000);
         
         
-        uint256 CLStoMintandSend;
-        CLStoMintandSend = (((wETC_Deposited[msg.sender] / 100000000) * Allocation_Exchange_Rate) / 100000000);
-        require((Total_CLS_Distributed + CLStoMintandSend) <= CLS_Sale_Allocation);
+        uint256 PLOTStoMintandSend;
+        PLOTStoMintandSend = (((wETH_Deposited[msg.sender] / 100000000) * Allocation_Exchange_Rate) / 100000000);
+        require((Total_PLOTS_Distributed + PLOTStoMintandSend) <= PLOTS_Sale_Allocation);
         
-        wETC_Deposited[msg.sender] = 0;
+        wETH_Deposited[msg.sender] = 0;
         
-        ERC20(CLS).Mint(msg.sender, CLStoMintandSend);
+        ERC20(PLOTS).Mint(msg.sender, PLOTStoMintandSend);
         
-        Total_CLS_Distributed = (Total_CLS_Distributed + CLStoMintandSend);
-        emit CLSwithdrawn(msg.sender, CLStoMintandSend);
-        return(CLStoMintandSend);
+        Total_PLOTS_Distributed = (Total_PLOTS_Distributed + PLOTStoMintandSend);
+        emit PLOTSwithdrawn(msg.sender, PLOTStoMintandSend);
+        return(PLOTStoMintandSend);
     }
     
     
@@ -118,37 +118,37 @@ contract CLS_Crowdsale {
     //Operator Functions
     function StartCrowdsale() public returns(bool success){
         require(msg.sender == CrowdSale_Operator);
-        require(ERC20(CLS).CheckMinter(address(this)) == 1);
+        require(ERC20(PLOTS).CheckMinter(address(this)) == 1);
         require(Crowdsale_Mode.Sale_Mode == 1);
         require(Setup == 1);
         
         Crowdsale_End_Unix = (block.timestamp + 86400);
-        Crowdsale_Mode.Sale_Mode_Text = ("Sale is Open to buy CLS");
+        Crowdsale_Mode.Sale_Mode_Text = ("Sale is Open to buy PLOTS");
         Crowdsale_Mode.Sale_Mode = 2;
         
-        emit CrowdsaleStarted(msg.sender, CLS_Sale_Allocation, Crowdsale_End_Unix);
+        emit CrowdsaleStarted(msg.sender, PLOTS_Sale_Allocation, Crowdsale_End_Unix);
         return success;
         
     }
     
     function EndCrowdsale() public returns(bool success){
         require(msg.sender == CrowdSale_Operator);
-        require(ERC20(CLS).CheckMinter(address(this)) == 1);
+        require(ERC20(PLOTS).CheckMinter(address(this)) == 1);
         require(Crowdsale_Mode.Sale_Mode == 2);
         require(block.timestamp > Crowdsale_End_Unix);
         
-        Crowdsale_Mode.Sale_Mode_Text = ("Sale is over, Time to withdraw CLS!");
+        Crowdsale_Mode.Sale_Mode_Text = ("Sale is over, Time to withdraw PLOTS!");
         Crowdsale_Mode.Sale_Mode = 3;
         
         
-        Allocation_Exchange_Rate = (((CLS_Sale_Allocation * 100000000) / (Total_wETC_Deposited / 100000000))); 
+        Allocation_Exchange_Rate = (((PLOTS_Sale_Allocation * 100000000) / (Total_wETH_Deposited / 100000000))); 
         
-        emit CrowdsaleEnded(msg.sender, Total_wETC_Deposited, block.timestamp);
+        emit CrowdsaleEnded(msg.sender, Total_wETH_Deposited, block.timestamp);
         return(success);
         
     }
     //This function only works when the crowdsale is in the post-sale mode(3), or in the Emergency mode(99)
-    function PullwETC() public returns(bool success){
+    function PullwETH() public returns(bool success){
         require(Crowdsale_Mode.Sale_Mode == 3 || Crowdsale_Mode.Sale_Mode == 99);
         require(block.timestamp > Crowdsale_End_Unix);
         
@@ -156,24 +156,24 @@ contract CLS_Crowdsale {
         Multisig = MultiSignature();
         
         
-        uint256 Contract_wETC_Balance;
-        Contract_wETC_Balance = ERC20(wETC).balanceOf(address(this));
+        uint256 Contract_wETH_Balance;
+        Contract_wETH_Balance = ERC20(wETH).balanceOf(address(this));
         
         uint256 LiquidityFunds;
-        LiquidityFunds = ((Contract_wETC_Balance * 80) / 100);
+        LiquidityFunds = ((Contract_wETH_Balance * 80) / 100);
         
         uint256 DevFunds;
-        DevFunds = ((Contract_wETC_Balance * 20) / 100);
+        DevFunds = ((Contract_wETH_Balance * 20) / 100);
         
         if (Multisig == true){
-            ERC20(wETC).transfer(LiquidityAddress, LiquidityFunds);
-            ERC20(wETC).transfer(Dev_1, ((DevFunds * 620) / 1000));
-            ERC20(wETC).transfer(Dev_2, ((DevFunds * 45) / 1000));
-            ERC20(wETC).transfer(Dev_3, ((DevFunds * 30) / 1000));
-            ERC20(wETC).transfer(Dev_4, ((DevFunds * 65) / 1000));
-            ERC20(wETC).transfer(Dev_5, ((DevFunds * 150) / 1000));
-            ERC20(wETC).transfer(Dev_6, ((DevFunds * 45) / 1000));
-            ERC20(wETC).transfer(Dev_7, ((DevFunds * 45) / 1000));
+            ERC20(wETH).transfer(LiquidityAddress, LiquidityFunds);
+            ERC20(wETH).transfer(Dev_1, ((DevFunds * 620) / 1000));
+            ERC20(wETH).transfer(Dev_2, ((DevFunds * 45) / 1000));
+            ERC20(wETH).transfer(Dev_3, ((DevFunds * 30) / 1000));
+            ERC20(wETH).transfer(Dev_4, ((DevFunds * 65) / 1000));
+            ERC20(wETH).transfer(Dev_5, ((DevFunds * 150) / 1000));
+            ERC20(wETH).transfer(Dev_6, ((DevFunds * 45) / 1000));
+            ERC20(wETH).transfer(Dev_7, ((DevFunds * 45) / 1000));
         }
 
         return success;
@@ -200,7 +200,7 @@ contract CLS_Crowdsale {
         
         if (Multisig == true){
             
-        Crowdsale_Mode.Sale_Mode_Text = ("Sale is Open to buy CLS");
+        Crowdsale_Mode.Sale_Mode_Text = ("Sale is Open to buy PLOTS");
         Crowdsale_Mode.Sale_Mode = 2;
         
         return(success);
@@ -210,30 +210,30 @@ contract CLS_Crowdsale {
     //Add Resume Crowdsale
     
       //Redundancy
-    function ChangeCLSaddy(address payable NewAddy)public returns(bool success, address CLSaddy){
+    function ChangePLOTSaddy(address payable NewAddy)public returns(bool success, address PLOTSaddy){
         require(msg.sender == CrowdSale_Operator);
         require(Crowdsale_Mode.Sale_Mode != 3);
-        CLS = NewAddy;
-        emit VariableChange("Changed CLS Address");
-        return(true, CLS);
+        PLOTS = NewAddy;
+        emit VariableChange("Changed PLOTS Address");
+        return(true, PLOTS);
     }
       //Redundancy
-    function ChangeWETCaddy(address payable NewAddy)public returns(bool success, address wETCaddy){
+    function ChangeWETHaddy(address payable NewAddy)public returns(bool success, address wETHaddy){
         require(msg.sender == CrowdSale_Operator);
         require(Crowdsale_Mode.Sale_Mode == 1);
-        wETC = NewAddy;
-        emit VariableChange("Changed wETC Address");
-        return(true, CLS);
+        wETH = NewAddy;
+        emit VariableChange("Changed wETH Address");
+        return(true, PLOTS);
     }
     
     //Call Functions
-    function GetContractMode() public view returns(uint256, string memory){
+    function GETHontractMode() public view returns(uint256, string memory){
         return (Crowdsale_Mode.Sale_Mode, Crowdsale_Mode.Sale_Mode_Text);
         
     }
     
-    function GetwETCdeposited(address _address) public view returns(uint256){
-        return (wETC_Deposited[_address]);
+    function GetwETHdeposited(address _address) public view returns(uint256){
+        return (wETH_Deposited[_address]);
     }
     //_______________________________________________________________________________________________________________________________________________________________            
     //_______________________________________________________________________________________________________________________________________________________________

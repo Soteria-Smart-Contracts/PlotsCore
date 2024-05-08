@@ -42,6 +42,16 @@ contract Plots_MultiToken_Presale{
         return SalePhase.Over;
     }
 
+    function GetVLNDPrice() public view returns(uint256){
+        if(GetSaleStatus() == SalePhase.PhaseOne){
+            return PhaseOnePrice;
+        }
+        else if(GetSaleStatus() == SalePhase.PhaseTwo){
+            return PhaseTwoPrice;
+        }
+        return 0;
+    }
+
     
 
 }

@@ -8,7 +8,7 @@ contract Plots_MultiToken_Presale{
 
     address public Admin;
 
-    enum SalePhase {Pre, Open, Closed}
+    enum SalePhase {AwaitingStart, Open, Closed}
 
 }
 

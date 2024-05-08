@@ -14,6 +14,7 @@ contract Plots_MultiToken_Presale{
     uint256 public PhaseOnePrice;
     uint256 public PhaseTwoPrice;
 
+    uint256 public TotalRaised;
     uint256 public PhaseOneCap;
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}

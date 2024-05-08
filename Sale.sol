@@ -10,6 +10,8 @@ contract Plots_MultiToken_Presale{
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
 
+    function
+
 }
 
 

@@ -5,6 +5,9 @@ contract Plots_MultiToken_Presale{
     address public VLND;
     address public USDT;
     address public USDC;
+    
+    //Chainlink Price Feeds
+    
 
     //Admin Address
     address public Admin;

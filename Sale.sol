@@ -4,7 +4,7 @@ contract Plots_MultiToken_Presale{
     //Token Addresses
     address public VLND = address(0);
     address public USDT = 0xdAC17F958D2ee523a2206206994597C13D831ec7;
-    address public USDC = 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48;
+    address public USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
     
     //Chainlink Price Feeds
     address public USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
@@ -24,6 +24,7 @@ contract Plots_MultiToken_Presale{
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
     
+    //Getter Functions
 
     function GetSaleStatus() public view returns(SalePhase){
         if(block.timestamp < SaleStart){
@@ -40,6 +41,8 @@ contract Plots_MultiToken_Presale{
         }
         return SalePhase.Over;
     }
+
+    
 
 }
 

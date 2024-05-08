@@ -24,10 +24,10 @@ contract Plots_MultiToken_Presale{
         if(block.timestamp < SaleStart){
             return SalePhase.AwaitingStart;
         }
-        if(block.timestamp < SaleStart && ){
+        if(block.timestamp < SaleStart && TotalRaised < PhaseOneCap){
             return SalePhase.PhaseOne;
         }
-        if(block.timestamp < SaleEnd){
+        if(block.timestamp < SaleSt ){
             return SalePhase.PhaseTwo;
         }
         return SalePhase.Over;

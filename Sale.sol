@@ -4,11 +4,11 @@ contract Plots_MultiToken_Presale{
     //Token Addresses
     address public VLND = address(0);
     address public USDT = 0xdac17f958d2ee523a2206206994597c13d831ec7;
-    address public USDC;
+    address public USDC = 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48;
     
     //Chainlink Price Feeds
     address public USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
-
+    address public USDCPriceFeed = 0x51597f405303C4377E36123cBc172b13269EA163;
 
     //Admin Address
     address public Admin;

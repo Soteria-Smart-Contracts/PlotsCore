@@ -6,7 +6,10 @@ contract Plots_MultiToken_Presale{
     address public USDT;
     address public USDC;
 
+    //Admin Address
     address public Admin;
+
+    //
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
 

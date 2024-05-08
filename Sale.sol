@@ -1,7 +1,5 @@
 pragma solidity ^0.8.4;
 
-
-
 contract PLOTS_Crowdsale {
     address payable PLOTS;
     address payable wETH;

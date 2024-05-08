@@ -51,12 +51,10 @@ contract Plots_MultiToken_Presale{
         return 0;
     }
 
-    function GetStablecoinPrices() public view returns(uint256 USDT, uint256 USDC){
+    function GetStablecoinPrices() public view returns(uint256 USDT){
         AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         (,int priceusdt,,,) = priceFeed.latestRoundData();
         USDT = uint256(priceusdt);
-        (,int priceusdc,,,) = AggregatorV3Interface(USDCPriceFeed).latestRoundData();
-        USDC = uint256(priceusdc);
         return (USDT, USDC);
     }
 

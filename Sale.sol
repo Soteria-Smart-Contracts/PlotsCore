@@ -8,7 +8,7 @@ contract Plots_MultiToken_Presale{
     
     //Chainlink Price Feeds
     address public USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
-    address public USDCPriceFeed = 0x51597f405303C4377E36123cBc172b13269EA163;
+    address public USDCPriceFeed = 0x986b5E1e1755e3C2440e960477f25201B0a8bbD4;
 
     //Admin Address
     address public Admin;

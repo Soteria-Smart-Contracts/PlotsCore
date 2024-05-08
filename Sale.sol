@@ -52,6 +52,12 @@ contract Plots_MultiToken_Presale{
         return 0;
     }
 
+    function GetUSDTPrice() public view returns(uint256){
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
+        (,int price,,,) = priceFeed.latestRoundData();
+        return uint256(price);
+    }
+
     
 
 }

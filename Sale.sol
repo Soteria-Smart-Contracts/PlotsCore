@@ -12,6 +12,9 @@ contract Plots_MultiToken_Presale{
     //Params
     uint256 public SaleStart;
     uint256 public PhaseOnePrice;
+    uint256 public PhaseTwoPrice;
+
+    
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
 

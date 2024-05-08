@@ -2,7 +2,7 @@ pragma solidity ^0.8.4;
 
 contract Plots_MultiToken_Presale{
     address public Admin;
-    address public 
+    address public VLND
 }
 
 

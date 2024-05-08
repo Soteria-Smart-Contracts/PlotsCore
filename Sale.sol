@@ -54,8 +54,8 @@ contract Plots_MultiToken_Presale{
     function GetUSDTExchangeRate() public view returns(uint256 Rate){
         AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         (,int priceusdt,,,) = priceFeed.latestRoundData();
-        Rate = uint256(Rate);
-        return(USDT);
+        Rate = uint256(priceusdt);
+        return(Rate);
     }
 
 }

@@ -9,7 +9,11 @@ contract Plots_MultiToken_Presale{
     //Admin Address
     address public Admin;
 
-    //
+    //Params
+    uint256 public SaleStart;
+    uint256 public PhaseOneEnd;
+    uint256 public PhaseTwoEnd;
+    uint256 public PhaseOnePrice;
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
 

@@ -2,12 +2,13 @@ pragma solidity ^0.8.4;
 
 contract Plots_MultiToken_Presale{
     //Token Addresses
-    address public VLND;
+    address public VLND = 
     address public USDT;
     address public USDC;
     
     //Chainlink Price Feeds
-    
+    address public USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
+
 
     //Admin Address
     address public Admin;

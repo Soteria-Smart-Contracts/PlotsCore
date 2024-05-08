@@ -1,10 +1,11 @@
 pragma solidity ^0.8.4;
 
 contract Plots_MultiToken_Presale{
+    //Token Addresses
     address public VLND;
     address public USDT;
     address public USDC;
-    
+
     address public Admin;
 
 }

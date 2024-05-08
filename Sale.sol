@@ -10,7 +10,18 @@ contract Plots_MultiToken_Presale{
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
 
-    function
+    function GetSaleStatus() public view returns(SalePhase){
+        if(block.timestamp < SaleStart){
+            return SalePhase.AwaitingStart;
+        }
+        if(block.timestamp < PhaseOneEnd){
+            return SalePhase.PhaseOne;
+        }
+        if(block.timestamp < PhaseTwoEnd){
+            return SalePhase.PhaseTwo;
+        }
+        return SalePhase.Over;
+    }
 
 }
 

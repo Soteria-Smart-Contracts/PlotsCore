@@ -22,7 +22,8 @@ contract Plots_MultiToken_Presale{
     uint256 public TotalRaised;
     uint256 public PhaseOneCap;
 
-    enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over};
+    enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
+    
 
     function GetSaleStatus() public view returns(SalePhase){
         if(block.timestamp < SaleStart){

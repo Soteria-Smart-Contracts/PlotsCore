@@ -1,6 +1,6 @@
 pragma solidity ^0.8.4;
 
-contract PLOTS_Crowdsale {
+contract Plots_Presale {
     address payable PLOTS;
     address payable wETH;
     uint256 public PLOTS_Sale_Allocation;

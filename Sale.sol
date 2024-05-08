@@ -1,6 +1,7 @@
 pragma solidity ^0.8.4;
 
-contract Plots_MultiToken_Presale {
+contract Plots_MultiToken_Presale{
+    address 
 }
 
 

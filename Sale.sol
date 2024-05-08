@@ -58,7 +58,7 @@ contract Plots_MultiToken_Presale{
         USDT = uint256(priceusdt);
         (,int priceusdc,,,) = AggregatorV3Interface(USDCPriceFeed).latestRoundData();
         USDC = uint256(priceusdc);
-        return uint256(price);
+        return (USDT, USDC);
     }
 
 }

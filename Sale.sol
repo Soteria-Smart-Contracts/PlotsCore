@@ -27,7 +27,7 @@ contract Plots_MultiToken_Presale{
         if(block.timestamp < SaleStart && TotalRaised < PhaseOneCap){
             return SalePhase.PhaseOne;
         }
-        if(block.timestamp < SaleSt ){
+        if(block.timestamp < SaleStart && TotalRaised >= PhaseOneCap){
             return SalePhase.PhaseTwo;
         }
         return SalePhase.Over;

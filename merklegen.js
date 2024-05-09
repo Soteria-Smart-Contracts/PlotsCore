@@ -1,0 +1,1 @@
+console.log('merklegen.js loaded');

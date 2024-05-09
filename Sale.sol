@@ -29,7 +29,9 @@ contract Plots_MultiToken_Presale{
     }
 
     //Admin Functions
-    function Send
+    function SendProceedsToTreasry() public OnlyAdmin{
+        //Send Proceeds to Treasury
+    }
     
     //Getter Functions
 

@@ -55,7 +55,7 @@ contract Plots_MultiToken_Presale{
         AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         (,int priceusdt,,,) = priceFeed.latestRoundData();
         uint256 USDTEquivalent = AmountIn / uint256(priceusdt);
-        return ConvertStableToPlots(U);;
+        return ConvertStableToPlots(USDTEquivalent);
     }
 
     function ConvertStableToPlots(uint256 AmountIn) public view returns(uint256 AmountOut){

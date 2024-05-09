@@ -95,10 +95,7 @@ interface AggregatorV3Interface {
     returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
 }
 
-//Merkle Verification Library
-/**
- * @dev Library of standard hash functions.
- */
+//Merkle Verification Libraries
 library Hashes {
     /**
      * @dev Commutative Keccak256 hash of a sorted pair of bytes32. Frequently used when working with merkle proofs.

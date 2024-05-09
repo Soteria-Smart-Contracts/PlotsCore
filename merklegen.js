@@ -1,7 +1,6 @@
 console.log('merklegen.js loaded');
 
-// 2. Collect list of wallet addresses from competition, raffle, etc.
-// Store list of addresses in some data sheeet (Google Sheets or Excel)
+
 let whitelistAddresses = [
     "0X5B38DA6A701C568545DCFCB03FCB875F56BEDDC4",
     "0X5A641E5FB72A2FD9137312E7694D42996D689D99",
@@ -9,7 +8,7 @@ let whitelistAddresses = [
     "0X6E21D37E07A6F7E53C7ACE372CEC63D4AE4B6BD0",
     "0X09BAAB19FC77C19898140DADD30C4685C597620B",
     "0XCC4C29997177253376528C05D3DF91CF2D69061A",
-    "0xdD870fA1b7C4700F2BD7f44238821C26f7392148" // The address in remix
+    "0xdD870fA1b7C4700F2BD7f44238821C26f7392148" 
   ];
 
 // 3. Create a new array of `leafNodes` by hashing all indexes of the `whitelistAddresses`

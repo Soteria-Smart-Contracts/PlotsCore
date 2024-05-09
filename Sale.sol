@@ -29,6 +29,7 @@ contract Plots_MultiToken_Presale{
     }
 
     //Admin Functions
+    function 
     
     //Getter Functions
 

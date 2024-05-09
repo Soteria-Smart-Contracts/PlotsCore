@@ -58,7 +58,7 @@ contract Plots_MultiToken_Presale{
         return(Rate);
     }
 
-    function ConvertStableToPlots(uint256 Amount, address Stable) public view returns(uint256){
+    function ConvertStableToPlots(uint256 Amount) public view returns(uint256){
         uint256 Rate = ConvertEthToPlots();
         if(Stable == USDT){
             return Amount * Rate;

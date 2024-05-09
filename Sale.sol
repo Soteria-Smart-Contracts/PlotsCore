@@ -61,10 +61,10 @@ contract Plots_MultiToken_Presale{
     function ConvertStableToPlots(uint256 Amount) public view returns(uint256){
         uint256 Rate = ConvertEthToPlots();
         if(Stable == USDT){
-            return Amount * Rate;
+            return Amount / Rate;
         }
         else if(Stable == USDC){
-            return Amount * Rate;
+            return Amount / Rate;
         }
         return 0;
     }

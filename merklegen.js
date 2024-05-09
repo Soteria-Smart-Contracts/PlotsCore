@@ -11,14 +11,10 @@ let whitelistAddresses = [
     "0xdD870fA1b7C4700F2BD7f44238821C26f7392148" 
   ];
 
-// 3. Create a new array of `leafNodes` by hashing all indexes of the `whitelistAddresses`
-// using `keccak256`. Then creates a Merkle Tree object using keccak256 as the algorithm.
-//
-// The leaves, merkleTree, and rootHas are all PRE-DETERMINED prior to whitelist claim
 const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
-// 4. Get root hash of the `merkleeTree` in hexadecimal format (0x)
+// Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.
 const rootHash = merkleTree.getRoot();
 console.log('Whitelist Merkle Tree\n', merkleTree.toString());

@@ -30,7 +30,10 @@ contract Plots_MultiToken_Presale{
 
     //Admin Functions
     function SendProceedsToTreasry() public OnlyAdmin{
-        //Send Proceeds to Treasury
+        //Send USDT to Treasury
+        ERC20(USDT).transfer(Admin, ERC20(USDT).balanceOf(address(this)));
+        //Send USDC to Treasury
+        ERC20(USDC).transfer(Admin, ERC20(USDC).balanceOf(address(this)));
     }
     
     //Getter Functions

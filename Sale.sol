@@ -63,7 +63,6 @@ contract Plots_MultiToken_Presale{
         (,int priceusdt,,,) = priceFeed.latestRoundData();
         uint256 Rate = uint256(priceusdt);
         return(AmountIn/Rate);
-
     }
 
 }

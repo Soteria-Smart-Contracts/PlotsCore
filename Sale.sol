@@ -54,15 +54,12 @@ contract Plots_MultiToken_Presale{
     function ConvertEthToPlots(uint256 AmountIn) public view returns(uint256 AmountOut){
         AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         (,int priceusdt,,,) = priceFeed.latestRoundData();
-        Rate = uint256(priceusdt);
-        return(Rate);
+        uint256 Rate = uint256(priceusdt);
+        return AmountIn / Rate;
     }
 
     function ConvertStableToPlots(uint256 AmountIn) public view returns(uint256 AmountOut){
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
-        (,int priceusdt,,,) = priceFeed.latestRoundData();
-        uint256 Rate = uint256(priceusdt);
-        return(AmountIn/Rate);
+        return(AmountIn/GetVLNDPrice());
     }
 
 }

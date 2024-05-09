@@ -23,8 +23,12 @@ contract Plots_MultiToken_Presale{
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
 
+    modifier OnlyAdmin(){
+        require(msg.sender == Admin, "Only Admin");
+        _;
+    }
+
     //Admin Functions
-    
     
     //Getter Functions
 

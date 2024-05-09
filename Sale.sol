@@ -122,28 +122,6 @@ library Hashes {
     }
 }
 
-// File: github/OpenZeppelin/openzeppelin-contracts/contracts/utils/cryptography/MerkleProof.sol
-
-
-// OpenZeppelin Contracts (last updated v5.0.0) (utils/cryptography/MerkleProof.sol)
-
-pragma solidity ^0.8.20;
-
-
-/**
- * @dev These functions deal with verification of Merkle Tree proofs.
- *
- * The tree and the proofs can be generated using our
- * https://github.com/OpenZeppelin/merkle-tree[JavaScript library].
- * You will find a quickstart guide in the readme.
- *
- * WARNING: You should avoid using leaf values that are 64 bytes long prior to
- * hashing, or use a hash function other than keccak256 for hashing leaves.
- * This is because the concatenation of a sorted pair of internal nodes in
- * the Merkle tree could be reinterpreted as a leaf value.
- * OpenZeppelin's JavaScript library generates Merkle trees that are safe
- * against this attack out of the box.
- */
 library MerkleProof {
     /**
      *@dev The multiproof provided is not valid.

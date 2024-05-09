@@ -22,6 +22,9 @@ contract Plots_MultiToken_Presale{
     uint256 public PhaseOneCap;
 
     enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
+
+    //Admin Functions
+    
     
     //Getter Functions
 

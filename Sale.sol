@@ -34,8 +34,8 @@ contract Plots_MultiToken_Presale{
         ERC20(USDT).transfer(Admin, ERC20(USDT).balanceOf(address(this)));
         //Send USDC to Treasury
         ERC20(USDC).transfer(Admin, ERC20(USDC).balanceOf(address(this)));
-        //Send VLND to Treasury
-        ERC20(VLND).transfer(Admin, ERC20(VLND).balanceOf(address(this)));
+        //send eth to treasury
+        payable(Admin).transfer(address(this).balance);
     }
     
     //Getter Functions

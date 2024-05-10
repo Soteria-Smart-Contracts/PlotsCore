@@ -12,8 +12,8 @@ contract Plots_MultiToken_Presale{
     //Admin Address
     address public Admin;
 
+    //Merkle Root
     
-
     //Params
     uint256 public SaleStart;
     uint256 public SaleEnd;

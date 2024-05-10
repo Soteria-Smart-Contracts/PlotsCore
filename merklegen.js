@@ -2,13 +2,26 @@ console.log('merklegen.js loaded');
 
 
 let whitelistAddresses = [
-    "0X5B38DA6A701C568545DCFCB03FCB875F56BEDDC4",
-    "0X5A641E5FB72A2FD9137312E7694D42996D689D99",
-    "0XDCAB482177A592E424D1C8318A464FC922E8DE40",
-    "0X6E21D37E07A6F7E53C7ACE372CEC63D4AE4B6BD0",
-    "0X09BAAB19FC77C19898140DADD30C4685C597620B",
-    "0XCC4C29997177253376528C05D3DF91CF2D69061A",
-    "0xdD870fA1b7C4700F2BD7f44238821C26f7392148" 
+  {
+    "address": "0x04ab4c210f4d9814cd12a8804d249ec387f8ec61",
+    "points": 1367789
+  },
+  {
+    "address": "0x5186fc0017a983c51b3845f0ed7800a4c23ad0b0",
+    "points": 414469
+  },
+  {
+    "address": "0x72703b554a7089f93ff1fc6cc6c0e623900a7b80",
+    "points": 381791
+  },
+  {
+    "address": "0xb0cbf149ba9e7d0efb63235a08768a7b63f0652f",
+    "points": 322092
+  },
+  {
+    "address": "0xfc60750c91fd4090151ed42c5e88ff94e25e3f40",
+    "points": 270608
+  }
 ];
 
 

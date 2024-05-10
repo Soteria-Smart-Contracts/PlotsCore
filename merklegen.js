@@ -37,7 +37,6 @@ merkleTree = JSON.stringify(merkleTree, null, 2);
 console.log(merkleTree);
 
 //convert the merkle tree back to a MerkleTree object
-merkleTree = MerkleTree.fromJSON(merkleTree);
 
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.

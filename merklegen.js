@@ -41,13 +41,18 @@ console.log("Root Hash: ", rootHashBytes32);
 
 // ***** ***** ***** ***** ***** ***** ***** ***** // 
 
-// CLIENT-SIDE VERIFICATION
-const claimingAddress = keccak256("0X5B38DA6A701C568545DCFCB03FCB875F56BEDDD6");
+// Function to generate hex proof for a claiming address
+function generateHexProof(claimingAddress, merkleTree, rootHash) {
+  // `getHexProof` returns the neighbour leaf and all parent nodes hashes that will
+  // be required to derive the Merkle Trees root hash.
+  const hexProof = merkleTree.getHexProof(claimingAddress);
 
-// `getHexProof` returns the neighbour leaf and all parent nodes hashes that will
-// be required to derive the Merkle Trees root hash.
-const hexProof = merkleTree.getHexProof(claimingAddress);
+  // ✅ - ❌: Verify if claiming address is in the merkle tree or not.
+  // This would be implemented in your Solidity Smart Contract
+  const isAddressInTree = merkleTree.verify(hexProof, claimingAddress, rootHash);
 
-// ✅ - ❌: Verify is claiming address is in the merkle tree or not.
-// This would be implemented in your Solidity Smart Contract
-console.log(merkleTree.verify(hexProof, claimingAddress, rootHash));
+  return {
+    hexProof: hexProof,
+    isAddressInTree: isAddressInTree
+  };
+}

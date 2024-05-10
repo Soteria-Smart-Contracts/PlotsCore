@@ -31,7 +31,7 @@ ClaimantAddresses = data1.map((address) => {
 
 WhitelistAddresses = data2.map((address) => {
   return address.address;
-}
+});
 
 const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 let merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});

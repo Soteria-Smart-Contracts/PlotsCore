@@ -13,6 +13,8 @@ let whitelistAddresses = [
 
   //{"address":"0x72703b554a7089f93ff1fc6cc6c0e623900a7b80","points":381791}
   //{"address":"0x0955476b9daec02653e688b865660ca5417faad4","points":251068}
+  //{"address":"0x0f986ae926590dddacde9a1806daa4e015c07b01","points":195943}
+  //{"address":"0x2146c5e2777034c50a8ede7e4e5b67d132175168","points":144808}
 
 const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});

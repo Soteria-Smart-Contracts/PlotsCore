@@ -26,6 +26,8 @@ let whitelistAddresses = [
 
 
 
+
+
 const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 console.log("Leaf Nodes: ", leafNodes);
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});

@@ -41,11 +41,7 @@ console.log("Root Hash: ", rootHashBytes32);
 
 // ***** ***** ***** ***** ***** ***** ***** ***** // 
 
-// CLIENT-SIDE: Use `msg.sender` address to query and API that returns the merkle proof
-// required to derive the root hash of the Merkle Tree
-
-// ✅ Positive verification of address
-
+// CLIENT-SIDE
 const claimingAddress = keccak256("0X5B38DA6A701C568545DCFCB03FCB875F56BEDDD6");
 
 // `getHexProof` returns the neighbour leaf and all parent nodes hashes that will

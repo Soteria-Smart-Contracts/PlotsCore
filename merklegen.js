@@ -8,8 +8,6 @@ let whitelistAddresses = [
     {"address":"0x2146c5e2777034c50a8ede7e4e5b67d132175168","points":144808},
   ];
 
-
-
 const leafNodes = whitelistAddresses.map(data => keccak256(data));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 

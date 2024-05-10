@@ -26,6 +26,8 @@ let whitelistAddresses = [
 
 //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
 whitelistAddresses = whitelistAddresses.map((address) => {
+  return address.address + address.points;
+}
 
 
 

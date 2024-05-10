@@ -30,7 +30,7 @@ whitelistAddresses = whitelistAddresses.map((address) => {
 });
 
 const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
-const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
+let merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
 //output the merkle tree in a copy-pasteable format
 merkleTree = JSON.stringify(merkleTree, null, 2);

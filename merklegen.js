@@ -36,8 +36,7 @@ let merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 merkleTree = JSON.stringify(merkleTree, null, 2);
 console.log(merkleTree);
 
-//convert the merkle tree back to a MerkleTree object
-
+//convert the merkle tree back to a MerkleTree object using the MerkleTree 
 
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.

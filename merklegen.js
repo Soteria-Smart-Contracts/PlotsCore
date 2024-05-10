@@ -33,7 +33,6 @@ const claimingAddress = leafNodes[6];
 // `getHexProof` returns the neighbour leaf and all parent nodes hashes that will
 // be required to derive the Merkle Trees root hash.
 const hexProof = merkleTree.getHexProof(claimingAddress);
-console.log(hexProof);
 
 // ✅ - ❌: Verify is claiming address is in the merkle tree or not.
 // This would be implemented in your Solidity Smart Contract

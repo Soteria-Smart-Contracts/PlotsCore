@@ -28,6 +28,7 @@ let whitelistAddresses = [
 whitelistAddresses = whitelistAddresses.map((address) => {
   return address.address + address.points;
 });
+
 console.log(whitelistAddresses);
 
 const leafNodes = whitelistAddresses.map(addr => keccak256(addr));

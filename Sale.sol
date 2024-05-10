@@ -13,7 +13,8 @@ contract Plots_MultiToken_Presale{
     address public Admin;
 
     //Merkle Root
-    
+    bytes32 public MerkleRoot = 0x0;
+
     //Params
     uint256 public SaleStart;
     uint256 public SaleEnd;

@@ -35,6 +35,8 @@ const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 //output the merkle tree in a copy-pasteable format
 console.log(merkleTree.toString());
 
+//is it possible to convert that string to a merkle tree object in the future?
+
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.
 const rootHash = merkleTree.getRoot();

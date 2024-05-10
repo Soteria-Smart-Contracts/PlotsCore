@@ -44,6 +44,8 @@ console.log("Root Hash: ", rootHashBytes32);
 // Function to generate hex proof for a claiming address
 function generateHexProof(claimingAddress, merkleTree, rootHash) {
   // `getHexProof` returns the neighbour leaf and all parent nodes hashes that will
+
+  //convert the claimingAddress to an address with the points number appended to the address end
   // be required to derive the Merkle Trees root hash.
   const hexProof = merkleTree.getHexProof(claimingAddress);
 

@@ -33,9 +33,10 @@ const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
 //output the merkle tree in a copy-pasteable format
-merkleTree 
+merkleTree = JSON.stringify(merkleTree, null, 2);
 
 //is it possible to convert that string to a merkle tree object in the future?
+console.log(merkleTree);
 
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.

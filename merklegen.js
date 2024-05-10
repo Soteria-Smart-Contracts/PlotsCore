@@ -34,6 +34,7 @@ const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
 //output the merkle tree in a copy-pasteable format
 merkleTree = JSON.stringify(merkleTree, null, 2);
+console.log(merkleTree);
 
 //convert the merkle tree back to a MerkleTree object
 merkleTree = MerkleTree.fromJSON(merkleTree);

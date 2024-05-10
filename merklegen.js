@@ -17,6 +17,9 @@ const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.
 const rootHash = merkleTree.getRoot();
+const rootHashBytes32 = '0x' + merkleTree.getRoot().toString('hex');
+
+
 console.log("Root Hash: ", rootHash);
 
 // ***** ***** ***** ***** ***** ***** ***** ***** // 

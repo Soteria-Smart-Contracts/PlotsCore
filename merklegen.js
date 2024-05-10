@@ -41,7 +41,7 @@ console.log("Root Hash: ", rootHashBytes32);
 
 // ***** ***** ***** ***** ***** ***** ***** ***** // 
 
-// CLIENT-SIDE
+// CLIENT-SIDE VERIFICATION
 const claimingAddress = keccak256("0X5B38DA6A701C568545DCFCB03FCB875F56BEDDD6");
 
 // `getHexProof` returns the neighbour leaf and all parent nodes hashes that will

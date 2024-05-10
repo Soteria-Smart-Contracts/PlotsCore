@@ -13903,4 +13903,4 @@ data1 = [{
     "points": 0
   }]
 
-  data2 = 
+  data2 = []

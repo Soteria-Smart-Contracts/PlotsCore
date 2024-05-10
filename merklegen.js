@@ -24,7 +24,7 @@ let whitelistAddresses = [
   }
 ];
 
-
+//convert the whitelistAddresses to an array of addresses
 
 
 

@@ -32,7 +32,7 @@ whitelistAddresses = whitelistAddresses.map((address) => {
 const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
-//save the merkleTree to a new file
+//save the merkleTree 
 
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.

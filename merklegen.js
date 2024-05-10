@@ -38,6 +38,7 @@ console.log(merkleTree);
 
 //convert the merkle tree back to a MerkleTree object
 
+
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.
 const rootHash = merkleTree.getRoot();

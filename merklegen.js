@@ -33,7 +33,7 @@ const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
 //output the merkle tree in a copy-pasteable format
-console.log(merkleTree.toString());
+merkleTree 
 
 //is it possible to convert that string to a merkle tree object in the future?
 

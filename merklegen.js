@@ -2,13 +2,18 @@ console.log('merklegen.js loaded');
 
 
 let whitelistAddresses = [
-    {"address":"0x72703b554a7089f93ff1fc6cc6c0e623900a7b80","points":381791},
-    {"address":"0x0955476b9daec02653e688b865660ca5417faad4","points":251068},
-    {"address":"0x0f986ae926590dddacde9a1806daa4e015c07b01","points":195943},
-    {"address":"0x2146c5e2777034c50a8ede7e4e5b67d132175168","points":144808},
+    "0X5B38DA6A701C568545DCFCB03FCB875F56BEDDC4",
+    "0X5A641E5FB72A2FD9137312E7694D42996D689D99",
+    "0XDCAB482177A592E424D1C8318A464FC922E8DE40",
+    "0X6E21D37E07A6F7E53C7ACE372CEC63D4AE4B6BD0",
+    "0X09BAAB19FC77C19898140DADD30C4685C597620B",
+    "0XCC4C29997177253376528C05D3DF91CF2D69061A",
+    "0xdD870fA1b7C4700F2BD7f44238821C26f7392148" 
   ];
 
-const leafNodes = whitelistAddresses.map(data => keccak256(data));
+
+
+const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)

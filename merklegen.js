@@ -19,12 +19,10 @@ let WhitelistMerkleTree = new MerkleTree(leafNodesClaimants, keccak256, { sortPa
 
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.
-const rootHashClaimants = merkleTree.getRoot();
-const rootHashBytes32 = '0x' + merkleTree.getRoot().toString('hex');
+const rootHashClaimantsBytes32 = '0x' + merkleTree.getRoot().toString('hex');
 //get the root hash of whitelist merkle tree
-const rootHashWhitelist = WhitelistMerkleTree.getRoot();
 const rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
-console.log("Root Hash Claimants: ", rootHashClaimants);
+console.log("Root Hash Claimants: ", rootHashClaimantsBytes32);
 console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
 
 

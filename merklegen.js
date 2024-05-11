@@ -13,9 +13,6 @@ let WhitelistAddresses = data2.map((address) => {
 const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 let merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
-//output the merkle tree in a copy-pasteable format
-merkleTree = JSON.stringify(merkleTree, null, 2);
-
 //convert the merkle tree back to a MerkleTree object using the MerkleTree string
 merkleTree = new MerkleTree(JSON.parse(merkleTree), keccak256, { sortPairs: true});
 

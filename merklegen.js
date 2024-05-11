@@ -1,29 +1,5 @@
 console.log('merklegen.js loaded');
 
-
-let whitelistAddresses = [
-  {
-    "address": "0x04ab4c210f4d9814cd12a8804d249ec387f8ec61",
-    "points": 1367789
-  },
-  {
-    "address": "0x5186fc0017a983c51b3845f0ed7800a4c23ad0b0",
-    "points": 414469
-  },
-  {
-    "address": "0x72703b554a7089f93ff1fc6cc6c0e623900a7b80",
-    "points": 381791
-  },
-  {
-    "address": "0xb0cbf149ba9e7d0efb63235a08768a7b63f0652f",
-    "points": 322092
-  },
-  {
-    "address": "0xfc60750c91fd4090151ed42c5e88ff94e25e3f40",
-    "points": 270608
-  }
-];
-
 //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
 let ClaimantAddresses = data1.map((address) => {
   return address.address + address.points;

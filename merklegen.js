@@ -17,10 +17,8 @@ const leafNodesClaimants = ClaimantAddresses.map(addr => keccak256(addr));
 let ClaimantsMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true});
 let WhitelistMerkleTree = new MerkleTree(leafNodesClaimants, keccak256, { sortPairs: true});
 
-// Get root hash of the `merkleeTree` in hexadecimal format (0x)
-// Print out the Entire Merkle Tree.
+\
 const rootHashClaimantsBytes32 = '0x' + merkleTree.getRoot().toString('hex');
-//get the root hash of whitelist merkle tree
 const rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
 console.log("Root Hash Claimants: ", rootHashClaimantsBytes32);
 console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);

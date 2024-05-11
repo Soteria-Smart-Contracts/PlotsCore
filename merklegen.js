@@ -39,7 +39,7 @@ function GenerateHexProofWhitelist(claimingAddress) {
 
   // ✅ - ❌: Verify if claiming address is in the merkle tree or not.
   // This would be implemented in your Solidity Smart Contract
-  const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashClaimants);
+  const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);
 
   return {
     hexProof: hexProof,
@@ -57,7 +57,7 @@ function GenerateHexProofClaimants(claimingAddress) {
 
   // ✅ - ❌: Verify if claiming address is in the merkle tree or not.
   // This would be implemented in your Solidity Smart Contract
-  const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);
+  const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashClaimants);
 
   return {
     hexProof: hexProof,

@@ -18,7 +18,7 @@ let WhitelistMerkleTree = new MerkleTree(JSON.parse(merkleTree), keccak256, { so
 
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.
-const rootHash = merkleTree.getRoot();
+const rootHashClaimants = merkleTree.getRoot();
 const rootHashBytes32 = '0x' + merkleTree.getRoot().toString('hex');
 //get the root hash of whitelist merkle tree
 const rootHashWhitelist = WhitelistMerkleTree.getRoot();

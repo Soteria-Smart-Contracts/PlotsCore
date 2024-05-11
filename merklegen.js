@@ -14,7 +14,7 @@ const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
 let ClaimantsMerkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 
 //convert the merkle tree back to a MerkleTree object using the MerkleTree string
-let merkleTree = new MerkleTree(JSON.parse(merkleTree), keccak256, { sortPairs: true});
+let WhitelistMerkleTree = new MerkleTree(JSON.parse(merkleTree), keccak256, { sortPairs: true});
 
 // Get root hash of the `merkleeTree` in hexadecimal format (0x)
 // Print out the Entire Merkle Tree.

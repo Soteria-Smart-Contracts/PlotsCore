@@ -25,11 +25,11 @@ let whitelistAddresses = [
 ];
 
 //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
-ClaimantAddresses = data1.map((address) => {
+let ClaimantAddresses = data1.map((address) => {
   return address.address + address.points;
 });
 
-WhitelistAddresses = data2.map((address) => {
+let WhitelistAddresses = data2.map((address) => {
   return address.address;
 });
 

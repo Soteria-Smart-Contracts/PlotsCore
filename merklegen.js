@@ -12,8 +12,8 @@ let WhitelistAddresses = data2.map((address) => {
 });
 
 
-const leafNodesWhitelist = whitelistAddresses.map(addr => keccak256(addr));
-const leafNodesClaimants = claimantAddresses.map(addr => keccak256(addr));
+const leafNodesWhitelist = WhitelistAddresses.map(addr => keccak256(addr));
+const leafNodesClaimants = ClaimantAddresses.map(addr => keccak256(addr));
 let ClaimantsMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true});
 let WhitelistMerkleTree = new MerkleTree(leafNodesClaimants, keccak256, { sortPairs: true});
 

@@ -18,7 +18,8 @@ let ClaimantsMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPa
 let WhitelistMerkleTree = new MerkleTree(leafNodesClaimants, keccak256, { sortPairs: true});
 
 // Get the Merkle Root of the Merkle Trees
-
+const rootHashClaimants = ClaimantsMerkleTree.getRoot();
+const rootHashWhitelist = WhitelistMerkleTree.getRoot();
 const rootHashClaimantsBytes32 = '0x' + merkleTree.getRoot().toString('hex');
 const rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
 console.log("Root Hash Claimants: ", rootHashClaimantsBytes32);
@@ -38,7 +39,7 @@ function GenerateHexProofWhitelist(claimingAddress) {
 
   // ✅ - ❌: Verify if claiming address is in the merkle tree or not.
   // This would be implemented in your Solidity Smart Contract
-  const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHash);
+  const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashClaimants);
 
   return {
     hexProof: hexProof,

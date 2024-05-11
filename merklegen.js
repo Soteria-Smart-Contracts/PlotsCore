@@ -24,7 +24,7 @@ const rootHashBytes32 = '0x' + merkleTree.getRoot().toString('hex');
 //get the root hash of whitelist merkle tree
 const rootHashWhitelist = WhitelistMerkleTree.getRoot();
 const rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
-console.log("Root Hash Claimants: ", rootHashBytes32);
+console.log("Root Hash Claimants: ", rootHashClaimants);
 console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
 
 

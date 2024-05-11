@@ -30,7 +30,7 @@ console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
 // ***** ***** ***** ***** ***** ***** ***** ***** // 
 
 // Function to generate hex proof for a claiming address
-function generateHexProof(claimingAddress) {
+function GenerateHexProofWhitelist(claimingAddress) {
   // `getHexProof` returns the neighbour leaf and all parent nodes hashes that will
 
   //convert the claimingAddress to an address with the points number appended to the address end and then hash it

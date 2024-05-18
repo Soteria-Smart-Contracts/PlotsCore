@@ -34,11 +34,8 @@ function GenerateHexProofWhitelist(claimingAddress) {
 
   //convert the claimingAddress to an address with the points number appended to the address end and then hash it
   claimingAddress = keccak256(claimingAddress);
-  // be required to derive the Merkle Trees root hash.
   const hexProof = WhitelistMerkleTree.getHexProof(claimingAddress);
 
-  // ✅ - ❌: Verify if claiming address is in the merkle tree or not.
-  // This would be implemented in your Solidity Smart Contract
   const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);
 
   return {

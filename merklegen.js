@@ -5,11 +5,12 @@ let ClaimantAddresses = data1.map((address) => {
   return address.address + address.points;
 });
 
-console.log(ClaimantAddresses);
 
 let WhitelistAddresses = data2.map((address) => {
   return address.address;
 });
+
+console.log(WhitelistAddresses);
 
 
 const leafNodesWhitelist = WhitelistAddresses.map(addr => keccak256(addr));

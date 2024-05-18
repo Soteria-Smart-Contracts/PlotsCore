@@ -30,12 +30,9 @@ console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
 
 // Function to generate hex proof for a claiming address
 function GenerateHexProofWhitelist(claimingAddress) {
-  // `getHexProof` returns the neighbour leaf and all parent nodes hashes that will
 
-  //convert the claimingAddress to an address with the points number appended to the address end and then hash it
   claimingAddress = keccak256(claimingAddress);
   const hexProof = WhitelistMerkleTree.getHexProof(claimingAddress);
-
   const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);
 
   return {

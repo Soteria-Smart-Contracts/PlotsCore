@@ -709,8 +709,10 @@ contract PlotsTreasury {
     }
     
     function SweepSignatures() public returns(bool success) {
-        require(Setup == 1, "Not set up");
+        //require it is one of the signers
+        require(msg.sender == SigAddress1 || msg.sender == SigAddress2 || msg.sender == SigAddress3, "Not authorized");
         
+                
         Signed[SigAddress1] = 0;
         Signed[SigAddress2] = 0;
         Signed[SigAddress3] = 0;

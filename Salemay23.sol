@@ -96,8 +96,7 @@ contract Plots_MultiToken_Presale {
         // (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
         // uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
         //set it to 3400$ temporarily for testing
-        uint256 USDTEquivalent = amountIn * 3400; //is this the correct mathematically way to convert eth to usdt or should it be divided by 1e18? answer: yes, it should be divided by 1e18
-        
+        uint256 USDTEquivalent = amountIn * 3400;
         return ConvertStableToPlots(USDTEquivalent);
     }
 

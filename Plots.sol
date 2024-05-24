@@ -664,12 +664,6 @@ contract PlotsTreasury {
 
     event MultiSigSet(bool Success);
     event MultiSigVerified(bool Success);
-    
-    address public CrowdSale_Operator; // Assume this is set somewhere in the contract
-    struct CrowdsaleMode {
-        uint8 Sale_Mode; // Assume this is part of a struct defined somewhere in the contract
-    }
-    CrowdsaleMode public Crowdsale_Mode;
 
     modifier triggerSignatureRequest(string memory str, uint256 num) {
         require(!activeSignatureRequest, "Active signature request already exists");

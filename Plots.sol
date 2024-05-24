@@ -709,7 +709,6 @@ contract PlotsTreasury {
     }
     
     function SweepSignatures() public returns(bool success) {
-        require(msg.sender == CrowdSale_Operator, "Not authorized");
         require(Setup == 1, "Not set up");
         
         Signed[SigAddress1] = 0;

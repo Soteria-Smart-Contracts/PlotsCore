@@ -95,6 +95,8 @@ contract Plots_MultiToken_Presale {
         // AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         // (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
         // uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
+        //set it to 3400$ temporarily for testing
+        uint256 USDTEquivalent = amountIn * 3400;
         return ConvertStableToPlots(USDTEquivalent);
     }
 

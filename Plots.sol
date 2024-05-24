@@ -687,7 +687,7 @@ contract PlotsTreasury {
         return true;
     }
     
-    function MultiSignature() internal returns(bool AllowTransaction) {
+    function MultiSignature(bool yea) public returns(bool AllowTransaction) {
         require(msg.sender == SigAddress1 || msg.sender == SigAddress2 || msg.sender == SigAddress3, "Not authorized");
         require(Signed[msg.sender] == 0, "Already signed");
         require(Setup == 1, "Not set up");

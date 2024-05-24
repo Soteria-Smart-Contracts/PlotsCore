@@ -36,19 +36,6 @@ contract Plots_MultiToken_Presale {
     event ProceedsSentToTreasury(uint256 usdtAmount, uint256 usdcAmount, uint256 ethAmount);
     event SaleParamsSet(uint256 saleStart, uint256 saleEnd, uint256 phaseOnePrice, uint256 phaseTwoPrice, uint256 phaseOneCap);
 
-    // Admin Functions
-    function SendProceedsToTreasury() public OnlyAdmin {
-        uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
-        uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
-        uint256 ethBalance = address(this).balance;
-
-        ERC20(USDT).transfer(Admin, usdtBalance);
-        ERC20(USDC).transfer(Admin, usdcBalance);
-        payable(Admin).transfer(ethBalance);
-
-        emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
-    }
-
     constructor(
         uint256 saleStart,
         uint256 saleEnd,
@@ -65,6 +52,19 @@ contract Plots_MultiToken_Presale {
         Admin = admin;
 
         emit SaleParamsSet(saleStart, saleEnd, phaseOnePrice, phaseTwoPrice, phaseOneCap);
+    }
+
+    // Admin Functions
+    function SendProceedsToTreasury() public OnlyAdmin {
+        uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
+        uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
+        uint256 ethBalance = address(this).balance;
+
+        ERC20(USDT).transfer(Admin, usdtBalance);
+        ERC20(USDC).transfer(Admin, usdcBalance);
+        payable(Admin).transfer(ethBalance);
+
+        emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
     }
 
     // Getter Functions

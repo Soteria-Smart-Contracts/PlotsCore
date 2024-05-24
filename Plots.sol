@@ -719,17 +719,6 @@ contract PlotsTreasury {
         return true;
     }
     
-    function MultiSigVerification() public returns(bool success) {
-        require(!Verified, "Already verified");
-        bool Verify = MultiSignature();
-        
-        if (Verify) {
-            Verified = true;
-            emit MultiSigVerified(true);
-        }
-        
-        return Verify;
-    }
 
     function uint2str(uint256 _i) internal pure returns (string memory str) {
         if (_i == 0) {

@@ -108,7 +108,7 @@ contract Plots_MultiToken_Presale {
         require(plotsToReceive > 0, "Invalid amount");
         
         TotalRaised += msg.value;
-        IERC20(VLND).transfer(msg.sender, plotsToReceive);
+        ERC20(VLND).transfer(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, address(0));
     }

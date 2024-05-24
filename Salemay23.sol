@@ -92,9 +92,9 @@ contract Plots_MultiToken_Presale {
     }
 
     function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
-        (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
-        uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
+        // AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
+        // (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
+        // uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
         return ConvertStableToPlots(USDTEquivalent);
     }
 

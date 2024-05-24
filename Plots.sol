@@ -677,7 +677,6 @@ contract PlotsTreasury {
     function MultiSigSetup(address _1, address _2, address _3) public returns(bool success) {
         require(Setup == 0, "Already set up");
         require(msg.sender == CrowdSale_Operator, "Not authorized");
-        require(Crowdsale_Mode.Sale_Mode == 1, "Sale mode not active");
         
         SigAddress1 = _1;
         SigAddress2 = _2;

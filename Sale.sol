@@ -1,21 +1,25 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-contract Plots_MultiToken_Presale{
-    //Token Addresses
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+
+contract Plots_MultiToken_Presale {
+    // Token Addresses
     address public VLND = address(0);
     address public USDT = 0xdAC17F958D2ee523a2206206994597C13D831ec7;
     address public USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
     
-    //Chainlink Price Feeds
+    // Chainlink Price Feeds
     address public USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
 
-    //Admin Address
+    // Admin Address
     address public Admin;
 
-    //Merkle Root
+    // Merkle Root
     bytes32 public MerkleRoot = 0x0;
 
-    //Params
+    // Params
     uint256 public SaleStart;
     uint256 public SaleEnd;
     uint256 public PhaseOnePrice;
@@ -24,60 +28,146 @@ contract Plots_MultiToken_Presale{
     uint256 public TotalRaised;
     uint256 public PhaseOneCap;
 
-    enum SalePhase {AwaitingStart, PhaseOne, PhaseTwo, Over}
+    enum SalePhase { AwaitingStart, PhaseOne, PhaseTwo, Over }
 
-    modifier OnlyAdmin(){
+    modifier OnlyAdmin() {
         require(msg.sender == Admin, "Only Admin");
         _;
     }
 
-    //Admin Functions
-    function SendProceedsToTreasury() public OnlyAdmin{
-        ERC20(USDT).transfer(Admin, ERC20(USDT).balanceOf(address(this)));
-        ERC20(USDC).transfer(Admin, ERC20(USDC).balanceOf(address(this)));
-        payable(Admin).transfer(address(this).balance);
-    }
+    event TokensPurchased(address indexed buyer, uint256 amount, address token);
+    event ProceedsSentToTreasury(uint256 usdtAmount, uint256 usdcAmount, uint256 ethAmount);
+    event SaleParamsSet(uint256 saleStart, uint256 saleEnd, uint256 phaseOnePrice, uint256 phaseTwoPrice, uint256 phaseOneCap);
     
-    //Getter Functions
+    constructor(address admin) {
+        Admin = admin;
+    }
 
-    function GetSaleStatus() public view returns(SalePhase){
-        if(block.timestamp < SaleStart){
+    // Admin Functions
+    function SendProceedsToTreasury() public OnlyAdmin {
+        uint256 usdtBalance = IERC20(USDT).balanceOf(address(this));
+        uint256 usdcBalance = IERC20(USDC).balanceOf(address(this));
+        uint256 ethBalance = address(this).balance;
+
+        IERC20(USDT).transfer(Admin, usdtBalance);
+        IERC20(USDC).transfer(Admin, usdcBalance);
+        payable(Admin).transfer(ethBalance);
+
+        emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
+    }
+
+    function SetSaleParams(
+        uint256 saleStart,
+        uint256 saleEnd,
+        uint256 phaseOnePrice,
+        uint256 phaseTwoPrice,
+        uint256 phaseOneCap
+    ) public OnlyAdmin {
+        SaleStart = saleStart;
+        SaleEnd = saleEnd;
+        PhaseOnePrice = phaseOnePrice;
+        PhaseTwoPrice = phaseTwoPrice;
+        PhaseOneCap = phaseOneCap;
+
+        emit SaleParamsSet(saleStart, saleEnd, phaseOnePrice, phaseTwoPrice, phaseOneCap);
+    }
+
+    // Getter Functions
+    function GetSaleStatus() public view returns (SalePhase) {
+        if (block.timestamp < SaleStart) {
             return SalePhase.AwaitingStart;
-        }
-        else if(block.timestamp > SaleEnd){
+        } else if (block.timestamp > SaleEnd) {
             return SalePhase.Over;
-        }
-        else if(TotalRaised < PhaseOneCap){
+        } else if (TotalRaised < PhaseOneCap) {
             return SalePhase.PhaseOne;
-        }
-        else if(TotalRaised >= PhaseOneCap){
+        } else if (TotalRaised >= PhaseOneCap) {
             return SalePhase.PhaseTwo;
         }
         return SalePhase.Over;
     }
 
-    function GetVLNDPrice() public view returns(uint256){
-        if(GetSaleStatus() == SalePhase.PhaseOne){
+    function GetVLNDPrice() public view returns (uint256) {
+        if (GetSaleStatus() == SalePhase.PhaseOne) {
             return PhaseOnePrice;
-        }
-        else if(GetSaleStatus() == SalePhase.PhaseTwo){
+        } else if (GetSaleStatus() == SalePhase.PhaseTwo) {
             return PhaseTwoPrice;
         }
         return 0;
     }
 
-    function ConvertEthToPlots(uint256 AmountIn) public view returns(uint256 AmountOut){
+    function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
-        (,int priceusdt,,,) = priceFeed.latestRoundData();
-        uint256 USDTEquivalent = AmountIn / uint256(priceusdt);
-        return ConvertStableToPlots(USDTEquivalent); //TODO:Check Math
+        (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
+        uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
+        return ConvertStableToPlots(USDTEquivalent);
     }
 
-    function ConvertStableToPlots(uint256 AmountIn) public view returns(uint256 AmountOut){
-        return(AmountIn/GetVLNDPrice());
+    function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
+        return amountIn / GetVLNDPrice();
     }
 
+    // Purchase Functions
+    function PurchaseWithEth() public payable {
+        require(GetSaleStatus() != SalePhase.Over, "Sale is over");
+        uint256 plotsToReceive = ConvertEthToPlots(msg.value);
+        require(plotsToReceive > 0, "Invalid amount");
+        
+        TotalRaised += msg.value;
+        IERC20(VLND).transfer(msg.sender, plotsToReceive);
+
+        emit TokensPurchased(msg.sender, plotsToReceive, address(0));
+    }
+
+    function PurchaseWithUSDT(uint256 amount) public {
+        require(GetSaleStatus() != SalePhase.Over, "Sale is over");
+        uint256 plotsToReceive = ConvertStableToPlots(amount);
+        require(plotsToReceive > 0, "Invalid amount");
+        
+        IERC20(USDT).transferFrom(msg.sender, address(this), amount);
+        TotalRaised += amount;
+        IERC20(VLND).transfer(msg.sender, plotsToReceive);
+
+        emit TokensPurchased(msg.sender, plotsToReceive, USDT);
+    }
+
+    function PurchaseWithUSDC(uint256 amount) public {
+        require(GetSaleStatus() != SalePhase.Over, "Sale is over");
+        uint256 plotsToReceive = ConvertStableToPlots(amount);
+        require(plotsToReceive > 0, "Invalid amount");
+        
+        IERC20(USDC).transferFrom(msg.sender, address(this), amount);
+        TotalRaised += amount;
+        IERC20(VLND).transfer(msg.sender, plotsToReceive);
+
+        emit TokensPurchased(msg.sender, plotsToReceive, USDC);
+    }
+
+    // Utility Functions
+    function VerifyWhitelist(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {
+        return verify(proof, MerkleRoot, leaf);
+    }
+
+    function verify(
+        bytes32[] memory proof,
+        bytes32 root,
+        bytes32 leaf
+    ) internal pure returns (bool) {
+        bytes32 computedHash = leaf;
+
+        for (uint256 i = 0; i < proof.length; i++) {
+            bytes32 proofElement = proof[i];
+
+            if (computedHash <= proofElement) {
+                computedHash = keccak256(abi.encodePacked(computedHash, proofElement));
+            } else {
+                computedHash = keccak256(abi.encodePacked(proofElement, computedHash));
+            }
+        }
+
+        return computedHash == root;
+    }
 }
+
 
 
 interface ERC20 {

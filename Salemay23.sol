@@ -96,7 +96,7 @@ contract Plots_MultiToken_Presale {
         // (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
         // uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
         //set it to 3400$ temporarily for testing
-        uint256 USDTEquivalent = amountIn * 3400;
+        uint256 USDTEquivalent = amountIn * 3400; //is this the correct mathematically way to convert eth to usdt 
         return ConvertStableToPlots(USDTEquivalent);
     }
 

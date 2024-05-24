@@ -43,7 +43,7 @@ contract Plots_MultiToken_Presale {
         uint256 phaseTwoPrice,
         uint256 phaseOneCap,
         address admin
-    ) {
+        ) {
         SaleStart = saleStart;
         SaleEnd = saleEnd;
         PhaseOnePrice = phaseOnePrice;

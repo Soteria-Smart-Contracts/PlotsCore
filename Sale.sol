@@ -42,12 +42,12 @@ contract Plots_MultiToken_Presale {
 
     // Admin Functions
     function SendProceedsToTreasury() public OnlyAdmin {
-        uint256 usdtBalance = IERC20(USDT).balanceOf(address(this));
-        uint256 usdcBalance = IERC20(USDC).balanceOf(address(this));
+        uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
+        uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
         uint256 ethBalance = address(this).balance;
 
-        IERC20(USDT).transfer(Admin, usdtBalance);
-        IERC20(USDC).transfer(Admin, usdcBalance);
+        ERC20(USDT).transfer(Admin, usdtBalance);
+        ERC20(USDC).transfer(Admin, usdcBalance);
         payable(Admin).transfer(ethBalance);
 
         emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);

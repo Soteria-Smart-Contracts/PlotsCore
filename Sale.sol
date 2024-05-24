@@ -35,10 +35,6 @@ contract Plots_MultiToken_Presale {
     event TokensPurchased(address indexed buyer, uint256 amount, address token);
     event ProceedsSentToTreasury(uint256 usdtAmount, uint256 usdcAmount, uint256 ethAmount);
     event SaleParamsSet(uint256 saleStart, uint256 saleEnd, uint256 phaseOnePrice, uint256 phaseTwoPrice, uint256 phaseOneCap);
-    
-    constructor(address admin) {
-        Admin = admin;
-    }
 
     // Admin Functions
     function SendProceedsToTreasury() public OnlyAdmin {
@@ -53,18 +49,20 @@ contract Plots_MultiToken_Presale {
         emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
     }
 
-    function SetSaleParams(
+    constructor(
         uint256 saleStart,
         uint256 saleEnd,
         uint256 phaseOnePrice,
         uint256 phaseTwoPrice,
-        uint256 phaseOneCap
-    ) public OnlyAdmin {
+        uint256 phaseOneCap,
+        address admin
+    ) {
         SaleStart = saleStart;
         SaleEnd = saleEnd;
         PhaseOnePrice = phaseOnePrice;
         PhaseTwoPrice = phaseTwoPrice;
         PhaseOneCap = phaseOneCap;
+        Admin = admin;
 
         emit SaleParamsSet(saleStart, saleEnd, phaseOnePrice, phaseTwoPrice, phaseOneCap);
     }

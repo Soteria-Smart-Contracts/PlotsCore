@@ -118,9 +118,9 @@ contract Plots_MultiToken_Presale {
         uint256 plotsToReceive = ConvertStableToPlots(amount);
         require(plotsToReceive > 0, "Invalid amount");
         
-        IERC20(USDT).transferFrom(msg.sender, address(this), amount);
+        ERC20(USDT).transferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;
-        IERC20(VLND).transfer(msg.sender, plotsToReceive);
+        ERC20(VLND).transfer(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, USDT);
     }
@@ -130,9 +130,9 @@ contract Plots_MultiToken_Presale {
         uint256 plotsToReceive = ConvertStableToPlots(amount);
         require(plotsToReceive > 0, "Invalid amount");
         
-        IERC20(USDC).transferFrom(msg.sender, address(this), amount);
+        ERC20(USDC).transferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;
-        IERC20(VLND).transfer(msg.sender, plotsToReceive);
+        ERC20(VLND).transfer(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, USDC);
     }

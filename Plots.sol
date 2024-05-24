@@ -650,6 +650,119 @@ contract PlotsTreasury {
         return Calculations.CalculateVLNDPrice(TotalValue, VLNDSupply, InitialVLNDPrice);
     }
 
+    uint8 public Signatures;
+    address public SigAddress1 = address(0);
+    address public SigAddress2 = address(0);
+    address public SigAddress3 = address(0);
+    uint8 public Setup;
+    bool public Verified;
+
+    mapping(address => uint8) Signed;
+    bool public activeSignatureRequest;
+    string public memo;
+    address public requester;
+
+    event MultiSigSet(bool Success);
+    event MultiSigVerified(bool Success);
+    
+    address public CrowdSale_Operator; // Assume this is set somewhere in the contract
+    struct CrowdsaleMode {
+        uint8 Sale_Mode; // Assume this is part of a struct defined somewhere in the contract
+    }
+    CrowdsaleMode public Crowdsale_Mode;
+
+    modifier triggerSignatureRequest(string memory str, uint256 num) {
+        require(!activeSignatureRequest, "Active signature request already exists");
+        activeSignatureRequest = true;
+        memo = string(abi.encodePacked(str, uint2str(num)));
+        requester = msg.sender;
+        _;
+        activeSignatureRequest = false;
+    }
+
+    function MultiSigSetup(address _1, address _2, address _3) public returns(bool success) {
+        require(Setup == 0, "Already set up");
+        require(msg.sender == CrowdSale_Operator, "Not authorized");
+        require(Crowdsale_Mode.Sale_Mode == 1, "Sale mode not active");
+        
+        SigAddress1 = _1;
+        SigAddress2 = _2;
+        SigAddress3 = _3;
+        
+        Setup = 1;
+        
+        emit MultiSigSet(true);
+        return true;
+    }
+    
+    function MultiSignature() internal returns(bool AllowTransaction) {
+        require(msg.sender == SigAddress1 || msg.sender == SigAddress2 || msg.sender == SigAddress3, "Not authorized");
+        require(Signed[msg.sender] == 0, "Already signed");
+        require(Setup == 1, "Not set up");
+        
+        Signed[msg.sender] = 1;
+        
+        if (Signatures == 1) {
+            Signatures = 0;
+            Signed[SigAddress1] = 0;
+            Signed[SigAddress2] = 0;
+            Signed[SigAddress3] = 0;
+            return true;
+        }
+        
+        if (Signatures == 0) {
+            Signatures++;
+            return false;
+        }
+    }
+    
+    function SweepSignatures() public returns(bool success) {
+        require(msg.sender == CrowdSale_Operator, "Not authorized");
+        require(Setup == 1, "Not set up");
+        
+        Signed[SigAddress1] = 0;
+        Signed[SigAddress2] = 0;
+        Signed[SigAddress3] = 0;
+        
+        Signatures = 0;
+        
+        return true;
+    }
+    
+    function MultiSigVerification() public returns(bool success) {
+        require(!Verified, "Already verified");
+        bool Verify = MultiSignature();
+        
+        if (Verify) {
+            Verified = true;
+            emit MultiSigVerified(true);
+        }
+        
+        return Verify;
+    }
+
+    function uint2str(uint256 _i) internal pure returns (string memory str) {
+        if (_i == 0) {
+            return "0";
+        }
+        uint256 j = _i;
+        uint256 length;
+        while (j != 0) {
+            length++;
+            j /= 10;
+        }
+        bytes memory bstr = new bytes(length);
+        uint256 k = length;
+        while (_i != 0) {
+            k = k-1;
+            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
+            bytes1 b1 = bytes1(temp);
+            bstr[k] = b1;
+            _i /= 10;
+        }
+        str = string(bstr);
+    }
+
     receive() external payable{}
 
 }

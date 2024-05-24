@@ -675,7 +675,6 @@ contract PlotsTreasury {
     }
 
     function MultiSigSetup(address _1, address _2, address _3) public returns(bool success) {
-        require(Setup == 0, "Already set up");
         
         SigAddress1 = _1;
         SigAddress2 = _2;
@@ -690,7 +689,6 @@ contract PlotsTreasury {
     function MultiSignature(bool yea) public returns(bool AllowTransaction) {
         require(msg.sender == SigAddress1 || msg.sender == SigAddress2 || msg.sender == SigAddress3, "Not authorized");
         require(Signed[msg.sender] == 0, "Already signed");
-        require(Setup == 1, "Not set up");
         
         Signed[msg.sender] = 1;
         
@@ -711,8 +709,8 @@ contract PlotsTreasury {
     function SweepSignatures() public returns(bool success) {
         //require it is one of the signers
         require(msg.sender == SigAddress1 || msg.sender == SigAddress2 || msg.sender == SigAddress3, "Not authorized");
-        
-                
+
+
         Signed[SigAddress1] = 0;
         Signed[SigAddress2] = 0;
         Signed[SigAddress3] = 0;

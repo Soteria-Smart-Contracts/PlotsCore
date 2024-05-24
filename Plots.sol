@@ -654,7 +654,6 @@ contract PlotsTreasury {
     address public SigAddress1 = address(0);
     address public SigAddress2 = address(0);
     address public SigAddress3 = address(0);
-    uint8 public Setup;
     bool public Verified;
 
     mapping(address => uint8) Signed;

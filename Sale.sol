@@ -136,7 +136,7 @@ contract Plots_MultiToken_Presale {
 
     function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
         uint256 vlndPrice = GetVLNDPrice();
-        uint256 amountInWithDecimals = amountIn * (10 ** 12); // Adjust for 6 decimal places
+        uint256 amountInWithDecimals = amountIn * (10 ** 18); // Adjust for 18 decimal places for wei
         return amountInWithDecimals / vlndPrice;
     }
 

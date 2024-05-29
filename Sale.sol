@@ -89,7 +89,7 @@ contract Plots_MultiToken_Presale {
         }
         return 0;
     }
-    
+
     // Purchase Functions
     function PurchaseWithEth() public payable {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");

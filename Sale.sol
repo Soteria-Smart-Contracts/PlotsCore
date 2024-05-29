@@ -135,7 +135,9 @@ contract Plots_MultiToken_Presale {
     }
 
     function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
-        return amountIn / GetVLNDPrice();
+        uint256 vlndPrice = GetVLNDPrice();
+        uint256 amountInWithDecimals = amountIn * (10 ** 12); // Adjust for 6 decimal places
+        return amountInWithDecimals / vlndPrice;
     }
 
     function VerifyWhitelist(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {

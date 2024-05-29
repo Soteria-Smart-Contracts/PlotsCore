@@ -126,6 +126,17 @@ contract Plots_MultiToken_Presale {
     }
 
     // Utility Functions
+    function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
+        (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
+        uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
+        return ConvertStableToPlots(USDTEquivalent);
+    }
+
+    function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
+        return amountIn / GetVLNDPrice();
+    }
+
     function VerifyWhitelist(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {
         return verify(proof, MerkleRoot, leaf);
     }

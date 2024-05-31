@@ -111,8 +111,6 @@ contract Plots_MultiToken_Presale {
 
         if (PhaseRequested == UserType.FifteenFDV) {
             require(UserPoints / 2 >= ConvertEthToStable(msg.value), "Invalid amount");
-        } else {
-            require(TotalRaised + ConvertEthToStable(msg.value) <= PhaseOneCap, "Sale cap reached");
         }
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {

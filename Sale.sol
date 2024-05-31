@@ -39,7 +39,7 @@ contract Plots_MultiToken_Presale {
     }
 
     modifier ActiveSaleOnly() {
-        require(GetSaleStatus(), "Sale is ");
+        require(GetSaleStatus(), "Sale is not active");
         _;
     }
     }

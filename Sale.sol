@@ -112,7 +112,7 @@ contract Plots_MultiToken_Presale {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");
-        require(Allocation[msg.sender] >= amount, "Invalid allocation");
+        require(Allocation[msg.sender] >= StableEquivalent, "Invalid allocation");
         require(TotalRaised + StableEquivalent <= PhaseOneCap, "Sale cap reached");
 
         if (PhaseRequested == UserType.FifteenFDV) {

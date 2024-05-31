@@ -180,6 +180,8 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, USDC);
     }
 
+    function 
+
     // Utility Functions
 
     function ConvertEthToStable(uint256 amountIn) public view returns (uint256) {

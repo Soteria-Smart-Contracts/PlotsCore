@@ -51,6 +51,8 @@ contract Plots_MultiToken_Presale {
         PhaseOneCap = phaseOneCap;
         Admin = admin;
 
+        //deploy a new er
+
         emit SaleParamsSet(saleStart, saleEnd, phaseOnePrice, phaseTwoPrice, phaseOneCap);
     }
 

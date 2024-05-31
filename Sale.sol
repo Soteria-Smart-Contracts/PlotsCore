@@ -180,8 +180,10 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, USDC);
     }
 
-    //function to call for first time users to set their allocation
-    
+    //function to call for first time users to set their allocation in usd which is
+    function SetAllocation(uint256 UserPoints) public {
+        AllocationUsed[msg.sender] = UserPoints;
+    }
 
     // Utility Functions
 

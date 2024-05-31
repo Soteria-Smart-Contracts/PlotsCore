@@ -310,9 +310,6 @@ interface AggregatorV3Interface {
     returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
 }
 
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
 library StringUtils {
     // Convert address to string
     function addressToString(address _addr) internal pure returns (string memory) {

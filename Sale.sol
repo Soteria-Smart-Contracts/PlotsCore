@@ -27,7 +27,7 @@ contract Plots_MultiToken_Presale {
 
     enum SalePhase { AwaitingStart, PhaseOne, PhaseTwo, Over }
 
-    enum UserType { TwenttyFiv, Public }
+    enum UserType { TwentyFiveFDV, FifteenFDV }
 
     modifier OnlyAdmin() {
         require(msg.sender == Admin, "Only Admin");

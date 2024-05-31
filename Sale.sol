@@ -39,6 +39,7 @@ contract Plots_MultiToken_Presale {
     }
 
     modifier ActiveSaleOnly() {
+        //require it sta
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         _;
     }

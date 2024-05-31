@@ -51,7 +51,7 @@ contract Plots_MultiToken_Presale {
         PhaseOneCap = phaseOneCap;
         Admin = admin;
 
-        //deploy a new erc20 token called vlnd, set 
+        //deploy a new erc20 token called vlnd, set the max tokens to 1 million con
 
         emit SaleParamsSet(saleStart, saleEnd, phaseOnePrice, phaseTwoPrice, phaseOneCap);
     }

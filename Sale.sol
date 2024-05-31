@@ -180,8 +180,10 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, USDC);
     }
 
-    //function to call for first time users to set their allocation in usd which is the number of tokens devided    by 2 converted to w
-    
+    function SetAllocationInUSD(uint256 allocation) public {
+        AllocationUsed[msg.sender] = allocation * 10**18 / 2;
+    }
+
     // Utility Functions
 
     function ConvertEthToStable(uint256 amountIn) public view returns (uint256) {

@@ -25,7 +25,7 @@ contract Plots_MultiToken_Presale {
     uint256 public TotalRaised;
     uint256 public PhaseOneCap;
 
-    mapping
+    mapping(address => uint256) public Alloca;
 
     enum SalePhase { AwaitingStart, PhaseOne, PhaseTwo, Over }
 

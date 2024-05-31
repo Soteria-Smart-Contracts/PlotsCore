@@ -70,8 +70,8 @@ contract Plots_MultiToken_Presale {
         uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
         uint256 ethBalance = address(this).balance;
 
-        ERC20(USDT).transfer(Admin, usdtBalance);
-        ERC20(USDC).transfer(Admin, usdcBalance);
+        SafeERC20(USDT).transferFrom(Admin, usdtBalance);
+        SafeERC20(USDC).transfer(Admin, usdcBalance);
         payable(Admin).transfer(ethBalance);
 
         emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);

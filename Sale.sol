@@ -158,6 +158,12 @@ contract Plots_MultiToken_Presale {
         uint256 plotsToReceive = ConvertStableToPlots(amount);
         require(plotsToReceive > 0, "Invalid amount");
         require(UserPoints / 2 >= amount, "Invalid amount");
+
+        if (PhaseRequested == UserType.TwentyFiveFDV) {
+            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
+        } else if (PhaseRequested == UserType.FifteenFDV) {
+            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
+        }
         
         ERC20(USDC).transferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;

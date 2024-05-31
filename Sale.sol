@@ -165,7 +165,7 @@ contract Plots_MultiToken_Presale {
         AllocationUsed[msg.sender] += UserPoints;
 
         if (PhaseRequested == UserType.FifteenFDV) {
-            require(UserPoints / 2 >= StableEquivalent, "Invalid amount");
+            require(UserPoints / 2 >= amount, "Invalid amount");
         }
 
 

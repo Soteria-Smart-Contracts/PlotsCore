@@ -24,6 +24,7 @@ contract Plots_MultiToken_Presale {
 
     uint256 public TotalRaised;
     uint256 public PhaseOneCap;
+    uint256 public SaleCap;
 
     mapping(address => uint256) public Allocation;
     mapping(address => bool) public AllocationSet;
@@ -41,27 +42,21 @@ contract Plots_MultiToken_Presale {
     event ProceedsSentToTreasury(uint256 usdtAmount, uint256 usdcAmount, uint256 ethAmount);
     event SaleParamsSet(uint256 saleStart, uint256 saleEnd, uint256 phaseOnePrice, uint256 phaseTwoPrice, uint256 phaseOneCap);
 
-    constructor(
-        uint256 saleStart,
-        uint256 saleEnd,
-        uint256 phaseOnePrice,
-        uint256 phaseTwoPrice,
-        uint256 phaseOneCap,
-        address admin
-        ) {
-        SaleStart = saleStart;
-        SaleEnd = saleEnd;
-        PhaseOnePrice = phaseOnePrice;
-        PhaseTwoPrice = phaseTwoPrice;
-        PhaseOneCap = phaseOneCap;
-        Admin = admin;
+    constructor() {
+        SaleStart = 1717208873;
+        SaleEnd = block.timestamp + 1200;
+        PhaseOnePrice = 1500000000000000000;
+        PhaseTwoPrice = 2500000000000000000;
+        
+        SaleCap = 5000000000000000000000;
+        Admin = "0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce";
 
         //deploy a new erc20 token called PLOTS, set the max tokens to 1 million convert to wei and set the PLOTS address to the new token address
         ERC20 token = new ERC20(1000000, "PLOTS", "PLOTS");
         token.ManageMinter(true, address(this));
         PLOTS = address(token);
 
-        emit SaleParamsSet(saleStart, saleEnd, phaseOnePrice, phaseTwoPrice, phaseOneCap);
+        emit SaleParamsSet(SaleStart, SaleEnd, PhaseOnePrice, PhaseOnePrice, PhaseTwoPrice);
     }
 
     // Admin Functions

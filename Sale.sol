@@ -39,7 +39,7 @@ contract Plots_MultiToken_Presale {
     }
 
     modifier ActiveSaleOnly() {
-        //require it sta
+        require(block.timestamp >= SaleStart, "Sale has not started");
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         _;
     }

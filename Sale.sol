@@ -133,7 +133,7 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, address(0));
     }
 
-    function PurchaseWithUSDT(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public {
+    function PurchaseWithUSDT(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public ActiveSaleOnly {
         if (!AllocationSet[msg.sender] && PhaseRequested == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
@@ -162,7 +162,7 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, USDT);
     }
 
-    function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public {
+    function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public ActiveSaleOnly {
         if (!AllocationSet[msg.sender]) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;

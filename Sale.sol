@@ -215,7 +215,10 @@ contract Plots_MultiToken_Presale {
         return computedHash == root;
     }
 
-    //create an admin function to change the cap of the sale, and 
+    function ChangeSaleParams(uint256 _SaleEnd, uint256 _PhaseOneCap) public OnlyAdmin {
+        SaleEnd = _SaleEnd;
+        PhaseOneCap = _PhaseOneCap;
+    }
 
     function SendProceedsToTreasury() public OnlyAdmin {
         uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));

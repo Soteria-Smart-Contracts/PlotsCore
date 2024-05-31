@@ -181,7 +181,7 @@ contract Plots_MultiToken_Presale {
         return usdAmount;
     }
 
-    function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
+    function ConvertStableToPlots(uint256 amountIn, UserType rate) public view returns (uint256) {
         return amountIn / GetVLNDPrice();
     }
 

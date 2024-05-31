@@ -169,8 +169,13 @@ contract Plots_MultiToken_Presale {
     // Utility Functions
     //verify sale eligibility via credentials view function that takes in a user type a user points value and an address and returns a boolean
 
-    function VerifyCredentials(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {
-        return verify(proof, MerkleRoot, leaf);
+    function VerifySaleEligibility(UserType PhaseRequested, uint256 UserPoints, address UserAddress) public view returns (bool) {
+        if (PhaseRequested == UserType.TwentyFiveFDV) {
+            return VerifyCredentials(MerkleRoot, keccak256(abi.encodePacked(UserAddress)));
+        } else if (PhaseRequested == UserType.FifteenFDV) {
+            return VerifyCredentials(MerkleRoot, keccak256(abi.encodePacked(StringUtils.concatenate(UserAddress, UserPoints))));
+        }
+        return false;
     }
 
     function VerifyCredentials(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {

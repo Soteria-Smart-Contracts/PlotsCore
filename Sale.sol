@@ -171,7 +171,22 @@ contract Plots_MultiToken_Presale {
     }
 
     // Utility Functions
-    //verify sale eligibility via credentials view function that takes in a user type a user points value and an address and returns a boolean
+
+    function ConvertEthToStable(uint256 amountIn) public view returns (uint256) {
+        //AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
+        //(, int256 priceusdt, , , ) = priceFeed.latestRoundData();
+        uint256 priceusdt = 261650782927308;
+        return (amountIn * uint256(priceusdt)) / 1e8;
+    }
+
+    function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
+        return amountIn / GetVLNDPrice();
+    }
+
+    function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
+        uint256 StableEquivalent = ConvertEthToStable(amountIn);
+        return ConvertStableToPlots(StableEquivalent);
+    }    
 
     function VerifySaleEligibility(UserType PhaseRequested, uint256 UserPoints, address UserAddress) public view returns (bool) {
         if (PhaseRequested == UserType.TwentyFiveFDV) {

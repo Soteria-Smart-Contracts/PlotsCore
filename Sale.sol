@@ -105,6 +105,9 @@ contract Plots_MultiToken_Presale {
         return ConvertStableToPlots(USDTEquivalent);
     }
 
+    //convert eth to stable
+    f
+
     function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
         return amountIn / GetVLNDPrice();
     }

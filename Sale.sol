@@ -215,6 +215,8 @@ contract Plots_MultiToken_Presale {
         return computedHash == root;
     }
 
+    //create an admin function to change the cap of the sale, and 
+
     function SendProceedsToTreasury() public OnlyAdmin {
         uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
         uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));

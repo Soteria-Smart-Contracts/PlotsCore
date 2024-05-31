@@ -51,7 +51,7 @@ contract Plots_MultiToken_Presale {
         PhaseOneCap = phaseOneCap;
         Admin = admin;
 
-        //deploy a new er
+        //deploy a new erc20 token called vlnd, set 
 
         emit SaleParamsSet(saleStart, saleEnd, phaseOnePrice, phaseTwoPrice, phaseOneCap);
     }

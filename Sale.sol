@@ -358,28 +358,6 @@ interface AggregatorV3Interface {
     returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
 }
 
-library SafeERC20 {
-    function safeTransferFrom(
-        address token,
-        address from,
-        address to,
-        uint256 value
-    ) internal {
-        // Call the token contract's transferFrom function
-        (bool success, bytes memory data) = token.call(
-            abi.encodeWithSelector(
-                bytes4(keccak256("transferFrom(address,address,uint256)")),
-                from,
-                to,
-                value
-            )
-        );
-
-        // Check if the call was successful and the return value is correct
-        require(success && (data.length == 0 || abi.decode(data, (bool))), "SafeERC20: Transfer failed");
-    }
-}
-
 library StringUtils {
     // Convert address to string
     function addressToString(address _addr) internal pure returns (string memory) {

@@ -19,8 +19,8 @@ contract Plots_MultiToken_Presale {
     // Params
     uint256 public constant SaleStart;
     uint256 public SaleEnd;
-    uint256 public PhaseOnePrice;
-    uint256 public PhaseTwoPrice;
+    uint256 public constant PhaseOnePrice;
+    uint256 public constant PhaseTwoPrice;
 
     uint256 public TotalRaised;
     uint256 public PhaseOneCap;

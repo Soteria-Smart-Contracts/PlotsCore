@@ -110,7 +110,6 @@ contract Plots_MultiToken_Presale {
         require(Allocation[msg.sender] + UserPoints <= UserPoints, "Invalid allocation");
         require(TotalRaised + StableEquivalent <= PhaseOneCap, "Sale cap reached");
 
-        //if allocation is not set, set it and set the allocation to true
         if (!AllocationSet[msg.sender]) {
             SetAllocationInUSD(StableEquivalent);
             AllocationSet[msg.sender] = true;
@@ -139,7 +138,10 @@ contract Plots_MultiToken_Presale {
         require(Allocation[msg.sender] + UserPoints <= UserPoints, "Invalid allocation");
         require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
 
-        Allocation[msg.sender] += UserPoints;
+        if (!AllocationSet[msg.sender]) {
+            SetAllocationInUSD(StableEquivalent);
+            AllocationSet[msg.sender] = true;
+        }
 
         if (PhaseRequested == UserType.FifteenFDV) {
             require(UserPoints / 2 >= amount, "Invalid amount");

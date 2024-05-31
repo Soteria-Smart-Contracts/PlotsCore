@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 contract Plots_MultiToken_Presale {
     // Token Addresses
-    address public VLND = address(0);
+    address public PLOTS = address(0);
     address public USDT = 0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0;
     address public USDC = 0xf08A50178dfcDe18524640EA6618a1f965821715;
     

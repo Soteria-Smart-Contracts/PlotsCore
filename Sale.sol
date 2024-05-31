@@ -54,7 +54,6 @@ contract Plots_MultiToken_Presale {
         //deploy a new erc20 token called vlnd, set the max tokens to 1 million convert to wei and set the vlnd address to the new token address
         ERC20 token = new ERC20(1000000, "VLND", "VLND");
         VLND = address(token);
-        token.Mint(address(this), 1000000 * 10**18);
 
         emit SaleParamsSet(saleStart, saleEnd, phaseOnePrice, phaseTwoPrice, phaseOneCap);
     }

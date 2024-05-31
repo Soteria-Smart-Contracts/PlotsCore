@@ -182,6 +182,7 @@ contract Plots_MultiToken_Presale {
     }
 
     function ConvertStableToPlots(uint256 amountIn, UserType rate) public view returns (uint256) {
+        //if the rate is 25FDV, then the conversion rate 
         return amountIn / GetVLNDPrice();
     }
 

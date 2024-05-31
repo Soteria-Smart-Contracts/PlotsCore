@@ -169,7 +169,7 @@ contract Plots_MultiToken_Presale {
     // Utility Functions
     //verify sale eligibility via credentials view function
 
-    f
+    function
 
 
     function VerifyCredentials(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {

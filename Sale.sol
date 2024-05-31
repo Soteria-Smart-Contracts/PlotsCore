@@ -121,9 +121,9 @@ contract Plots_MultiToken_Presale {
         require(plotsToReceive > 0, "Invalid amount");
 
         if (PhaseRequested == UserType.FifteenFDV) {
-            require(UserPoints / 2 >= amount, "Invalid amount");
+            require(UserPoints / 2 >= ConvertEthToStable(msg.value), "Invalid amount");
         } else {
-            require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
+            require(TotalRaised + ConvertEthToStable(msg.value) <= PhaseOneCap, "Sale cap reached");
         }
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {

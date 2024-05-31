@@ -127,7 +127,7 @@ contract Plots_MultiToken_Presale {
         }
         
         TotalRaised += msg.value;
-        ISafeERC20(PLOTS).safeTransfer(msg.sender, plotsToReceive);
+        ERC20(PLOTS).transfer(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, address(0));
     }

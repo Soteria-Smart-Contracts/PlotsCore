@@ -139,6 +139,7 @@ contract Plots_MultiToken_Presale {
         uint256 plotsToReceive = ConvertStableToPlots(amount);
         require(plotsToReceive > 0, "Invalid amount");
         require(UserPoints / 2 >= amount, "Invalid amount");
+        
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");

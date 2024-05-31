@@ -104,9 +104,8 @@ contract Plots_MultiToken_Presale {
     // Purchase Functions
     function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public payable {
         uint256 StableEquivalent = ConvertEthToStable(msg.value);
-
         if (!AllocationSet[msg.sender]) {
-            SetAllocationInUSD(amount);
+            SetAllocationInUSD(StableEquivalent);
             AllocationSet[msg.sender] = true;
         }
 

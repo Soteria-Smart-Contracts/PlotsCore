@@ -103,7 +103,6 @@ contract Plots_MultiToken_Presale {
 
     // Purchase Functions
     function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public payable {
-        uint256 StableEquivalent = ConvertEthToStable(msg.value);
         if (!AllocationSet[msg.sender]) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
@@ -111,6 +110,7 @@ contract Plots_MultiToken_Presale {
 
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
+        uint256 StableEquivalent = ConvertEthToStable(msg.value);
         require(plotsToReceive > 0, "Invalid amount");
         require(Allocation[msg.sender] >= StableEquivalent, "Invalid allocation");
         require(TotalRaised + StableEquivalent <= PhaseOneCap, "Sale cap reached");

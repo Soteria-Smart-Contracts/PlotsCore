@@ -184,7 +184,6 @@ contract Plots_MultiToken_Presale {
     function SetAllocation(uint256 UserPoints) public {
         AllocationUsed[msg.sender] = UserPoints;
     }
-
     // Utility Functions
 
     function ConvertEthToStable(uint256 amountIn) public view returns (uint256) {

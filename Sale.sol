@@ -139,7 +139,7 @@ contract Plots_MultiToken_Presale {
         require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
 
         if (!AllocationSet[msg.sender]) {
-            SetAllocationInUSD(StableEquivalent);
+            SetAllocationInUSD(amount);
             AllocationSet[msg.sender] = true;
         }
 

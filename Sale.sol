@@ -215,7 +215,6 @@ contract Plots_MultiToken_Presale {
         return computedHash == root;
     }
 
-    // Admin Functions
     function SendProceedsToTreasury() public OnlyAdmin {
         uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
         uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
@@ -228,7 +227,6 @@ contract Plots_MultiToken_Presale {
         emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
     }
 
-    // Getter Functions
     function GetSaleStatus() public view returns (bool) {
         if (block.timestamp >= SaleStart && block.timestamp <= SaleEnd && TotalRaised < SaleCap) {
             return true; // In sale

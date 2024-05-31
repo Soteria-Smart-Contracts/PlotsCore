@@ -116,7 +116,7 @@ contract Plots_MultiToken_Presale {
         require(TotalRaised + StableEquivalent <= PhaseOneCap, "Sale cap reached");
 
         if (PhaseRequested == UserType.FifteenFDV) {
-            require(Allocation[msg.sender] >= amount, "Invalid allocation");
+            require(Allocation[msg.sender] >= StableEquivalent, "Invalid allocation");
         }
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {

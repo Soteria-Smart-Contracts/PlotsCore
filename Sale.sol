@@ -136,9 +136,7 @@ contract Plots_MultiToken_Presale {
         AllocationUsed[msg.sender] += UserPoints;
 
         if (PhaseRequested == UserType.FifteenFDV) {
-            require(UserPoints / 2 >= amount, "Invalid amount");
-        } else {
-            require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
+            require(UserPoints / 2 >= StableEquivalent, "Invalid amount");
         }
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {
@@ -163,10 +161,9 @@ contract Plots_MultiToken_Presale {
         AllocationUsed[msg.sender] += UserPoints;
 
         if (PhaseRequested == UserType.FifteenFDV) {
-            require(UserPoints / 2 >= amount, "Invalid amount");
-        } else {
-            require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
+            require(UserPoints / 2 >= StableEquivalent, "Invalid amount");
         }
+
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");

@@ -133,7 +133,7 @@ contract Plots_MultiToken_Presale {
     }
 
     function PurchaseWithUSDT(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public {
-        if (!AllocationSet[msg.sender]) {
+        if (!AllocationSet[msg.sender] && PhaseRequested == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }

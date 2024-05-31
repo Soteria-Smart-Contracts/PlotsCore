@@ -110,7 +110,7 @@ contract Plots_MultiToken_Presale {
     }
 
     // Purchase Functions
-    function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, ) public payable {
+    function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints) public payable {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value);
         require(plotsToReceive > 0, "Invalid amount");
@@ -121,7 +121,7 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, address(0));
     }
 
-    function PurchaseWithUSDT(uint256 amount) public {
+    function PurchaseWithUSDT(uint256 amount, UserType PhaseRequested, uint256 UserPoints) public {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertStableToPlots(amount);
         require(plotsToReceive > 0, "Invalid amount");

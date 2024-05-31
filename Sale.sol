@@ -98,8 +98,8 @@ contract Plots_MultiToken_Presale {
     }
 
     function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
-        ConvertEthToStable(amountIn);
-        return ConvertStableToPlots(USDTEquivalent);
+        uint256 StableEquivalent = ConvertEthToStable(amountIn);
+        return ConvertStableToPlots(StableEquivalent);
     }
 
     //convert eth to stable

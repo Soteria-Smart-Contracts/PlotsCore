@@ -177,7 +177,7 @@ contract Plots_MultiToken_Presale {
         //(, int256 priceusdt, , , ) = priceFeed.latestRoundData();
         uint256 priceusdt = 261650782927308;
         uint256 amountInWei = amountIn * 10**17; // Convert ETH to wei
-        uint256 usdAmount = (amountInWei * 10e1) / 261650782927308;
+        uint256 usdAmount = (amountInWei) / 261650782927308;
         return usdAmount;
     }
 

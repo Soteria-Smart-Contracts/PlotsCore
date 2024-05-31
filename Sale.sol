@@ -56,7 +56,7 @@ contract Plots_MultiToken_Presale {
         PhaseOneCap = phaseOneCap;
         Admin = admin;
 
-        //deploy a new erc20 token called PLOTS, set the max tokens to 1 million convert to wei and set the vlnd address to the new token address
+        //deploy a new erc20 token called PLOTS, set the max tokens to 1 million convert to wei and set the PLOTS address to the new token address
         ERC20 token = new ERC20(1000000, "PLOTS", "PLOTS");
         token.ManageMinter(true, address(this));
         PLOTS = address(token);

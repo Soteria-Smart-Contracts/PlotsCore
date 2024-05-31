@@ -139,7 +139,12 @@ contract Plots_MultiToken_Presale {
         uint256 plotsToReceive = ConvertStableToPlots(amount);
         require(plotsToReceive > 0, "Invalid amount");
         require(UserPoints / 2 >= amount, "Invalid amount");
-        
+
+        if (PhaseRequested == UserType.FifteenFDV) {
+            require(UserPoints / 2 >= amount, "Invalid amount");
+        } else {
+            require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
+        }
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
@@ -158,6 +163,7 @@ contract Plots_MultiToken_Presale {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertStableToPlots(amount);
         require(plotsToReceive > 0, "Invalid amount");
+
         if (PhaseRequested == UserType.FifteenFDV) {
             require(UserPoints / 2 >= amount, "Invalid amount");
         } else {

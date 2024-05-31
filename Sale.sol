@@ -167,7 +167,7 @@ contract Plots_MultiToken_Presale {
     }
 
     // Utility Functions
-    //verify sale eligibility via credentials view function that takes in a user type and a user points value
+    //verify sale eligibility via credentials view function that takes in a user type a user points value and an add
 
     function Verify
 

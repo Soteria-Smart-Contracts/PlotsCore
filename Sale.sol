@@ -107,7 +107,7 @@ contract Plots_MultiToken_Presale {
             SetAllocationInUSD(amount);
             AllocationSet[msg.sender] = true;
         }
-        
+
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
         uint256 StableEquivalent = ConvertEthToStable(msg.value);
@@ -167,6 +167,11 @@ contract Plots_MultiToken_Presale {
     }
 
     function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public {
+        if (!AllocationSet[msg.sender]) {
+            SetAllocationInUSD(amount);
+            AllocationSet[msg.sender] = true;
+        }
+        
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertStableToPlots(amount, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");

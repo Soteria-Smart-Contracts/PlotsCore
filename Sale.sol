@@ -65,28 +65,6 @@ contract Plots_MultiToken_Presale {
         emit SaleParamsSet(SaleStart, SaleEnd, PhaseOnePrice, PhaseOnePrice, PhaseTwoPrice);
     }
 
-    // Admin Functions
-    function SendProceedsToTreasury() public OnlyAdmin {
-        uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
-        uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
-        uint256 ethBalance = address(this).balance;
-
-        ISafeERC20(USDT).safeTransfer(Admin, usdtBalance);
-        ISafeERC20(USDC).safeTransfer(Admin, usdcBalance);
-        payable(Admin).transfer(ethBalance);
-
-        emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
-    }
-
-    // Getter Functions
-    function GetSaleStatus() public view returns (bool) {
-        if (block.timestamp >= SaleStart && block.timestamp <= SaleEnd && TotalRaised < SaleCap) {
-            return true; // In sale
-        } else {
-            return false; // Not in sale
-        }
-    }
-
 
     // Purchase Functions
     function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public ActiveSaleOnly payable {
@@ -235,6 +213,28 @@ contract Plots_MultiToken_Presale {
         }
 
         return computedHash == root;
+    }
+
+    // Admin Functions
+    function SendProceedsToTreasury() public OnlyAdmin {
+        uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
+        uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
+        uint256 ethBalance = address(this).balance;
+
+        ISafeERC20(USDT).safeTransfer(Admin, usdtBalance);
+        ISafeERC20(USDC).safeTransfer(Admin, usdcBalance);
+        payable(Admin).transfer(ethBalance);
+
+        emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
+    }
+
+    // Getter Functions
+    function GetSaleStatus() public view returns (bool) {
+        if (block.timestamp >= SaleStart && block.timestamp <= SaleEnd && TotalRaised < SaleCap) {
+            return true; // In sale
+        } else {
+            return false; // Not in sale
+        }
     }
 }
 

@@ -8,7 +8,7 @@ contract Plots_MultiToken_Presale {
     address public constant USDC = 0xf08A50178dfcDe18524640EA6618a1f965821715;
     
     // Chainlink Price Feeds
-    address public USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
+    address public constant USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
 
     // Admin Address
     address public Admin;

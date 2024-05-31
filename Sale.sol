@@ -39,9 +39,9 @@ contract Plots_MultiToken_Presale {
     }
 
     modifier ActiveSaleOnly() {
-        require(block.timestamp >= SaleStart, "Sale has not started");
-        require(GetSaleStatus() != SalePhase.Over, "Sale is over");
+        require(GetSaleStatus(), "Sale is ");
         _;
+    }
     }
 
     event TokensPurchased(address indexed buyer, uint256 amount, address token);

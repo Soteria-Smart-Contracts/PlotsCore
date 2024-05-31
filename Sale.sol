@@ -26,7 +26,7 @@ contract Plots_MultiToken_Presale {
     uint256 public PhaseOneCap;
 
     mapping(address => uint256) public Allocation;
-    mapping
+    mapping(address => bool) public AllocationSet;
 
     enum SalePhase { AwaitingStart, PhaseOne, PhaseTwo, Over }
 

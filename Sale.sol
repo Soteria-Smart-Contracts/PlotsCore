@@ -190,7 +190,7 @@ contract Plots_MultiToken_Presale {
         }
     }
 
-    function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
+    function ConvertEthToPlots(uint256 amountIn, UserType rate) public view returns (uint256) {
         uint256 StableEquivalent = ConvertEthToStable(amountIn);
         return ConvertStableToPlots(StableEquivalent);
     }    

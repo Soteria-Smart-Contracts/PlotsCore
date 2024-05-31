@@ -183,7 +183,11 @@ contract Plots_MultiToken_Presale {
 
     function ConvertStableToPlots(uint256 amountIn, UserType rate) public view returns (uint256) {
         //if the rate is 25FDV, then the price is phase two price, else it is phase two price 
-        return amountIn / GetVLNDPrice();
+        if (rate == UserType.TwentyFiveFDV) {
+            return amountIn / PhaseTwoPrice;
+        } else {
+            return amountIn / PhaseOnePrice;
+        }
     }
 
     function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {

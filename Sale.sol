@@ -110,7 +110,7 @@ contract Plots_MultiToken_Presale {
     }
 
     // Purchase Functions
-    function PurchaseWithETH() public payable {
+    function PurchaseWithETH(UserType ) public payable {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value);
         require(plotsToReceive > 0, "Invalid amount");

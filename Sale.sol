@@ -92,15 +92,6 @@ contract Plots_MultiToken_Presale {
         return SalePhase.Over;
     }
 
-    function GetVLNDPrice() public view returns (uint256) {
-        if (GetSaleStatus() == SalePhase.PhaseOne) {
-            return PhaseOnePrice;
-        } else if (GetSaleStatus() == SalePhase.PhaseTwo) {
-            return PhaseTwoPrice;
-        }
-        revert("Sale is not in Phase One or Phase Two");
-    }
-
 
     // Purchase Functions
     function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public ActiveSaleOnly payable {

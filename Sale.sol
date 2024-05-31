@@ -200,7 +200,7 @@ contract ERC20 {
         totalSupply = 0;
         name = _name;
         symbol = _symbol;
-        decimals = 10;
+        decimals = 18;
         operator = msg.sender;
     }
     

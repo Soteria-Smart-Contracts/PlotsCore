@@ -188,7 +188,7 @@ contract Plots_MultiToken_Presale {
     }
 
     function SetAllocationInUSD(uint256 allocation) internal {
-        AllocationUsed[msg.sender] = allocation * 10**18 / 2;
+        Allocation[msg.sender] = allocation * 10**18 / 2;
     }
 
     // Utility Functions

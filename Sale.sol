@@ -154,7 +154,7 @@ contract Plots_MultiToken_Presale {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
         }
         
-        ERC20(USDT).transferFrom(msg.sender, address(this), amount);
+        ISafeERC20(USDT).safeTransferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;
         ERC20(PLOTS).Mint(msg.sender, plotsToReceive);
 

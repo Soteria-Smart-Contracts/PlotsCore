@@ -103,7 +103,7 @@ contract Plots_MultiToken_Presale {
 
 
     // Purchase Functions
-    function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public payable {
+    function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public ActiveSaleOnly payable {
         if (!AllocationSet[msg.sender]) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;

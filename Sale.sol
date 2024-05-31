@@ -105,6 +105,7 @@ contract Plots_MultiToken_Presale {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");
+        //REQUIRE the allocation used by the user is less than the user points
 
         AllocationUsed[msg.sender] += UserPoints;
 

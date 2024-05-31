@@ -25,6 +25,8 @@ contract Plots_MultiToken_Presale {
     uint256 public TotalRaised;
     uint256 public PhaseOneCap;
 
+    mapping
+
     enum SalePhase { AwaitingStart, PhaseOne, PhaseTwo, Over }
 
     enum UserType { TwentyFiveFDV, FifteenFDV }

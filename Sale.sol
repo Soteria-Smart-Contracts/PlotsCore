@@ -117,6 +117,7 @@ contract Plots_MultiToken_Presale {
 
         if (PhaseRequested == UserType.FifteenFDV) {
             require(Allocation[msg.sender] >= StableEquivalent, "Invalid allocation");
+            Allocation[msg.sender] -= StableEquivalent;
         }
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {

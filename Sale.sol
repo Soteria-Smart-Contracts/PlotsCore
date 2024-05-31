@@ -4,8 +4,8 @@ pragma solidity ^0.8.4;
 contract Plots_MultiToken_Presale {
     // Token Addresses
     address public VLND = address(0);
-    address public USDT = 0xdAC17F958D2ee523a2206206994597C13D831ec7;
-    address public USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+    address public USDT = 0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0;
+    address public USDC = 0xf08A50178dfcDe18524640EA6618a1f965821715;
     
     // Chainlink Price Feeds
     address public USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
@@ -90,6 +90,18 @@ contract Plots_MultiToken_Presale {
         return 0;
     }
 
+    function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
+        //AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
+       // (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
+        uint256 priceusdt = 261650782927308;
+        uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
+        return ConvertStableToPlots(USDTEquivalent);
+    }
+
+    function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
+        return amountIn / GetVLNDPrice();
+    }
+
     // Purchase Functions
     function PurchaseWithEth() public payable {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
@@ -127,19 +139,6 @@ contract Plots_MultiToken_Presale {
     }
 
     // Utility Functions
-    function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
-        (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
-        uint256 USDTEquivalent = (amountIn * uint256(priceusdt)) / 1e8;
-        return ConvertStableToPlots(USDTEquivalent);
-    }
-
-    function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
-        uint256 vlndPrice = GetVLNDPrice();
-        uint256 amountInWithDecimals = amountIn * (10 ** 18); // Adjust for 18 decimal places for wei
-        return amountInWithDecimals / vlndPrice;
-    }
-
     function VerifyWhitelist(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {
         return verify(proof, MerkleRoot, leaf);
     }
@@ -166,16 +165,103 @@ contract Plots_MultiToken_Presale {
 }
 
 
+contract ERC20 {
+    uint256 public tokenCap;
+    uint256 public totalSupply;
+    string public name;
+    string public symbol;
+    uint8 public decimals;
+    address private operator;
+    address private ZeroAddress;
+    //variable Declarations
+    
+      
+    event Transfer(address indexed from, address indexed to, uint256 value);    
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event BurnEvent(address indexed burner, uint256 indexed buramount);
+    event ManageMinterEvent(address indexed newminter);
+    //Event Declarations 
+    
+    mapping(address => uint256) balances;
 
-interface ERC20 {
-  function balanceOf(address owner) external view returns (uint256);
-  function allowance(address owner, address spender) external view returns (uint256);
-  function approve(address spender, uint value) external returns (bool);
-  function Mint(address _MintTo, uint256 _MintAmount) external;
-  function transfer(address to, uint value) external returns (bool);
-  function transferFrom(address from, address to, uint256 value) external returns (bool); 
-  function totalSupply() external view returns (uint);
-  function CheckMinter(address AddytoCheck) external view returns(uint);
+    mapping(address => mapping (address => uint256)) public allowance;
+    
+    mapping(address => bool) minter;
+    
+    constructor(uint256 _TokenCap, string memory _name, string memory _symbol){
+        tokenCap = _TokenCap;
+        totalSupply = 0;
+        name = _name;
+        symbol = _symbol;
+        decimals = 10;
+        operator = msg.sender;
+    }
+    
+    
+    function balanceOf(address Address) public view returns (uint256 balance){
+        return balances[Address];
+
+    }
+
+    function approve(address delegate, uint _amount) public returns (bool) {
+        allowance[msg.sender][delegate] = _amount;
+        emit Approval(msg.sender, delegate, _amount);
+        return true;
+    }
+    //Approves an address to spend your coins
+
+    function transferFrom(address _from, address _to, uint256 _amount) public returns (bool) {
+        require(_amount <= balances[_from]);    
+        require(_amount <= allowance[_from][msg.sender]); 
+    
+        balances[_from] = balances[_from]-(_amount);
+        allowance[_from][msg.sender] = allowance[_from][msg.sender]-(_amount);
+        balances[_to] = balances[_to]+(_amount);
+        emit Transfer(_from, _to, _amount);
+        return true;
+    }
+    //Transfer From an other address
+
+
+    function transfer(address _to, uint256 _amount) public returns (bool) {
+        require(_amount <= balances[msg.sender]);
+        balances[msg.sender] = balances[msg.sender]-(_amount);
+        balances[_to] = balances[_to]+(_amount);
+        emit Transfer(msg.sender, _to, _amount);
+        return true;
+    }
+
+
+    function Mint(address _MintTo, uint256 _MintAmount) public {
+        require (minter[msg.sender] == true);
+        require (totalSupply+(_MintAmount) <= tokenCap);
+        balances[_MintTo] = balances[_MintTo]+(_MintAmount);
+        totalSupply = totalSupply+(_MintAmount);
+        ZeroAddress = 0x0000000000000000000000000000000000000000;
+        emit Transfer(ZeroAddress ,_MintTo, _MintAmount);
+    }
+    //Mints tokens to your address 
+
+
+    function Burn(uint256 _BurnAmount) public {
+        require (balances[msg.sender] >= _BurnAmount);
+        balances[msg.sender] = balances[msg.sender]-(_BurnAmount);
+        totalSupply = totalSupply-(_BurnAmount);
+        ZeroAddress = 0x0000000000000000000000000000000000000000;
+        emit Transfer(msg.sender, ZeroAddress, _BurnAmount);
+        emit BurnEvent(msg.sender, _BurnAmount);
+        
+    }
+
+    function ManageMinter(bool IsMinter, address _address) public returns(address){
+        require (msg.sender == operator);
+
+        minter[_address] = IsMinter;
+
+        emit ManageMinterEvent(_address);
+        return (_address);
+    }
+
 }
 
 interface AggregatorV3Interface {

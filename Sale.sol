@@ -17,7 +17,7 @@ contract Plots_MultiToken_Presale {
     bytes32 public MerkleRoot = 0x0;
 
     // Params
-    uint256 public SaleStart;
+    uint256 public constant SaleStart;
     uint256 public SaleEnd;
     uint256 public PhaseOnePrice;
     uint256 public PhaseTwoPrice;

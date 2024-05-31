@@ -167,6 +167,9 @@ contract Plots_MultiToken_Presale {
     }
 
     // Utility Functions
+    //verify sale eligibility via credentials
+
+
     function VerifyCredentials(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {
         return verify(proof, MerkleRoot, leaf);
     }

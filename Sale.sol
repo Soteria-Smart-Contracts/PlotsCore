@@ -106,7 +106,12 @@ contract Plots_MultiToken_Presale {
     }
 
     //convert eth to stable
-    f
+    function ConvertEthToStable(uint256 amountIn) public view returns (uint256) {
+        //AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
+        //(, int256 priceusdt, , , ) = priceFeed.latestRoundData();
+        uint256 priceusdt = 261650782927308;
+        return (amountIn * uint256(priceusdt)) / 1e8;
+    }
 
     function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
         return amountIn / GetVLNDPrice();

@@ -175,11 +175,10 @@ contract Plots_MultiToken_Presale {
     function ConvertEthToStable(uint256 amountIn) public view returns (uint256) {
         //AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         //(, int256 priceusdt, , , ) = priceFeed.latestRoundData();
+        
          uint256 amountInWei = amountIn * 10**18; // Convert ETH to wei
-        uint256 usdAmount = (amountInWei * 10e1) / priceusdt;
+        uint256 usdAmount = (amountInWei * 10e1) / 261650782927308;
         return usdAmount;
-        uint256 priceusdt = 261650782927308;
-        return amountIn / uint256(priceusdt);
     }
 
     function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {

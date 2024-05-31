@@ -94,7 +94,8 @@ contract Plots_MultiToken_Presale {
         } else if (GetSaleStatus() == SalePhase.PhaseTwo) {
             return PhaseTwoPrice;
         }
-        return 0;
+        //fail the function if the sale is not in phase one or phase two
+        revert("Sale is not in Phase One or Phase Two");
     }
 
     function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {

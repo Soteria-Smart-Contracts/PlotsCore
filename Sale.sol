@@ -107,10 +107,10 @@ contract Plots_MultiToken_Presale {
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
         uint256 StableEquivalent = ConvertEthToStable(msg.value);
         require(plotsToReceive > 0, "Invalid amount");
-        require(AllocationUsed[msg.sender] + UserPoints <= UserPoints, "Invalid allocation");
+        require(Allocation[msg.sender] + UserPoints <= UserPoints, "Invalid allocation");
         require(TotalRaised + StableEquivalent <= PhaseOneCap, "Sale cap reached");
 
-        AllocationUsed[msg.sender] += UserPoints;
+        Allocation[msg.sender] += UserPoints;
 
         if (PhaseRequested == UserType.FifteenFDV) {
             require(UserPoints / 2 >= StableEquivalent, "Invalid amount");
@@ -132,7 +132,7 @@ contract Plots_MultiToken_Presale {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertStableToPlots(amount, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");
-        require(AllocationUsed[msg.sender] + UserPoints <= UserPoints, "Invalid allocation");
+        require(Allocation[msg.sender] + UserPoints <= UserPoints, "Invalid allocation");
         require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
 
 

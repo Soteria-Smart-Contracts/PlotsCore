@@ -180,7 +180,8 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, USDC);
     }
 
-    function 
+    //function to call for first time users to set their allocation
+    
 
     // Utility Functions
 

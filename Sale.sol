@@ -116,6 +116,7 @@ contract Plots_MultiToken_Presale {
         require(plotsToReceive > 0, "Invalid amount");
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {
+            
         
         TotalRaised += msg.value;
         ERC20(VLND).transfer(msg.sender, plotsToReceive);

@@ -144,6 +144,7 @@ contract Plots_MultiToken_Presale {
 
         if (PhaseRequested == UserType.FifteenFDV) {
             require(Allocation[msg.sender] >= amount, "Invalid allocation");
+            Allocation[msg.sender] -= amount;
         }
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {

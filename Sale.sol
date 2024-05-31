@@ -127,7 +127,7 @@ contract Plots_MultiToken_Presale {
         }
         
         TotalRaised += msg.value;
-        ERC20(PLOTS).Mint(_MintTo, _MintAmount);(msg.sender, plotsToReceive);
+        ERC20(PLOTS).Mint(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, address(0));
     }

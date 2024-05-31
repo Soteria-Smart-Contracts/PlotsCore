@@ -126,7 +126,7 @@ contract Plots_MultiToken_Presale {
         }
         
         TotalRaised += msg.value;
-        ERC20(VLND).transfer(msg.sender, plotsToReceive);
+        ERC20(PLOTS).transfer(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, address(0));
     }
@@ -154,7 +154,7 @@ contract Plots_MultiToken_Presale {
         
         ERC20(USDT).transferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;
-        ERC20(VLND).Mint(msg.sender, plotsToReceive);
+        ERC20(PLOTS).Mint(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, USDT);
     }
@@ -182,7 +182,7 @@ contract Plots_MultiToken_Presale {
         
         ERC20(USDC).transferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;
-        ERC20(VLND).Mint(msg.sender, plotsToReceive);
+        ERC20(PLOTS).Mint(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, USDC);
     }

@@ -363,7 +363,7 @@ library SafeERC20 {
         address from,
         address to,
         uint256 value
-    ) internal {
+    ) external {
         // Call the token contract's transferFrom function
         (bool success, bytes memory data) = token.call(
             abi.encodeWithSelector(

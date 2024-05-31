@@ -352,8 +352,8 @@ contract ERC20 {
 }
 
 interface ISafeERC20 {
-    function safeTransfer(address token, address to, uint256 value) external;
-    function safeTransferFrom(address token, address from, address to, uint256 value) external;
+    function safeTransfer(address to, uint256 value) external;
+    function safeTransferFrom(address from, address to, uint256 value) external;
 }
 
 interface AggregatorV3Interface {

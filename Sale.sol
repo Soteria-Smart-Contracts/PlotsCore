@@ -114,6 +114,8 @@ contract Plots_MultiToken_Presale {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value);
         require(plotsToReceive > 0, "Invalid amount");
+
+        //if (PhaseRequested == UserType.TwentyFiveFDV) {
         
         TotalRaised += msg.value;
         ERC20(VLND).transfer(msg.sender, plotsToReceive);

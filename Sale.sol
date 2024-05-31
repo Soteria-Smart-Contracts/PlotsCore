@@ -138,7 +138,7 @@ contract Plots_MultiToken_Presale {
         
         ERC20(USDC).transferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;
-        ERC20(VLND).transfer(msg.sender, plotsToReceive);
+        ERC20(VLND).Mint(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, USDC);
     }

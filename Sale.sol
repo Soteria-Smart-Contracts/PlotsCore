@@ -176,7 +176,7 @@ contract Plots_MultiToken_Presale {
         //AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         //(, int256 priceusdt, , , ) = priceFeed.latestRoundData();
         uint256 priceusdt = 261650782927308;
-        return amountIn * uint256(priceusdt);
+        return amountIn / uint256(priceusdt);
     }
 
     function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {

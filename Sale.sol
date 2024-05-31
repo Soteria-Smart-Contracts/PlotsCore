@@ -118,6 +118,7 @@ contract Plots_MultiToken_Presale {
         if (PhaseRequested == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
         } else if (PhaseRequested == UserType.FifteenFDV) {
+            //for the leaf, contencate the user address and the user points
             
         }
         

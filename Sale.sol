@@ -101,7 +101,7 @@ contract Plots_MultiToken_Presale {
     // Purchase Functions
     function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public payable {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
-        uint256 plotsToReceive = ConvertEthToPlots(msg.value);
+        uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");
 
         if (PhaseRequested == UserType.FifteenFDV) {

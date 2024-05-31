@@ -286,6 +286,54 @@ interface AggregatorV3Interface {
     returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
 }
 
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+library StringUtils {
+    // Convert address to string
+    function addressToString(address _addr) internal pure returns (string memory) {
+        bytes32 value = bytes32(uint256(uint160(_addr)));
+        bytes memory alphabet = "0123456789abcdef";
+
+        bytes memory str = new bytes(42);
+        str[0] = '0';
+        str[1] = 'x';
+        for (uint i = 0; i < 20; i++) {
+            str[2 + i * 2] = alphabet[uint(uint8(value[i + 12] >> 4))];
+            str[3 + i * 2] = alphabet[uint(uint8(value[i + 12] & 0x0f))];
+        }
+        return string(str);
+    }
+
+    // Convert uint256 to string
+    function uintToString(uint256 _value) internal pure returns (string memory) {
+        if (_value == 0) {
+            return "0";
+        }
+        uint256 temp = _value;
+        uint256 digits;
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        while (_value != 0) {
+            digits -= 1;
+            buffer[digits] = bytes1(uint8(48 + uint256(_value % 10)));
+            _value /= 10;
+        }
+        return string(buffer);
+    }
+
+    // Function to concatenate address and points
+    function concatenate(address _addr, uint256 _points) internal pure returns (string memory) {
+        string memory addrStr = addressToString(_addr);
+        string memory pointsStr = uintToString(_points);
+        return string(abi.encodePacked(addrStr, pointsStr));
+    }
+}
+
+
 //Merkle Verification Libraries
 library Hashes {
     /**

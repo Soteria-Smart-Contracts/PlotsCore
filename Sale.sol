@@ -106,6 +106,8 @@ contract Plots_MultiToken_Presale {
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");
 
+        AllocationUsed[msg.sender] += msg.value;
+
         if (PhaseRequested == UserType.FifteenFDV) {
             require(UserPoints / 2 >= ConvertEthToStable(msg.value), "Invalid amount");
         } else {

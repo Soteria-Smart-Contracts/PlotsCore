@@ -38,6 +38,11 @@ contract Plots_MultiToken_Presale {
         _;
     }
 
+    modifier ActiveSaleOnly() {
+        require(GetSaleStatus() != SalePhase.Over, "Sale is over");
+        _;
+    }
+
     event TokensPurchased(address indexed buyer, uint256 amount, address token);
     event ProceedsSentToTreasury(uint256 usdtAmount, uint256 usdcAmount, uint256 ethAmount);
     event SaleParamsSet(uint256 saleStart, uint256 saleEnd, uint256 phaseOnePrice, uint256 phaseTwoPrice, uint256 phaseOneCap);

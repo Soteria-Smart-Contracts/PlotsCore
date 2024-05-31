@@ -105,7 +105,7 @@ contract Plots_MultiToken_Presale {
     function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public payable {
         uint256 StableEquivalent = ConvertEthToStable(msg.value);
         if (!AllocationSet[msg.sender]) {
-            SetAllocationInUSD(StableEquivalent);
+            SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }
 
@@ -133,7 +133,7 @@ contract Plots_MultiToken_Presale {
 
     function PurchaseWithUSDT(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public {
         if (!AllocationSet[msg.sender]) {
-            SetAllocationInUSD(amount);
+            SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }
 
@@ -161,7 +161,7 @@ contract Plots_MultiToken_Presale {
 
     function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public {
         if (!AllocationSet[msg.sender]) {
-            SetAllocationInUSD(amount);
+            SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }
 

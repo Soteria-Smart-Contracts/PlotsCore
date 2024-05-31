@@ -97,11 +97,6 @@ contract Plots_MultiToken_Presale {
         revert("Sale is not in Phase One or Phase Two");
     }
 
-    function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
-        uint256 StableEquivalent = ConvertEthToStable(amountIn);
-        return ConvertStableToPlots(StableEquivalent);
-    }
-
     //convert eth to stable
     function ConvertEthToStable(uint256 amountIn) public view returns (uint256) {
         //AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
@@ -113,6 +108,12 @@ contract Plots_MultiToken_Presale {
     function ConvertStableToPlots(uint256 amountIn) public view returns (uint256) {
         return amountIn / GetVLNDPrice();
     }
+
+    function ConvertEthToPlots(uint256 amountIn) public view returns (uint256) {
+        uint256 StableEquivalent = ConvertEthToStable(amountIn);
+        return ConvertStableToPlots(StableEquivalent);
+    }
+
 
     // Purchase Functions
     function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public payable {

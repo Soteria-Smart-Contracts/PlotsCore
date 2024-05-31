@@ -122,6 +122,12 @@ contract Plots_MultiToken_Presale {
         //each point is worth 50 cents, and the number of points determins the max number of plots you can buy, so make sure the eth amount does not exceed the max amount of plots you can buy
         require(UserPoints / 2 >= ConvertEthToStable(msg.value), "Invalid amount");
 
+        if (PhaseRequested == UserType.FifteenFDV) {
+            require(UserPoints / 2 >= amount, "Invalid amount");
+        } else {
+            require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
+        }
+
         if (PhaseRequested == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
         } else if (PhaseRequested == UserType.FifteenFDV) {
@@ -138,7 +144,6 @@ contract Plots_MultiToken_Presale {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertStableToPlots(amount);
         require(plotsToReceive > 0, "Invalid amount");
-        require(UserPoints / 2 >= amount, "Invalid amount");
 
         if (PhaseRequested == UserType.FifteenFDV) {
             require(UserPoints / 2 >= amount, "Invalid amount");

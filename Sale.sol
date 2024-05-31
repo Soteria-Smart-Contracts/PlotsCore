@@ -109,7 +109,6 @@ contract Plots_MultiToken_Presale {
         require(AllocationUsed[msg.sender] + UserPoints <= UserPoints, "Invalid allocation");
         require(TotalRaised + StableEquivalent <= PhaseOneCap, "Sale cap reached");
 
-
         AllocationUsed[msg.sender] += UserPoints;
 
         if (PhaseRequested == UserType.FifteenFDV) {

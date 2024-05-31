@@ -203,7 +203,7 @@ contract Plots_MultiToken_Presale {
 
     function ConvertEthToPlots(uint256 amountIn, UserType rate) public view returns (uint256) {
         uint256 StableEquivalent = ConvertEthToStable(amountIn);
-        return ConvertStableToPlots(StableEquivalent);
+        return ConvertStableToPlots(StableEquivalent, rate);
     }    
 
     function VerifySaleEligibility(UserType PhaseRequested, uint256 UserPoints, address UserAddress) public view returns (bool) {

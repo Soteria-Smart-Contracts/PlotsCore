@@ -4,8 +4,8 @@ pragma solidity ^0.8.4;
 contract Plots_MultiToken_Presale {
     // Token Addresses
     address public PLOTS = address(0);
-    address public USDT = 0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0;
-    address public USDC = 0xf08A50178dfcDe18524640EA6618a1f965821715;
+    address public constant USDT = 0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0;
+    address public constant USDC = 0xf08A50178dfcDe18524640EA6618a1f965821715;
     
     // Chainlink Price Feeds
     address public USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;

@@ -119,8 +119,7 @@ contract Plots_MultiToken_Presale {
         require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value);
         require(plotsToReceive > 0, "Invalid amount");
-        //each point is worth 50 cents, and the number of points determins the max number of plots you can buy
-        
+        //each point is worth 50 cents, and the number of points determins the max number of plots you can buy, so make sure the eth 
 
         if (PhaseRequested == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");

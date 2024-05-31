@@ -106,6 +106,8 @@ contract Plots_MultiToken_Presale {
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");
         require(AllocationUsed[msg.sender] + UserPoints <= UserPoints, "Invalid allocation");
+        require(TotalRaised + ConvertEthToStable(msg.value) <= PhaseOneCap, "Sale cap reached");
+
 
         AllocationUsed[msg.sender] += UserPoints;
 

@@ -79,17 +79,12 @@ contract Plots_MultiToken_Presale {
     }
 
     // Getter Functions
-    function GetSaleStatus() public view returns (SalePhase) {
-        if (block.timestamp < SaleStart) {
-            return SalePhase.AwaitingStart;
-        } else if (block.timestamp > SaleEnd) {
-            return SalePhase.Over;
-        } else if (TotalRaised < PhaseOneCap) {
-            return SalePhase.PhaseOne;
-        } else if (TotalRaised >= PhaseOneCap) {
-            return SalePhase.PhaseTwo;
+    function GetSaleStatus() public view returns (bool) {
+        if (block.timestamp >= SaleStart && block.timestamp <= SaleEnd && TotalRaised < SaleCap) {
+            return true; // In sale
+        } else {
+            return false; // Not in sale
         }
-        return SalePhase.Over;
     }
 
 

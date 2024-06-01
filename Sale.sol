@@ -184,7 +184,7 @@ contract Plots_MultiToken_Presale {
         if (PhaseRequested == UserType.TwentyFiveFDV) {
             return VerifyCredentials(proof, MerkleRoot, keccak256(abi.encodePacked(UserAddress)));
         } else if (PhaseRequested == UserType.FifteenFDV) {
-            return VerifyCredentials(MerkleRoot, keccak256(abi.encodePacked(StringUtils.concatenate(UserAddress, UserPoints))));
+            return VerifyCredentials(proof, MerkleRoot, keccak256(abi.encodePacked(StringUtils.concatenate(UserAddress, UserPoints))));
         }
         return false;
     }

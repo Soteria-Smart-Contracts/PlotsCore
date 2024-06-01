@@ -1,21 +1,29 @@
 console.log('merklegen.js loaded');
 
 //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
-let WhitelistAddresses = data1.map((address) => {
+let ClaimantAddresses = data1.map((address) => {
   return address.address + address.points;
-}).concat(data2.map((address) => {
+});
+
+
+let WhitelistAddresses = data2.map((address) => {
   return address.address;
-}));
+});
 
 console.log(WhitelistAddresses);
 
 
 const leafNodesWhitelist = WhitelistAddresses.map(addr => keccak256(addr));
-let WhitelistMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true});
+const leafNodesClaimants = ClaimantAddresses.map(addr => keccak256(addr));
+let ClaimantsMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true});
+let WhitelistMerkleTree = new MerkleTree(leafNodesClaimants, keccak256, { sortPairs: true});
 
-// Get the Merkle Root of the Merkle Tree
+// Get the Merkle Root of the Merkle Trees
+const rootHashClaimants = ClaimantsMerkleTree.getRoot();
 const rootHashWhitelist = WhitelistMerkleTree.getRoot();
+const rootHashClaimantsBytes32 = '0x' + ClaimantsMerkleTree.getRoot().toString('hex');
 const rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
+console.log("Root Hash Claimants: ", rootHashClaimantsBytes32);
 console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
 
 
@@ -27,6 +35,18 @@ function GenerateHexProofWhitelist(claimingAddress) {
   claimingAddress = keccak256(claimingAddress);
   const hexProof = WhitelistMerkleTree.getHexProof(claimingAddress);
   const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);
+
+  return {
+    hexProof: hexProof,
+    isAddressInTree: isAddressInTree
+  };
+}
+
+function GenerateHexProofClaimants(claimingAddress) {
+
+  claimingAddress = keccak256(claimingAddress);
+  const hexProof = WhitelistMerkleTree.getHexProof(claimingAddress);
+  const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashClaimants);
 
   return {
     hexProof: hexProof,

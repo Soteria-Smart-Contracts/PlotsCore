@@ -5,10 +5,11 @@ let ClaimantAddresses = data1.map((address) => {
   return address.address + address.points;
 });
 
-
 let WhitelistAddresses = data2.map((address) => {
   return address.address;
 });
+
+let mergedAddresses = ClaimantAddresses.concat(WhitelistAddresses);
 
 console.log(WhitelistAddresses);
 console.log(ClaimantAddresses);

@@ -180,7 +180,7 @@ contract Plots_MultiToken_Presale {
         return ConvertStableToPlots(StableEquivalent, rate);
     }    
 
-    function VerifySaleEligibility(UserType PhaseRequested, uint256 UserPoints, address UserAddress) public view returns (bool) {
+    function VerifySaleEligibility(UserType PhaseRequested, uint256 UserPoints, address UserAddress, bytes32 proof[]) public view returns (bool) {
         if (PhaseRequested == UserType.TwentyFiveFDV) {
             return VerifyCredentials(MerkleRoot, keccak256(abi.encodePacked(UserAddress)));
         } else if (PhaseRequested == UserType.FifteenFDV) {

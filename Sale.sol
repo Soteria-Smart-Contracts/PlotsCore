@@ -66,8 +66,15 @@ contract Plots_MultiToken_Presale {
 
 
     // Purchase Functions
-    function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32[] Proof) public ActiveSaleOnly payable {
-        if (!AllocationSet[msg.sender]) {
+    function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly payable {
+        if (PhaseRequested == UserType.TwentyFiveFDV) {
+            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
+        } else if (PhaseRequested == UserType.FifteenFDV) {
+            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
+        }
+        
+
+        if (!AllocationSet[msg.sender] && PhaseRequested == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }
@@ -83,19 +90,19 @@ contract Plots_MultiToken_Presale {
             Allocation[msg.sender] -= StableEquivalent;
         }
 
-        if (PhaseRequested == UserType.TwentyFiveFDV) {
-            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
-        } else if (PhaseRequested == UserType.FifteenFDV) {
-            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
-        }
-        
         TotalRaised += msg.value;
         ERC20(PLOTS).Mint(msg.sender, plotsToReceive);
 
         emit TokensPurchased(msg.sender, plotsToReceive, address(0));
     }
 
-    function PurchaseWithUSDT(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32[] Proof) public ActiveSaleOnly {
+    function PurchaseWithUSDT(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
+        if (PhaseRequested == UserType.TwentyFiveFDV) {
+            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
+        } else if (PhaseRequested == UserType.FifteenFDV) {
+            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
+        }
+
         if (!AllocationSet[msg.sender] && PhaseRequested == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
@@ -109,12 +116,6 @@ contract Plots_MultiToken_Presale {
             require(Allocation[msg.sender] >= amount, "Invalid allocation");
             Allocation[msg.sender] -= amount;
         }
-
-        if (PhaseRequested == UserType.TwentyFiveFDV) {
-            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
-        } else if (PhaseRequested == UserType.FifteenFDV) {
-            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
-        }
         
         ISafeERC20(USDT).safeTransferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;
@@ -123,8 +124,14 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, USDT);
     }
 
-    function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32[] Proof) public ActiveSaleOnly {
-        if (!AllocationSet[msg.sender]) {
+    function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
+        if (PhaseRequested == UserType.TwentyFiveFDV) {
+            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
+        } else if (PhaseRequested == UserType.FifteenFDV) {
+            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
+        }
+
+        if (!AllocationSet[msg.sender] && PhaseRequested == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }
@@ -136,12 +143,6 @@ contract Plots_MultiToken_Presale {
         if (PhaseRequested == UserType.FifteenFDV) {
             require(Allocation[msg.sender] >= amount, "Invalid allocation");
             Allocation[msg.sender] -= amount;
-        }
-
-        if (PhaseRequested == UserType.TwentyFiveFDV) {
-            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
-        } else if (PhaseRequested == UserType.FifteenFDV) {
-            require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
         }
         
         ISafeERC20(USDT).safeTransferFrom(msg.sender, address(this), amount);
@@ -180,11 +181,11 @@ contract Plots_MultiToken_Presale {
         return ConvertStableToPlots(StableEquivalent, rate);
     }    
 
-    function VerifySaleEligibility(UserType PhaseRequested, uint256 UserPoints, address UserAddress, bytes32 proof[]) public view returns (bool) {
+    function VerifySaleEligibility(UserType PhaseRequested, uint256 UserPoints, address UserAddress, bytes32[] memory proof) public view returns (bool) {
         if (PhaseRequested == UserType.TwentyFiveFDV) {
-            return VerifyCredentials(proof, MerkleRoot, keccak256(abi.encodePacked(UserAddress)));
+            return VerifyCredentials(proof, keccak256(abi.encodePacked(UserAddress)));
         } else if (PhaseRequested == UserType.FifteenFDV) {
-            return VerifyCredentials(proof, MerkleRoot, keccak256(abi.encodePacked(StringUtils.concatenate(UserAddress, UserPoints))));
+            return VerifyCredentials(proof, keccak256(abi.encodePacked(StringUtils.concatenate(UserAddress, UserPoints))));
         }
         return false;
     }

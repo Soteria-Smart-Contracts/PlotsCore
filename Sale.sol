@@ -123,7 +123,7 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, USDT);
     }
 
-    function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32 Proof) public ActiveSaleOnly {
+    function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32[] Proof) public ActiveSaleOnly {
         if (!AllocationSet[msg.sender]) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;

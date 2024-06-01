@@ -194,18 +194,20 @@ contract Plots_MultiToken_Presale {
     }
 
     function verify(
-        bytes32 proof,
+        bytes32[] memory proof,
         bytes32 root,
         bytes32 leaf
     ) internal pure returns (bool) {
         bytes32 computedHash = leaf;
 
-        bytes32 proofElement = proof;
+        for (uint256 i = 0; i < proof.length; i++) {
+            bytes32 proofElement = proof[i];
 
-        if (computedHash <= proofElement) {
+            if (computedHash <= proofElement) {
                 computedHash = keccak256(abi.encodePacked(computedHash, proofElement));
-        } else {
+            } else {
                 computedHash = keccak256(abi.encodePacked(proofElement, computedHash));
+            }
         }
 
         return computedHash == root;

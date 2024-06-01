@@ -1,14 +1,11 @@
 console.log('merklegen.js loaded');
 
 //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
-let ClaimantAddresses = data1.map((address) => {
+let WhitelistAddresses = data1.map((address) => {
   return address.address + address.points;
-});
-
-
-let WhitelistAddresses = data2.map((address) => {
+}).concat(data2.map((address) => {
   return address.address;
-});
+}));
 
 console.log(WhitelistAddresses);
 

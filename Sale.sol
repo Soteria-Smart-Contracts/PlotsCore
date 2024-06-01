@@ -17,10 +17,10 @@ contract Plots_MultiToken_Presale {
     bytes32 public MerkleRoot = 0x0;
 
     // Params
-    uint256 public constant SaleStart;
+    uint256 public SaleStart = 1717208873;
     uint256 public SaleEnd;
-    uint256 public constant PhaseOnePrice;
-    uint256 public constant PhaseTwoPrice;
+    uint256 public PhaseOnePrice;
+    uint256 public PhaseTwoPrice;
 
     uint256 public TotalRaised;
     uint256 public PhaseOneCap;
@@ -42,20 +42,19 @@ contract Plots_MultiToken_Presale {
         require(GetSaleStatus(), "Sale is not active");
         _;
     }
-    }
 
     event TokensPurchased(address indexed buyer, uint256 amount, address token);
     event ProceedsSentToTreasury(uint256 usdtAmount, uint256 usdcAmount, uint256 ethAmount);
     event SaleParamsSet(uint256 saleStart, uint256 saleEnd, uint256 phaseOnePrice, uint256 phaseTwoPrice, uint256 phaseOneCap);
 
-    constructor() {
+    constructor()  {
         SaleStart = 1717208873;
         SaleEnd = block.timestamp + 1200;
         PhaseOnePrice = 1500000000000000000;
         PhaseTwoPrice = 2500000000000000000;
         
         SaleCap = 5000000000000000000000;
-        Admin = "0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce";
+        Admin = 0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce;
 
         //deploy a new erc20 token called PLOTS, set the max tokens to 1 million convert to wei and set the PLOTS address to the new token address
         ERC20 token = new ERC20(1000000, "PLOTS", "PLOTS");
@@ -73,7 +72,6 @@ contract Plots_MultiToken_Presale {
             AllocationSet[msg.sender] = true;
         }
 
-        require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
         uint256 StableEquivalent = ConvertEthToStable(msg.value);
         require(plotsToReceive > 0, "Invalid amount");
@@ -103,7 +101,6 @@ contract Plots_MultiToken_Presale {
             AllocationSet[msg.sender] = true;
         }
 
-        require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertStableToPlots(amount, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");
         require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
@@ -132,7 +129,6 @@ contract Plots_MultiToken_Presale {
             AllocationSet[msg.sender] = true;
         }
 
-        require(GetSaleStatus() != SalePhase.Over, "Sale is over");
         uint256 plotsToReceive = ConvertStableToPlots(amount, PhaseRequested);
         require(plotsToReceive > 0, "Invalid amount");
         require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");

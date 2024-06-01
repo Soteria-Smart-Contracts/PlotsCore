@@ -189,7 +189,7 @@ contract Plots_MultiToken_Presale {
         return false;
     }
 
-    function VerifyCredentials(bytes32 proof, bytes32 leaf) public view returns (bool) {
+    function VerifyCredentials(bytes32[] memory proof, bytes32 leaf) public view returns (bool) {
         return verify(proof, MerkleRoot, leaf);
     }
 

@@ -11,6 +11,7 @@ let WhitelistAddresses = data2.map((address) => {
 });
 
 console.log(WhitelistAddresses);
+console.log(ClaimantAddresses);
 
 
 const leafNodesWhitelist = WhitelistAddresses.map(addr => keccak256(addr));

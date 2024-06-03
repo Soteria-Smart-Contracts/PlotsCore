@@ -1,5 +1,5 @@
 
-const Data1 = [
+const data1 = [
     {
         "address": "0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce",
         "points": 5000
@@ -54,7 +54,7 @@ const Data1 = [
     }
 ];
 
-const Data2 = [
+const data2 = [
     {
         "address": "0x69420c1aCdDEBa55283362CE9dE2401EAe863c83"
     },

@@ -31,7 +31,7 @@ function GenerateStuff(){
 
     console.log(WhitelistAddresses);
 
-    leafNodesWhitelist = WhitelistAddresses.map(addr => keccak256(addr));
+    const leafNodesWhitelist = WhitelistAddresses.map(addr => web3.utils.keccak256(addr));
     WhitelistMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true });
 
     // Get the Merkle Root of the Merkle Tree

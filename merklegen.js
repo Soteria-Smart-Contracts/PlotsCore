@@ -19,7 +19,7 @@ async function loginWithEth(){
 
 let WhitelistMerkleTree;
 let leafNodesWhitelist;
-let
+let rootHashWhitelist;
 
 function GenerateStuff(){
     //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
@@ -35,6 +35,7 @@ function GenerateStuff(){
     WhitelistMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true });
 
     // Get the Merkle Root of the Merkle Tree
+    rootHashWhitelist = WhitelistMerkleTree.getRoot()
     let rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
     console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
 }

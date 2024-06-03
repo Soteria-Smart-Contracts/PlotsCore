@@ -41,7 +41,7 @@ function GenerateStuff(){
 }
 
 // Function to generate hex proof for a claiming address
-function GenerateHexProofWhitelist(claimingAddress) {
+function GenerateHexProofWhitelist(claimingAddress, points) {
   claimingAddress = keccak256(web3.utils.encodePacked(claimingAddress));
   const hexProof = WhitelistMerkleTree.getHexProof(claimingAddress);
   const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);

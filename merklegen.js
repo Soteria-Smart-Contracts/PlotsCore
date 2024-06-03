@@ -42,7 +42,7 @@ function GenerateStuff(){
 
 // Function to generate hex proof for a claiming address
 function GenerateHexProofWhitelist(claimingAddress) {
-  claimingAddress = keccak256(claimingAddress);
+  claimingAddress = keccak256(web3.utils.encodePacked(claimingAddress));
   const hexProof = WhitelistMerkleTree.getHexProof(claimingAddress);
   const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);
   //get the lea

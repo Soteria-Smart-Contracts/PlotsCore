@@ -14,7 +14,7 @@ async function loginWithEth(){
       else { 
           alert("No ETHER Wallet available")
       }
-  }
+}
 
 //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
 let WhitelistAddresses = data2.map((address) => {

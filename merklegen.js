@@ -35,7 +35,7 @@ function GenerateStuff(){
     WhitelistMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true });
 
     // Get the Merkle Root of the Merkle Tree
-    rootHashWhitelist = WhitelistMerkleTree.getRoot()
+    rootHashWhitelist = WhitelistMerkleTree.getRoot();
     let rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
     console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
 }

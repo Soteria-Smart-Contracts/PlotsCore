@@ -14,7 +14,7 @@ contract Plots_MultiToken_Presale {
     address public Admin;
 
     // Merkle Root
-    bytes32 public MerkleRoot = 0x94c274fdc4401363eadc1a6dd72db317fec5ec9f49492d928aed6e44ea62098b;
+    bytes32 public MerkleRoot = 0x902a7c30e3ffa0aaeba2e5c2defa52e1c19cc66637755085fb3fa7b7355edf05;
 
     // Params
     uint256 public SaleStart;
@@ -52,6 +52,7 @@ contract Plots_MultiToken_Presale {
         SaleEnd = block.timestamp + 216000;
         PhaseOnePrice = 1500000000000000000;
         PhaseTwoPrice = 2500000000000000000;
+        PhaseOneCap = 1000000000000000000000000;
         
         SaleCap = 5000000000000000000000;
         Admin = 0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce;

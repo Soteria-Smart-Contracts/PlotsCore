@@ -47,6 +47,7 @@ function GenerateHexProofWhitelist(claimingAddress, points) {
   }
 
   claimingAddress = keccak256(web3.utils.encodePacked(claimingAddress));
+  console.log(claimingAddress)
   const hexProof = WhitelistMerkleTree.getHexProof(claimingAddress);
   const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);
   //get the lea

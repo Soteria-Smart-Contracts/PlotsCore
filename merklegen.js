@@ -26,6 +26,7 @@ function GenerateHexProofWhitelist(claimingAddress) {
   claimingAddress = keccak256(claimingAddress);
   const hexProof = WhitelistMerkleTree.getHexProof(claimingAddress);
   const isAddressInTree = WhitelistMerkleTree.verify(hexProof, claimingAddress, rootHashWhitelist);
+  //get the lea
 
   return {
     hexProof: hexProof,

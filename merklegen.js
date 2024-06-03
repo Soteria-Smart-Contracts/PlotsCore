@@ -43,7 +43,7 @@ function GenerateStuff(){
 // Function to generate hex proof for a claiming address
 function GenerateHexProofWhitelist(claimingAddress, points) {
   if(points > 0){
-    
+    claimingAddress = web3.utils.encodePacked({value: address.address + address.points, type: 'string'})
   }
 
   claimingAddress = keccak256(web3.utils.encodePacked(claimingAddress));

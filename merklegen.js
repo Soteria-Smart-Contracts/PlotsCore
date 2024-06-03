@@ -16,24 +16,24 @@ async function loginWithEth(){
       }
 }
 
-function GenerateStuff{}
+function GenerateStuff{
+    //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
+    const WhitelistAddressesEncoded = data2.map(address => web3.utils.encodePacked({value: address.address, type: 'address'}));
 
-//convert the whitelistAddresses to an array of addresses with the points number appended to the address end
-const WhitelistAddressesEncoded = data2.map(address => web3.utils.encodePacked({value: address.address, type: 'address'}));
+    const ClaimantAddressesEncoded = data1.map(address => web3.utils.encodePacked({value: address.address + address.points, type: 'string'}));
 
-const ClaimantAddressesEncoded = data1.map(address => web3.utils.encodePacked({value: address.address + address.points, type: 'string'}));
+    WhitelistAddresses = WhitelistAddresses.concat(ClaimantAddresses);
 
-WhitelistAddresses = WhitelistAddresses.concat(ClaimantAddresses);
+    console.log(WhitelistAddresses);
 
-console.log(WhitelistAddresses);
+    const leafNodesWhitelist = WhitelistAddresses.map(addr => keccak256(addr));
+    let WhitelistMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true });
 
-const leafNodesWhitelist = WhitelistAddresses.map(addr => keccak256(addr));
-let WhitelistMerkleTree = new MerkleTree(leafNodesWhitelist, keccak256, { sortPairs: true });
-
-// Get the Merkle Root of the Merkle Tree
-const rootHashWhitelist = WhitelistMerkleTree.getRoot();
-const rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
-console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
+    // Get the Merkle Root of the Merkle Tree
+    const rootHashWhitelist = WhitelistMerkleTree.getRoot();
+    const rootHashWhitelistBytes32 = '0x' + WhitelistMerkleTree.getRoot().toString('hex');
+    console.log("Root Hash Whitelist: ", rootHashWhitelistBytes32);
+}
 
 // Function to generate hex proof for a claiming address
 function GenerateHexProofWhitelist(claimingAddress) {

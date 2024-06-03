@@ -8,6 +8,7 @@ async function loginWithEth(){
           accountarray = await web3.eth.getAccounts();
           account = accountarray[0];
           console.log('Logged In')
+          GenerateStuff();
 
           return(true)
       } 
@@ -16,7 +17,7 @@ async function loginWithEth(){
       }
 }
 
-function GenerateStuff{
+function GenerateStuff(){
     //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
     const WhitelistAddressesEncoded = data2.map(address => web3.utils.encodePacked({value: address.address, type: 'address'}));
 

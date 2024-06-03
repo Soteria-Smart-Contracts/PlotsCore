@@ -4,8 +4,8 @@ pragma solidity ^0.8.4;
 contract Plots_MultiToken_Presale {
     // Token Addresses
     address public PLOTS = address(0);
-    address public constant USDT = 0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0;
-    address public constant USDC = 0xf08A50178dfcDe18524640EA6618a1f965821715;
+    address public constant USDT = 0x6382221d0898A24213BD1b9Adfb96Da30CE33dC9;
+    address public constant USDC = 0x62Dc89ed69be8D747b7E7148854B7032F72F5AeB;
     
     // Chainlink Price Feeds
     address public constant USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
@@ -14,10 +14,10 @@ contract Plots_MultiToken_Presale {
     address public Admin;
 
     // Merkle Root
-    bytes32 public MerkleRoot = 0x0;
+    bytes32 public MerkleRoot = 0x94c274fdc4401363eadc1a6dd72db317fec5ec9f49492d928aed6e44ea62098b;
 
     // Params
-    uint256 public SaleStart = 1717208873;
+    uint256 public SaleStart;
     uint256 public SaleEnd;
     uint256 public PhaseOnePrice;
     uint256 public PhaseTwoPrice;
@@ -48,8 +48,8 @@ contract Plots_MultiToken_Presale {
     event SaleParamsSet(uint256 saleStart, uint256 saleEnd, uint256 phaseOnePrice, uint256 phaseTwoPrice, uint256 phaseOneCap);
 
     constructor()  {
-        SaleStart = 1717208873;
-        SaleEnd = block.timestamp + 1200;
+        SaleStart = block.timestamp + 600;
+        SaleEnd = block.timestamp + 216000;
         PhaseOnePrice = 1500000000000000000;
         PhaseTwoPrice = 2500000000000000000;
         
@@ -116,7 +116,7 @@ contract Plots_MultiToken_Presale {
             Allocation[msg.sender] -= amount;
         }
         
-        ISafeERC20(USDT).safeTransferFrom(msg.sender, address(this), amount);
+        ISafeERC20(USDT).transferFrom(msg.sender, address(this), amount); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO SAFE_ERC20 SEND FOR LIVE DEPLOY
         TotalRaised += amount;
         ERC20(PLOTS).Mint(msg.sender, plotsToReceive);
 
@@ -144,7 +144,7 @@ contract Plots_MultiToken_Presale {
             Allocation[msg.sender] -= amount;
         }
         
-        ISafeERC20(USDT).safeTransferFrom(msg.sender, address(this), amount);
+        ISafeERC20(USDT).transferFrom(msg.sender, address(this), amount); //CONVERTED TO REGULAR SEND FOR TEST, CONVERT TO safetransferfrom SEND FOR LIVE DEPLOY
         TotalRaised += amount;
         ERC20(PLOTS).Mint(msg.sender, plotsToReceive);
 
@@ -223,8 +223,8 @@ contract Plots_MultiToken_Presale {
         uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
         uint256 ethBalance = address(this).balance;
 
-        ISafeERC20(USDT).safeTransfer(Admin, usdtBalance);
-        ISafeERC20(USDC).safeTransfer(Admin, usdcBalance);
+        ISafeERC20(USDT).safeTransfer(Admin, usdtBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY
+        ISafeERC20(USDC).safeTransfer(Admin, usdcBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY
         payable(Admin).transfer(ethBalance);
 
         emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
@@ -342,6 +342,7 @@ contract ERC20 {
 interface ISafeERC20 {
     function safeTransfer(address to, uint256 value) external;
     function safeTransferFrom(address from, address to, uint256 value) external;
+    function transferFrom(address _from, address _to, uint256 _amount) external;
 }
 
 interface AggregatorV3Interface {

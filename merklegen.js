@@ -7,17 +7,10 @@ async function loginWithEth(){
           await ethereum.request({ method: 'eth_requestAccounts' });
           window.web3 = await new Web3(ethereum);
           accountarray = await web3.eth.getAccounts();
-          DAOcore = new window.web3.eth.Contract(window.CoreABI, CoreAddress);
-          DAOvoting = new window.web3.eth.Contract(window.VotingABI, VotingAddress);
-          CLDtoken = new window.web3.eth.Contract(window.CLDABI, CLDaddress);
           account = accountarray[0];
           console.log('Logged In')
           LoggedIn = true;
-          await GetHENS();
-          await RemoveOverlay();
 
-          localStorage.setItem("ClassicDAOLogin", "true");
-          
           return(true)
       } 
       else { 

@@ -17,13 +17,9 @@ async function loginWithEth(){
 }
 
 //convert the whitelistAddresses to an array of addresses with the points number appended to the address end
-let WhitelistAddresses = data2.map((address) => {
-  return address.address;
-});
+const WhitelistAddressesEncoded = data2.map(address => web3.utils.encodePacked({value: address.address, type: 'address'}));
 
-let ClaimantAddresses = data1.map((address) => {
-  return address.address + address.points;
-});
+const ClaimantAddressesEncoded = data1.map(address => web3.utils.encodePacked({value: address.address + address.points, type: 'string'}));
 
 WhitelistAddresses = WhitelistAddresses.concat(ClaimantAddresses);
 

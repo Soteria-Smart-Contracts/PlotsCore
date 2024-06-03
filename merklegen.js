@@ -44,8 +44,7 @@ function GenerateStuff(){
 function GenerateHexProofWhitelist(claimingAddress, points) {
   if(points > 0){
     claimingAddress = web3.utils.encodePacked({value: claimingAddress + points, type: 'string'};
-      console.log(claimingAddress)
-
+    console.log(claimingAddress)
   }
 
   claimingAddress = keccak256(web3.utils.encodePacked(claimingAddress));

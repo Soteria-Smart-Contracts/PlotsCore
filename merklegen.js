@@ -2,14 +2,12 @@ console.log('merklegen.js loaded');
 loginWithEth()
 
 async function loginWithEth(){
-  if(LoggedIn == false){
       if(window.ethereum){
           await ethereum.request({ method: 'eth_requestAccounts' });
           window.web3 = await new Web3(ethereum);
           accountarray = await web3.eth.getAccounts();
           account = accountarray[0];
           console.log('Logged In')
-          LoggedIn = true;
 
           return(true)
       } 

@@ -95,6 +95,6 @@ const data2 = [
         "address": "0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce"
     }
     {
-        "address"
-    }
+        "address" : "0xc424FE2D213B9fc4BBEc242e835A1677664C02d7"
+    },
 ];

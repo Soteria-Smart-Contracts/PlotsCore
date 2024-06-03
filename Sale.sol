@@ -220,11 +220,12 @@ contract Plots_MultiToken_Presale {
     }
 
     function SendProceedsToTreasury() public OnlyAdmin {
+        //TEST ON MAINNET TOO
         uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
         uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
         uint256 ethBalance = address(this).balance;
 
-        ISafeERC20(USDT).safeTransfer(Admin, usdtBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY TEST
+        ISafeERC20(USDT).safeTransfer(Admin, usdtBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY
         ISafeERC20(USDC).safeTransfer(Admin, usdcBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY
         payable(Admin).transfer(ethBalance);
 

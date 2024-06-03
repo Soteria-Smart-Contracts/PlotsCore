@@ -1,10 +1,5 @@
 
-ChatGPT
-To add the addresses from the given list to both data1 and data2 arrays with points and without points respectively, you can do the following:
-
-javascript
-Copy code
-const newData1 = [
+const Data1 = [
     {
         "address": "0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce",
         "points": 5000
@@ -59,7 +54,7 @@ const newData1 = [
     }
 ];
 
-const newData2 = [
+const Data2 = [
     {
         "address": "0x69420c1aCdDEBa55283362CE9dE2401EAe863c83"
     },

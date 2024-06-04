@@ -3,8 +3,8 @@ pragma solidity ^0.8.4;
 
 contract Plots_MultiToken_Presale {
     // Token Addresses
-    address public constant USDT = 0x6382221d0898A24213BD1b9Adfb96Da30CE33dC9;
-    address public constant USDC = 0x62Dc89ed69be8D747b7E7148854B7032F72F5AeB;
+    address public constant USDT = 0xdAC17F958D2ee523a2206206994597C13D831ec7;
+    address public constant USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
     
     // Chainlink Price Feeds
     address public constant USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
@@ -13,7 +13,7 @@ contract Plots_MultiToken_Presale {
     address public Admin;
 
     // Merkle Root
-    bytes32 public MerkleRoot = 0xda810db574cdf18b84eef474dfcce94c33f29e3810859d0f6f46bcc0a3373e6a;
+    bytes32 public MerkleRoot = 0xc7643eceeaffb11e5d3cf61658207d4b9e96ff74e301a0c21204d41ea0452baf;
 
     // Params
     uint256 public SaleStart;
@@ -173,7 +173,7 @@ contract Plots_MultiToken_Presale {
     }
 
     function SetAllocationInUSD(uint256 allocation) internal {
-        Allocation[msg.sender] = allocation * 10**18 / 2;
+        Allocation[msg.sender] = allocation * 10**6 / 2;
     }
 
     // Utility Functions
@@ -182,7 +182,7 @@ contract Plots_MultiToken_Presale {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
         uint256 uintprice = uint256(priceusdt);
-        uint256 amountInWei = amountIn * 10**18; // Convert ETH to wei
+        uint256 amountInWei = amountIn * 10**30; // Convert ETH to wei
         uint256 usdAmount = (amountInWei) / uintprice;
         return usdAmount;
     }
@@ -190,9 +190,9 @@ contract Plots_MultiToken_Presale {
     function ConvertStableToPlots(uint256 amountIn, UserType rate) public view returns (uint256) {
         //if the rate is 25FDV, then the price is phase two price, else it is phase two price 
         if (rate == UserType.TwentyFiveFDV) {
-            return (amountIn * 10**18) / PhaseTwoPrice;
+            return (amountIn * 10**30) / PhaseTwoPrice;
         } else {
-            return (amountIn * 10**18) / PhaseOnePrice;
+            return (amountIn * 10**30) / PhaseOnePrice;
         }
     }
 

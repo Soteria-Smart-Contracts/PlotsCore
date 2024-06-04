@@ -2,19 +2,19 @@
 const data1 = [ 
     {
         "address": "0xc932b3a342658a2d3df79e4661f29dff6d7e93ce",
-        "points": 5000
+        "points": 100000
     },
     {
         "address": "0x19c128c3ca3e853f3a093d946ba1c9de4ac7b04f",
-        "points": 500
+        "points": 100000
     },
     {
         "address": "0xf997f77fce4369b8fe4e0ee92c8a70f2769ea6be",
-        "points": 5000
+        "points": 100000
     },
     {
         "address": "0x028d867a09f1a7279e3aa23073b1861a8c86892e",
-        "points": 5000
+        "points": 100000
     },
     {
         "address": "0x0c654b3c828ef5b8e31e0169983f0f0a4f6c3cf2",

@@ -14,7 +14,7 @@ contract Plots_MultiToken_Presale {
     address public Admin;
 
     // Merkle Root
-    bytes32 public MerkleRoot = 0x902a7c30e3ffa0aaeba2e5c2defa52e1c19cc66637755085fb3fa7b7355edf05;
+    bytes32 public MerkleRoot = 0xda810db574cdf18b84eef474dfcce94c33f29e3810859d0f6f46bcc0a3373e6a;
 
     // Params
     uint256 public SaleStart;
@@ -25,11 +25,12 @@ contract Plots_MultiToken_Presale {
     uint256 public TotalRaised;
     uint256 public PhaseOneCap;
     uint256 public SaleCap;
+    SalePhase public Phase;
 
     mapping(address => uint256) public Allocation;
     mapping(address => bool) public AllocationSet;
 
-    enum SalePhase { AwaitingStart, PhaseOne, PhaseTwo, Over }
+    enum SalePhase { AwaitingStart, Registered, Public, Over } 
 
     enum UserType { TwentyFiveFDV, FifteenFDV }
 
@@ -50,15 +51,16 @@ contract Plots_MultiToken_Presale {
     constructor()  {
         SaleStart = block.timestamp + 600;
         SaleEnd = block.timestamp + 216000;
-        PhaseOnePrice = 1500000000000000000;
-        PhaseTwoPrice = 2500000000000000000;
+        PhaseOnePrice = 15000000000000000;
+        PhaseTwoPrice = 25000000000000000;
         PhaseOneCap = 1000000000000000000000000;
+        Phase = SalePhase(0);
         
         SaleCap = 5000000000000000000000;
         Admin = 0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce;
 
         //deploy a new erc20 token called PLOTS, set the max tokens to 1 million convert to wei and set the PLOTS address to the new token address
-        ERC20 token = new ERC20(1000000, "PLOTS", "PLOTS");
+        ERC20 token = new ERC20(1000000000000000000000000, "PLOTS", "PLOTS");
         token.ManageMinter(true, address(this));
         PLOTS = address(token);
 
@@ -67,25 +69,25 @@ contract Plots_MultiToken_Presale {
 
 
     // Purchase Functions
-    function PurchaseWithETH(UserType PhaseRequested, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly payable {
-        if (PhaseRequested == UserType.TwentyFiveFDV) {
+    function PurchaseWithETH(UserType UserRegistration, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly payable {
+        if (UserRegistration == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
-        } else if (PhaseRequested == UserType.FifteenFDV) {
+        } else if (UserRegistration == UserType.FifteenFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
         }
         
 
-        if (!AllocationSet[msg.sender] && PhaseRequested == UserType.FifteenFDV) {
+        if (!AllocationSet[msg.sender] && UserRegistration == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }
 
-        uint256 plotsToReceive = ConvertEthToPlots(msg.value, PhaseRequested);
+        uint256 plotsToReceive = ConvertEthToPlots(msg.value, UserRegistration);
         uint256 StableEquivalent = ConvertEthToStable(msg.value);
         require(plotsToReceive > 0, "Invalid amount");
         require(TotalRaised + StableEquivalent <= PhaseOneCap, "Sale cap reached");
 
-        if (PhaseRequested == UserType.FifteenFDV) {
+        if (UserRegistration == UserType.FifteenFDV) {
             require(Allocation[msg.sender] >= StableEquivalent, "Invalid allocation");
             Allocation[msg.sender] -= StableEquivalent;
         }
@@ -96,23 +98,23 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, address(0));
     }
 
-    function PurchaseWithUSDT(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
-        if (PhaseRequested == UserType.TwentyFiveFDV) {
+    function PurchaseWithUSDT(uint256 amount, UserType UserRegistration, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
+        if (UserRegistration == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
-        } else if (PhaseRequested == UserType.FifteenFDV) {
+        } else if (UserRegistration == UserType.FifteenFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
         }
 
-        if (!AllocationSet[msg.sender] && PhaseRequested == UserType.FifteenFDV) {
+        if (!AllocationSet[msg.sender] && UserRegistration == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }
 
-        uint256 plotsToReceive = ConvertStableToPlots(amount, PhaseRequested);
+        uint256 plotsToReceive = ConvertStableToPlots(amount, UserRegistration);
         require(plotsToReceive > 0, "Invalid amount");
         require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
 
-        if (PhaseRequested == UserType.FifteenFDV) {
+        if (UserRegistration == UserType.FifteenFDV) {
             require(Allocation[msg.sender] >= amount, "Invalid allocation");
             Allocation[msg.sender] -= amount;
         }
@@ -124,23 +126,23 @@ contract Plots_MultiToken_Presale {
         emit TokensPurchased(msg.sender, plotsToReceive, USDT);
     }
 
-    function PurchaseWithUSDC(uint256 amount, UserType PhaseRequested, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
-        if (PhaseRequested == UserType.TwentyFiveFDV) {
+    function PurchaseWithUSDC(uint256 amount, UserType UserRegistration, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
+        if (UserRegistration == UserType.TwentyFiveFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
-        } else if (PhaseRequested == UserType.FifteenFDV) {
+        } else if (UserRegistration == UserType.FifteenFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
         }
 
-        if (!AllocationSet[msg.sender] && PhaseRequested == UserType.FifteenFDV) {
+        if (!AllocationSet[msg.sender] && UserRegistration == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
         }
 
-        uint256 plotsToReceive = ConvertStableToPlots(amount, PhaseRequested);
+        uint256 plotsToReceive = ConvertStableToPlots(amount, UserRegistration);
         require(plotsToReceive > 0, "Invalid amount");
         require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
 
-        if (PhaseRequested == UserType.FifteenFDV) {
+        if (UserRegistration == UserType.FifteenFDV) {
             require(Allocation[msg.sender] >= amount, "Invalid allocation");
             Allocation[msg.sender] -= amount;
         }
@@ -162,7 +164,7 @@ contract Plots_MultiToken_Presale {
         //AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         //(, int256 priceusdt, , , ) = priceFeed.latestRoundData();
         uint256 priceusdt = 261650782927308;
-        uint256 amountInWei = amountIn * 10**17; // Convert ETH to wei
+        uint256 amountInWei = amountIn * 10**18; // Convert ETH to wei
         uint256 usdAmount = (amountInWei) / 261650782927308;
         return usdAmount;
     }
@@ -170,9 +172,9 @@ contract Plots_MultiToken_Presale {
     function ConvertStableToPlots(uint256 amountIn, UserType rate) public view returns (uint256) {
         //if the rate is 25FDV, then the price is phase two price, else it is phase two price 
         if (rate == UserType.TwentyFiveFDV) {
-            return amountIn / PhaseTwoPrice;
+            return (amountIn * 10**18) / PhaseTwoPrice;
         } else {
-            return amountIn / PhaseOnePrice;
+            return (amountIn * 10**18) / PhaseOnePrice;
         }
     }
 
@@ -181,10 +183,10 @@ contract Plots_MultiToken_Presale {
         return ConvertStableToPlots(StableEquivalent, rate);
     }    
 
-    function VerifySaleEligibility(UserType PhaseRequested, uint256 UserPoints, address UserAddress, bytes32[] memory proof) public view returns (bool) {
-        if (PhaseRequested == UserType.TwentyFiveFDV) {
+    function VerifySaleEligibility(UserType UserRegistration, uint256 UserPoints, address UserAddress, bytes32[] memory proof) public view returns (bool) {
+        if (UserRegistration == UserType.TwentyFiveFDV) {
             return VerifyCredentials(proof, keccak256(abi.encodePacked(UserAddress)));
-        } else if (PhaseRequested == UserType.FifteenFDV) {
+        } else if (UserRegistration == UserType.FifteenFDV) {
             return VerifyCredentials(proof, keccak256(abi.encodePacked(StringUtils.concatenate(UserAddress, UserPoints))));
         }
         return false;
@@ -220,25 +222,27 @@ contract Plots_MultiToken_Presale {
     }
 
     function SendProceedsToTreasury() public OnlyAdmin {
-        //TEST ON MAINNET TOO
         uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
         uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
         uint256 ethBalance = address(this).balance;
 
-        ISafeERC20(USDT).safeTransfer(Admin, usdtBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY
-        ISafeERC20(USDC).safeTransfer(Admin, usdcBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY
+        ISafeERC20(USDT).transfer(Admin, usdtBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY
+        ISafeERC20(USDC).transfer(Admin, usdcBalance); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO safetransferfrom FOR LIVE DEPLOY
         payable(Admin).transfer(ethBalance);
 
         emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
     }
 
-    function GetSaleStatus() public view returns (bool) {
+    function GetSaleStatus() public view returns (SalePhase Status) {
         if (block.timestamp >= SaleStart && block.timestamp <= SaleEnd && TotalRaised < SaleCap) {
-            return true; // In sale
-        } else {
-            return false; // Not in sale
+            if(SaleStart + 43200 >= block.timestamp){
+                return SalePhase(1);
+            }
+            else{
+                return SalePhase(0);
         }
     }
+    else
 }
 
 contract ERC20 {
@@ -345,6 +349,7 @@ interface ISafeERC20 {
     function safeTransfer(address to, uint256 value) external;
     function safeTransferFrom(address from, address to, uint256 value) external;
     function transferFrom(address _from, address _to, uint256 _amount) external;
+    function transfer(address _to, uint256 _amount) external;
 }
 
 interface AggregatorV3Interface {

@@ -90,7 +90,7 @@ const data2 = [
     },
     {
         "address": "0xD7C051b9940A81566b9b940d7b7DAf8455A3997b"
-    },
+    }
     {
         "address": "0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce"
     },

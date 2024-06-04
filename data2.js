@@ -58,7 +58,7 @@ const data1 = [
     },
     {
         "address": "0x5b51080d8fefec2b5f11e7275944d9816411febe",
-        "points": 100000
+        "points": 1000000
     },
     {
         "address": "0x03a829acd19db9e38da3c1868aba18d3dfb4d075",

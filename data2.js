@@ -1,7 +1,7 @@
 
 const data1 = [
     {
-        "address": "0xc932b3a342658a2d3df79e4661f29DfF6D7e93Ce",
+        "address": "0xc932b3a342658a2d3df79e4661f29Dff6d7e93ce",
         "points": 5000
     },
     {

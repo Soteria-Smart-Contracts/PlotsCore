@@ -55,6 +55,18 @@ const data1 = [
     {
         "address": "0xf84cab8d75e40ba2ae3b179d5eacc9b909583428",
         "points": 5000
+    },
+    {
+        "address": "0x5b51080d8fefec2b5f11e7275944d9816411febe",
+        "points": 5000
+    },
+    {
+        "address": "0x03a829acd19db9e38da3c1868aba18d3dfb4d075",
+        "points": 5000
+    },
+    {
+        "address": "0xc424FE2D213B9fc4BBEc242e835A1677664C02d7",
+        "points": 5000
     }
 ];
 

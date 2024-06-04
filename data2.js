@@ -121,5 +121,8 @@ const data2 = [
     },
     {
         "address" : "0xf84cab8d75e40ba2ae3b179d5eacc9b909583428"
+    },
+    {
+        "address" : "0x0A654d19e540188534DcF56186e80212C15C6649"
     }
 ];

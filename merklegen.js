@@ -45,7 +45,7 @@ function GenerateHexProofWhitelist(claimingAddress, points) {
   if(points > 0){
     claimingAddress = web3.utils.encodePacked({value: claimingAddress + points, type: 'string'});
     
-    const hexString = Array.from(claimingAddress, byte => byte.toString(16).padStart(2, '0')).join('');
+    const hexString = Array.from(uint8Array, byte => byte.toString(16).padStart(2, '0')).join('');
     const formattedOutput = '0x' + hexString;
 
     console.log(formattedOutput);

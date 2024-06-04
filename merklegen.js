@@ -44,7 +44,12 @@ function GenerateStuff(){
 function GenerateHexProofWhitelist(claimingAddress, points) {
   if(points > 0){
     claimingAddress = web3.utils.encodePacked({value: claimingAddress + points, type: 'string'});
-    console.log(keccak256(claimingAddress))
+    
+    const uint8Array = new Uint8Array(keccakHash);
+    const hexString = Array.from(uint8Array, byte => byte.toString(16).padStart(2, '0')).join('');
+    const formattedOutput = '0x' + hexString;
+
+    console.log(formattedOutput);
   }
 
   claimingAddress = keccak256(web3.utils.encodePacked(claimingAddress));

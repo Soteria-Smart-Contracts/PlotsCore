@@ -17120,7 +17120,7 @@ data1 = [{
     "points": 0
   },
   {
-    "address": "0xe1b395c8b84660fc6037f79ea0a9ce56f4c016ea",
+    "address": "",
     "points": 0
   },
   {

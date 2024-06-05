@@ -43,6 +43,10 @@ data1 = [{
     "points": 135929
   },
   {
+    "address": "0x14e2390f77cd667da1e655827083ae1152878a81",
+    "points": 131835
+  },
+  {
     "address": "0xcd197e60a4e30203814260c2916daf8be907ae14",
     "points": 127873
   },

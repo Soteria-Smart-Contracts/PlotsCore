@@ -15504,10 +15504,6 @@ data1 = [{
     "points": 0
   },
   {
-    "address": "0x5b51080d8fefec2b5f11e7275944d9816411febe",
-    "points": 0
-  },
-  {
     "address": "0x165fb9b95136a7d09f725f30bfc5edf6c9c60fcb",
     "points": 0
   },

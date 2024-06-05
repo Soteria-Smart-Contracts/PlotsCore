@@ -15,6 +15,10 @@ data1 = [{
     "points": 100000
   },
   {
+    "address": "0x5B51080D8feFEC2B5f11e7275944D9816411feBe",
+    "points": 100000
+  },
+  {
     "address": "0xb0cbf149ba9e7d0efb63235a08768a7b63f0652f",
     "points": 322092
   },

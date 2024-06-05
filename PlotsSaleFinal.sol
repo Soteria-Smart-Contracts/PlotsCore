@@ -22,7 +22,6 @@ contract Plots_MultiToken_Presale {
     uint256 public PhaseTwoPrice;
 
     uint256 public TotalRaised;
-    uint256 public PhaseOneCap;
     uint256 public SaleCap;
     SalePhase public Phase;
     address[] public Participants;
@@ -30,6 +29,7 @@ contract Plots_MultiToken_Presale {
 
     mapping(address => uint256) public Allocation;
     mapping(address => bool) public AllocationSet;
+    mapping(address => UserType) public RegisteredAs;
     mapping(address => uint256) public PlotsToReceive;
 
     enum SalePhase { AwaitingStart, Registered, Public, Over } 
@@ -62,10 +62,9 @@ contract Plots_MultiToken_Presale {
         SaleEnd = block.timestamp + 216000;
         PhaseOnePrice = 15000000000000000;
         PhaseTwoPrice = 25000000000000000;
-        PhaseOneCap = 1000000000000000000000000;
         Phase = SalePhase(0);
         
-        SaleCap = 5000000000000000000000;
+        SaleCap = 1500000000000;
         Admin = 0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce;
 
         emit SaleParamsSet(SaleStart, SaleEnd, PhaseOnePrice, PhaseOnePrice, PhaseTwoPrice);
@@ -87,19 +86,23 @@ contract Plots_MultiToken_Presale {
         if (!AllocationSet[msg.sender] && UserRegistration == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
+            RegisteredAs[msg.sender] = UserType(1);
+        }else if(!AllocationSet[msg.sender]){
+            RegisteredAs[msg.sender] = UserType(0);
+            SetAllocationInUSD(50000); //Becomes 25k usd
+        }else{
+            require(RegisteredAs[msg.sender] == UserRegistration);
         }
 
         uint256 plotsToReceive = ConvertEthToPlots(msg.value, UserRegistration);
         uint256 StableEquivalent = ConvertEthToStable(msg.value);
-        require(plotsToReceive > 0, "Invalid amount");
-        require(TotalRaised + StableEquivalent <= PhaseOneCap, "Sale cap reached");
+        require(StableEquivalent >= 50000000, "Invalid amount");
+        require(TotalRaised + StableEquivalent <= SaleCap, "Sale cap reached");
 
-        if (UserRegistration == UserType.FifteenFDV) {
-            require(Allocation[msg.sender] >= StableEquivalent, "Invalid allocation");
-            Allocation[msg.sender] -= StableEquivalent;
-        }
+        require(Allocation[msg.sender] >= StableEquivalent, "Invalid allocation");
+        Allocation[msg.sender] -= StableEquivalent;
 
-        TotalRaised += msg.value;
+        TotalRaised += StableEquivalent;
         PlotsToReceive[msg.sender] += plotsToReceive;
 
         SaleHistory.push(PurchaseHistory(msg.sender, UserRegistration, block.timestamp, StableEquivalent));
@@ -107,10 +110,13 @@ contract Plots_MultiToken_Presale {
     }
 
     function PurchaseWithUSDT(uint256 amount, UserType UserRegistration, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
+        require(amount >= 50000000, "Invalid amount");
+        require(TotalRaised + amount <= SaleCap, "Sale cap reached");
         if (UserRegistration == UserType.TwentyFiveFDV && GetSaleStatus() == SalePhase(1)) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
         } else if (UserRegistration == UserType.FifteenFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
+            require(PlotsToReceive[msg.sender] == 0); //This requirement is to avoid 15fdv users from setting their allocation to 50k during the public sale then reentering with credentials to buy more tokens at the lower price
         }
 
         if (PlotsToReceive[msg.sender] == 0){
@@ -120,16 +126,17 @@ contract Plots_MultiToken_Presale {
         if (!AllocationSet[msg.sender] && UserRegistration == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
+            RegisteredAs[msg.sender] = UserType(1);
+        }else if(!AllocationSet[msg.sender]){
+            RegisteredAs[msg.sender] = UserType(0);
+            SetAllocationInUSD(50000); //Becomes 25k usd
+        }else{
+            require(RegisteredAs[msg.sender] == UserRegistration);
         }
 
         uint256 plotsToReceive = ConvertStableToPlots(amount, UserRegistration);
-        require(plotsToReceive > 0, "Invalid amount");
-        require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
-
-        if (UserRegistration == UserType.FifteenFDV) {
-            require(Allocation[msg.sender] >= amount, "Invalid allocation");
-            Allocation[msg.sender] -= amount;
-        }
+        require(Allocation[msg.sender] >= amount, "Invalid allocation");
+        Allocation[msg.sender] -= amount;
         
         ISafeERC20(USDT).safeTransferFrom(msg.sender, address(this), amount); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO SAFE_ERC20 SEND FOR LIVE DEPLOY
         TotalRaised += amount;
@@ -140,6 +147,8 @@ contract Plots_MultiToken_Presale {
     }
 
     function PurchaseWithUSDC(uint256 amount, UserType UserRegistration, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
+        require(amount >= 50000000, "Invalid amount");
+        require(TotalRaised + amount <= SaleCap, "Sale cap reached");
         if (UserRegistration == UserType.TwentyFiveFDV && GetSaleStatus() == SalePhase(1)) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
         } else if (UserRegistration == UserType.FifteenFDV) {
@@ -153,18 +162,19 @@ contract Plots_MultiToken_Presale {
         if (!AllocationSet[msg.sender] && UserRegistration == UserType.FifteenFDV) {
             SetAllocationInUSD(UserPoints);
             AllocationSet[msg.sender] = true;
+            RegisteredAs[msg.sender] = UserType(1);
+        }else if(!AllocationSet[msg.sender]){
+            RegisteredAs[msg.sender] = UserType(0);
+            SetAllocationInUSD(50000); //Becomes 25k usd
+        }else{
+            require(RegisteredAs[msg.sender] == UserRegistration);
         }
 
         uint256 plotsToReceive = ConvertStableToPlots(amount, UserRegistration);
-        require(plotsToReceive > 0, "Invalid amount");
-        require(TotalRaised + amount <= PhaseOneCap, "Sale cap reached");
-
-        if (UserRegistration == UserType.FifteenFDV) {
-            require(Allocation[msg.sender] >= amount, "Invalid allocation");
-            Allocation[msg.sender] -= amount;
-        }
+        require(Allocation[msg.sender] >= amount, "Invalid allocation");
+        Allocation[msg.sender] -= amount;
         
-        ISafeERC20(USDT).safeTransferFrom(msg.sender, address(this), amount); //CONVERTED TO REGULAR SEND FOR TEST, CONVERT TO safetransferfrom SEND FOR LIVE DEPLOY
+        ISafeERC20(USDC).safeTransferFrom(msg.sender, address(this), amount); //CONVERTED TO REGULAR SEND FOR TEST, CONVERT TO safetransferfrom SEND FOR LIVE DEPLOY
         TotalRaised += amount;
         PlotsToReceive[msg.sender] += plotsToReceive;
 
@@ -182,7 +192,7 @@ contract Plots_MultiToken_Presale {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(USDTPriceFeed);
         (, int256 priceusdt, , , ) = priceFeed.latestRoundData();
         uint256 uintprice = uint256(priceusdt);
-        uint256 amountInWei = amountIn * 10**30; // Convert ETH to wei
+        uint256 amountInWei = amountIn * 10**6;
         uint256 usdAmount = (amountInWei) / uintprice;
         return usdAmount;
     }
@@ -234,9 +244,8 @@ contract Plots_MultiToken_Presale {
         return computedHash == root;
     }
 
-    function ChangeSaleParams(uint256 _SaleEnd, uint256 _PhaseOneCap) public OnlyAdmin {
+    function ChangeSaleEnd(uint256 _SaleEnd) public OnlyAdmin {
         SaleEnd = _SaleEnd;
-        PhaseOneCap = _PhaseOneCap;
     }
 
     function SendProceedsToTreasury() public OnlyAdmin {
@@ -264,6 +273,10 @@ contract Plots_MultiToken_Presale {
         } else if(SaleStart >= block.timestamp){
             return SalePhase(0);
         }
+    }
+
+    function LatestSaleIndex() public view returns(uint256 index){
+        return(SaleHistory.length - 1);
     }
 }
 

@@ -51,7 +51,7 @@ data1 = [{
     "points": 135929
   },
   {
-    "address": "0xe4d7811Fc629C6630826Fa3164FC838aA36BCc4A",
+    "address": "0xe4d7811fc629c6630826fa3164fc838aa36bcc4a",
     "points": 135929
   },
   {

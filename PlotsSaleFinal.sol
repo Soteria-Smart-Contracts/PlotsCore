@@ -2,9 +2,10 @@
 pragma solidity ^0.8.4;
 
 contract Plots_MultiToken_Presale {
+    using SafeERC20 for IERC20;
     // Token Addresses
-    address public constant USDT = 0xdAC17F958D2ee523a2206206994597C13D831ec7;
-    address public constant USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+    IERC20 public constant USDT = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7);
+    IERC20 public constant USDC = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48);
     
     // Chainlink Price Feeds
     address public constant USDTPriceFeed = 0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46;
@@ -13,7 +14,7 @@ contract Plots_MultiToken_Presale {
     address public Admin;
 
     // Merkle Root
-    bytes32 public MerkleRoot = 0xc7643eceeaffb11e5d3cf61658207d4b9e96ff74e301a0c21204d41ea0452baf;
+    bytes32 public MerkleRoot = 0x8f700e8a0d3d1567cf8754fa8c1f16be8c7cdd6a2da7de941544206684b7153e;
 
     // Params
     uint256 public SaleStart;
@@ -53,18 +54,18 @@ contract Plots_MultiToken_Presale {
         _;
     }
 
-    event TokensPurchased(address indexed buyer, uint256 amount, address token);
+    event TokensPurchased(address indexed buyer, uint256 amount, string token);
     event ProceedsSentToTreasury(uint256 usdtAmount, uint256 usdcAmount, uint256 ethAmount);
     event SaleParamsSet(uint256 saleStart, uint256 saleEnd, uint256 phaseOnePrice, uint256 phaseTwoPrice, uint256 phaseOneCap);
 
     constructor()  {
-        SaleStart = block.timestamp + 600;
+        SaleStart = block.timestamp + 30;
         SaleEnd = block.timestamp + 216000;
         PhaseOnePrice = 15000000000000000;
         PhaseTwoPrice = 25000000000000000;
         Phase = SalePhase(0);
         
-        SaleCap = 1500000000000;
+        SaleCap = 1000000000;
         Admin = 0xc932b3a342658A2d3dF79E4661f29DfF6D7e93Ce;
 
         emit SaleParamsSet(SaleStart, SaleEnd, PhaseOnePrice, PhaseOnePrice, PhaseTwoPrice);
@@ -89,12 +90,12 @@ contract Plots_MultiToken_Presale {
             RegisteredAs[msg.sender] = UserType(1);
         }else if(!AllocationSet[msg.sender]){
             RegisteredAs[msg.sender] = UserType(0);
-            SetAllocationInUSD(50000); //Becomes 25k usd
+            SetAllocationInUSD(50000);
         }else{
             require(RegisteredAs[msg.sender] == UserRegistration);
         }
 
-        uint256 plotsToReceive = ConvertEthToPlots(msg.value, UserRegistration);
+        uint256 PlotstoReceive = ConvertEthToPlots(msg.value, UserRegistration);
         uint256 StableEquivalent = ConvertEthToStable(msg.value);
         require(StableEquivalent >= 50000000, "Invalid amount");
         require(TotalRaised + StableEquivalent <= SaleCap, "Sale cap reached");
@@ -103,10 +104,10 @@ contract Plots_MultiToken_Presale {
         Allocation[msg.sender] -= StableEquivalent;
 
         TotalRaised += StableEquivalent;
-        PlotsToReceive[msg.sender] += plotsToReceive;
+        PlotsToReceive[msg.sender] += PlotstoReceive;
 
         SaleHistory.push(PurchaseHistory(msg.sender, UserRegistration, block.timestamp, StableEquivalent));
-        emit TokensPurchased(msg.sender, plotsToReceive, address(0));
+        emit TokensPurchased(msg.sender, PlotstoReceive, "ETH");
     }
 
     function PurchaseWithUSDT(uint256 amount, UserType UserRegistration, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
@@ -116,7 +117,6 @@ contract Plots_MultiToken_Presale {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(msg.sender))), "Invalid credentials");
         } else if (UserRegistration == UserType.FifteenFDV) {
             require(VerifyCredentials(Proof, keccak256(abi.encodePacked(StringUtils.concatenate(msg.sender, UserPoints)))), "Invalid credentials");
-            require(PlotsToReceive[msg.sender] == 0); //This requirement is to avoid 15fdv users from setting their allocation to 50k during the public sale then reentering with credentials to buy more tokens at the lower price
         }
 
         if (PlotsToReceive[msg.sender] == 0){
@@ -129,21 +129,21 @@ contract Plots_MultiToken_Presale {
             RegisteredAs[msg.sender] = UserType(1);
         }else if(!AllocationSet[msg.sender]){
             RegisteredAs[msg.sender] = UserType(0);
-            SetAllocationInUSD(50000); //Becomes 25k usd
+            SetAllocationInUSD(50000);
         }else{
             require(RegisteredAs[msg.sender] == UserRegistration);
         }
 
-        uint256 plotsToReceive = ConvertStableToPlots(amount, UserRegistration);
+        uint256 PlotstoReceive = ConvertStableToPlots(amount, UserRegistration);
         require(Allocation[msg.sender] >= amount, "Invalid allocation");
         Allocation[msg.sender] -= amount;
         
-        ISafeERC20(USDT).safeTransferFrom(msg.sender, address(this), amount); //CONVERTED TO ERC20 REGULAR SEND FOR TEST, CONVERT TO SAFE_ERC20 SEND FOR LIVE DEPLOY
+        USDT.safeTransferFrom(msg.sender, address(this), amount);
         TotalRaised += amount;
-        PlotsToReceive[msg.sender] += plotsToReceive;
+        PlotsToReceive[msg.sender] += PlotstoReceive;
 
         SaleHistory.push(PurchaseHistory(msg.sender, UserRegistration, block.timestamp, amount));
-        emit TokensPurchased(msg.sender, plotsToReceive, USDT);
+        emit TokensPurchased(msg.sender, PlotstoReceive, "USDT");
     }
 
     function PurchaseWithUSDC(uint256 amount, UserType UserRegistration, uint256 UserPoints, bytes32[] memory Proof) public ActiveSaleOnly {
@@ -165,21 +165,21 @@ contract Plots_MultiToken_Presale {
             RegisteredAs[msg.sender] = UserType(1);
         }else if(!AllocationSet[msg.sender]){
             RegisteredAs[msg.sender] = UserType(0);
-            SetAllocationInUSD(50000); //Becomes 25k usd
+            SetAllocationInUSD(50000);
         }else{
             require(RegisteredAs[msg.sender] == UserRegistration);
         }
 
-        uint256 plotsToReceive = ConvertStableToPlots(amount, UserRegistration);
+        uint256 PlotstoReceive = ConvertStableToPlots(amount, UserRegistration);
         require(Allocation[msg.sender] >= amount, "Invalid allocation");
         Allocation[msg.sender] -= amount;
         
-        ISafeERC20(USDC).safeTransferFrom(msg.sender, address(this), amount); //CONVERTED TO REGULAR SEND FOR TEST, CONVERT TO safetransferfrom SEND FOR LIVE DEPLOY
+        USDC.safeTransferFrom(msg.sender, address(this), amount); 
         TotalRaised += amount;
-        PlotsToReceive[msg.sender] += plotsToReceive;
+        PlotsToReceive[msg.sender] += PlotstoReceive;
 
         SaleHistory.push(PurchaseHistory(msg.sender, UserRegistration, block.timestamp, amount));
-        emit TokensPurchased(msg.sender, plotsToReceive, USDC);
+        emit TokensPurchased(msg.sender, PlotstoReceive, "USDC");
     }
 
     function SetAllocationInUSD(uint256 allocation) internal {
@@ -198,7 +198,6 @@ contract Plots_MultiToken_Presale {
     }
 
     function ConvertStableToPlots(uint256 amountIn, UserType rate) public view returns (uint256) {
-        //if the rate is 25FDV, then the price is phase two price, else it is phase two price 
         if (rate == UserType.TwentyFiveFDV) {
             return (amountIn * 10**30) / PhaseTwoPrice;
         } else {
@@ -249,12 +248,12 @@ contract Plots_MultiToken_Presale {
     }
 
     function SendProceedsToTreasury() public OnlyAdmin {
-        uint256 usdtBalance = ERC20(USDT).balanceOf(address(this));
-        uint256 usdcBalance = ERC20(USDC).balanceOf(address(this));
+        uint256 usdtBalance = USDT.balanceOf(address(this));
+        uint256 usdcBalance = USDC.balanceOf(address(this));
         uint256 ethBalance = address(this).balance;
 
-        ISafeERC20(USDT).safeTransfer(Admin, usdtBalance);
-        ISafeERC20(USDC).safeTransfer(Admin, usdcBalance);
+        USDT.safeTransfer(Admin, usdtBalance);
+        USDC.safeTransfer(Admin, usdcBalance);
         payable(Admin).transfer(ethBalance);
 
         emit ProceedsSentToTreasury(usdtBalance, usdcBalance, ethBalance);
@@ -315,7 +314,6 @@ contract ERC20 {
     
     function balanceOf(address Address) public view returns (uint256 balance){
         return balances[Address];
-
     }
 
     function approve(address delegate, uint _amount) public returns (bool) {
@@ -379,12 +377,172 @@ contract ERC20 {
 
 
 }
+interface IERC20 {
+    function totalSupply() external view returns (uint256);
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function allowance(address owner, address spender) external view returns (uint256);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+}
 
-interface ISafeERC20 {
-    function safeTransfer(address to, uint256 value) external;
-    function safeTransferFrom(address from, address to, uint256 value) external;
-    function transferFrom(address _from, address _to, uint256 _amount) external;
-    function transfer(address _to, uint256 _amount) external;
+library SafeERC20 {
+    using Address for address;
+
+    function safeTransfer(
+        IERC20 token,
+        address to,
+        uint256 value
+    ) internal {
+        _callOptionalReturn(token, abi.encodeWithSelector(token.transfer.selector, to, value));
+    }
+
+    function safeTransferFrom(
+        IERC20 token,
+        address from,
+        address to,
+        uint256 value
+    ) internal {
+        _callOptionalReturn(token, abi.encodeWithSelector(token.transferFrom.selector, from, to, value));
+    }
+
+    function safeApprove(
+        IERC20 token,
+        address spender,
+        uint256 value
+    ) internal {
+        require(
+            (value == 0) || (token.allowance(address(this), spender) == 0),
+            "SafeERC20: approve from non-zero to non-zero allowance"
+        );
+        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
+    }
+
+    function safeIncreaseAllowance(
+        IERC20 token,
+        address spender,
+        uint256 value
+    ) internal {
+        uint256 newAllowance = token.allowance(address(this), spender) + value;
+        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+    }
+
+    function safeDecreaseAllowance(
+        IERC20 token,
+        address spender,
+        uint256 value
+    ) internal {
+        unchecked {
+            uint256 oldAllowance = token.allowance(address(this), spender);
+            require(oldAllowance >= value, "SafeERC20: decreased allowance below zero");
+            uint256 newAllowance = oldAllowance - value;
+            _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+        }
+    }
+
+    function _callOptionalReturn(IERC20 token, bytes memory data) private {
+        bytes memory returndata = address(token).functionCall(data, "SafeERC20: low-level call failed");
+        if (returndata.length > 0) {
+            require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
+        }
+    }
+}
+
+library Address {
+    function isContract(address account) internal view returns (bool) {
+        return account.code.length > 0;
+    }
+
+    function sendValue(address payable recipient, uint256 amount) internal {
+        require(address(this).balance >= amount, "Address: insufficient balance");
+
+        (bool success, ) = recipient.call{value: amount}("");
+        require(success, "Address: unable to send value, recipient may have reverted");
+    }
+
+    function functionCall(address target, bytes memory data) internal returns (bytes memory) {
+        return functionCall(target, data, "Address: low-level call failed");
+    }
+
+    function functionCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
+        return functionCallWithValue(target, data, 0, errorMessage);
+    }
+
+    function functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 value
+    ) internal returns (bytes memory) {
+        return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
+    }
+
+    function functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 value,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
+        require(address(this).balance >= value, "Address: insufficient balance for call");
+        require(isContract(target), "Address: call to non-contract");
+
+        (bool success, bytes memory returndata) = target.call{value: value}(data);
+        return verifyCallResult(success, returndata, errorMessage);
+    }
+
+    function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory) {
+        return functionStaticCall(target, data, "Address: low-level static call failed");
+    }
+
+    function functionStaticCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal view returns (bytes memory) {
+        require(isContract(target), "Address: static call to non-contract");
+
+        (bool success, bytes memory returndata) = target.staticcall(data);
+        return verifyCallResult(success, returndata, errorMessage);
+    }
+
+    function functionDelegateCall(address target, bytes memory data) internal returns (bytes memory) {
+        return functionDelegateCall(target, data, "Address: low-level delegate call failed");
+    }
+
+    function functionDelegateCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
+        require(isContract(target), "Address: delegate call to non-contract");
+
+        (bool success, bytes memory returndata) = target.delegatecall(data);
+        return verifyCallResult(success, returndata, errorMessage);
+    }
+
+    function verifyCallResult(
+        bool success,
+        bytes memory returndata,
+        string memory errorMessage
+    ) internal pure returns (bytes memory) {
+        if (success) {
+            return returndata;
+        } else {
+            if (returndata.length > 0) {
+                assembly {
+                    let returndata_size := mload(returndata)
+                    revert(add(32, returndata), returndata_size)
+                }
+            } else {
+                revert(errorMessage);
+            }
+        }
+    }
 }
 
 interface AggregatorV3Interface {

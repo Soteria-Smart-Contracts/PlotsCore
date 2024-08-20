@@ -478,14 +478,6 @@ contract PlotsTreasury {
         VLND = _vlnd;
     }
 
-    //OnlyCore Functions
-
-    function SendToLoan(address LoanContract, address Collection, uint256 TokenID) external OnlyCore{
-        IERC721(Collection).transferFrom(address(this), LoanContract, TokenID);
-
-        TokenLocation[Collection][TokenID] = LoanContract;
-    }
-
     //return from loan (transferfrom the token location back to the treeasury, set token location to this)
     function ReturnedFromLoan(address Collection, uint256 TokenID) external OnlyCore(){
         require(IERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");

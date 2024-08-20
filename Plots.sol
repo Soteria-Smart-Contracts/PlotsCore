@@ -482,7 +482,12 @@ contract PlotsTreasury {
     function SetLoanStatus(address Collection, uint256 TokenID, bool InLoan) external OnlyCore(){
         require(IERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");
         
-        TokenLocation[Collection][TokenID] = address(this);
+        if(InLoan == true){
+            AddTokenToCollection(Collection, TokenID);
+        }
+        else{
+            RemoveTokenFromCollection(Collection, TokenID);
+        }
     }
 
     //internals

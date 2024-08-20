@@ -120,7 +120,7 @@ contract PlotsCore {
 
         AllLoansIndex[Collection][ID] = address(0);
         OwnershipByPurchase[Collection][ID] = address(0);
-        RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
+        RemoveLoanFromBorrowerAndLender(Borrower, Lender, Collection, ID);
 
         if(relist == true){
             require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
@@ -132,18 +132,6 @@ contract PlotsCore {
         }
         
         ActiveLoan[Borrower] = false;
-    }
-
-    function RenewLoan(address LoanContract, LengthOption Duration) public payable {
-        require(NFTLoan(LoanContract).Active(), "Loan is not active");
-        
-        // Only allow renewal for peer-to-peer loans
-        if (NFTLoan(LoanContract).Origin() != Treasury) {
-            uint256 DurationUnix = (uint8(Duration) + 1) * 60; // Retain months system for peer-to-peer loans
-            NFTLoan(LoanContract).RenewLoan(DurationUnix);
-        } else {
-            revert("Treasury loans cannot be renewed");
-        }
     }
 
     // Listings ---------------------------------------------------------------------------------
@@ -208,14 +196,6 @@ contract PlotsCore {
             } else {
                 DelistToken(Collections[i], TokenIds[i]);
             }
-        }
-    }
-
-    //claim multiple rewards at once function, input an array of loan contracts and reward tokens
-    function ClaimRewards(address[] memory LoanContracts, address[] memory RewardTokens) public{
-        require(LoanContracts.length == RewardTokens.length, "Arrays not same length");
-        for(uint256 i = 0; i < LoanContracts.length; i++){
-            NFTLoan(LoanContracts[i]).DisperseRewards(RewardTokens[i]);
         }
     }
 

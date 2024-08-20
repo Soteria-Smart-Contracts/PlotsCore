@@ -99,12 +99,43 @@ contract PlotsCore {
 
     function CloseLoan(address Collection, uint256 ID, bool relist) public{
         require(
-            IsLoanContract[LoanContract] == true &&
-            (NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan(LoanContract).Owner() == msg.sender || Admins[msg.sender]) &&
-            (NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || Admins[msg.sender] || NFTLoan(LoanContract).Borrower() == msg.sender) &&
-            NFTLoan(LoanContract).Active(),
+            AllLoansIndex[Collection][ID] != 0,
             "Invalid loan"
         );
+        
+        address Borrower = AllLoans[AllLoansIndex[Collection][ID] - 1].Borrower;
+        address Lender = AllLoans[AllLoansIndex[Collection][ID] - 1].Origin;
+        address Origin = AllLoans[AllLoansIndex[Collection][ID] - 1].Origin;
+        
+        uint256 OwnershipPercentage;
+        uint256 CollateralValue;
+        
+        if (Origin == LendContract) {
+            OwnershipPercentage = 0;
+            CollateralValue = 0;
+            PlotsLend(LendContract).ReturnedFromLoan(Collection, ID);
+        } else if (Origin == Treasury) {
+            CollateralValue = 10000000000; // TODO: THIS IS BROKEN, FIGURE OUT A WORKAROUND
+            LockedValue -= AllLoans[AllLoansIndex[Collection][ID] - 1].InitialValue * OwnershipPercentage / 100;
+            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, ID);
+            PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
+        } else {
+            revert("Invalid loan");
+        }
+        
+        delete AllLoans[AllLoansIndex[Collection][ID] - 1];
+        delete AllLoansIndex[Collection][ID];
+        
+        if (relist == true) {
+            require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
+            AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
+            if (Lender != Treasury) {
+            AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
+            }
+            ListedBool[Collection][ID] = true;
+        }
+        
+        ActiveLoan[Borrower] = false; // Clear active loan
 
         address Collection = NFTLoan(LoanContract).TokenCollection();
         uint256 TokenId = NFTLoan(LoanContract).TokenID();

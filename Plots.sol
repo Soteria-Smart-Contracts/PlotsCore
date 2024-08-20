@@ -329,7 +329,7 @@ contract PlotsCore {
 
     //add loan to a borrower and a lender with just the loan address IN ONE function
     function AddLoanToBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{
-        AllLoans.push(LoanInfo(Collection, ID, Lender, Borrower, block.timestamp + 30 days));
+        AllLoans.push(LoanInfo(Collection, ID, Lender, Borrower));
 
         AllLoansIndex[_loan] = AllLoans.length - 1;
 

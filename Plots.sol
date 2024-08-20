@@ -371,7 +371,6 @@ contract PlotsTreasury {
 
     //mapping of all collections to an ether value
     mapping(address => uint256) public CollectionEtherValue;
-    mapping(address => mapping(uint256 => address)) public TokenLocation;
 
     mapping(address => uint256[]) public AllTokensByCollection;
     mapping(address => mapping(uint256 => uint256)) public AllTokensByCollectionIndex;
@@ -422,8 +421,6 @@ contract PlotsTreasury {
     function DepositNFT(address Collection, uint256 TokenId, bool Autolist) public OnlyAdmin {
         require(IERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         IERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
-
-        TokenLocation[Collection][TokenId] = address(this);
 
         AddTokenToCollection(Collection, TokenId);
 

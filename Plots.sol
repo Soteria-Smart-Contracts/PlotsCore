@@ -99,66 +99,45 @@ contract PlotsCore {
 
     function CloseLoan(address Collection, uint256 ID, bool relist) public{
         require(
-            IsLoanContract[LoanContract] == true &&
-            (NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan(LoanContract).Owner() == msg.sender || Admins[msg.sender]) &&
-            (NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || Admins[msg.sender] || NFTLoan(LoanContract).Borrower() == msg.sender) &&
-            NFTLoan(LoanContract).Active(),
-            "Invalid loan"
+            ActiveLoan[msg.sender] == true,
+            "No active loan"
         );
 
-        address Collection = NFTLoan(LoanContract).TokenCollection();
-        uint256 TokenId = NFTLoan(LoanContract).TokenID();
-        address Borrower = NFTLoan(LoanContract).Borrower();
-        address Lender = NFTLoan(LoanContract).Owner();
-        address Origin = NFTLoan(LoanContract).Origin();
+        address Borrower = msg.sender;
+        address Lender = OwnershipByPurchase[Collection][ID];
+        address Origin = LendContract;
         uint256 OwnershipPercentage;
         uint256 CollateralValue;
-
-        if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
-            OwnershipPercentage = 10;
-        }
-        else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
-            OwnershipPercentage = 25;
-        }
 
         if(Origin == LendContract){
             OwnershipPercentage = 0;
             CollateralValue = 0;
-            NFTLoan(LoanContract).EndLoan();
-            PlotsLend(LendContract).ReturnedFromLoan(Collection, TokenId);
+            PlotsLend(LendContract).ReturnedFromLoan(Collection, ID);
         }
-        else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero){
-            //CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
+        else if(Origin == Treasury && OwnershipPercentage != 0){
             CollateralValue = 10000000000; //TODO: THIS IS BROKEN, FIGURE OUT A WORKAROUND
             LockedValue -= NFTLoan(LoanContract).InitialValue() * OwnershipPercentage / 100;
-            NFTLoan(LoanContract).EndLoan();
-            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
+            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, ID);
             PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
         }
-        else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
-            NFTLoan(LoanContract).EndLoan();
-            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
+        else if(Origin == Treasury && OwnershipPercentage == 0){
+            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, ID);
         }
         else{
             revert("Invalid loan");
         }
 
-        LoanContractByToken[Collection][TokenId] = address(0);
-        OwnershipByPurchase[Collection][TokenId] = address(0);
-        AvailableLoanContracts.push(LoanContract);
-        AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
-        RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
+        OwnershipByPurchase[Collection][ID] = address(0);
+        ActiveLoan[Borrower] = false; // Clear active loan
 
         if(relist == true){
             require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
-            AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId));
+            AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
             if(Lender != Treasury){
-                AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId));
+                AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
             }
-            ListedBool[Collection][TokenId] = true;
+            ListedBool[Collection][ID] = true;
         }
-        
-        ActiveLoan[Borrower] = false; // Clear active loan
     }
 
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {

@@ -561,8 +561,8 @@ contract PlotsLend {
     }
 
     mapping(address => mapping(uint256 => address)) public TokenDepositor;
-    //tokenstatus mapping
-    
+    //tokenstatus mappin
+    mapping(address => mapping(uint256 => address)) public TokenLocation;
     //all deposited tokens array mapping
     mapping(address => Token[]) public AllUserTokens;
     mapping(address => mapping(address => mapping(uint256 => uint256))) public AllUserTokensIndex;

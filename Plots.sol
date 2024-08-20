@@ -133,7 +133,7 @@ contract PlotsCore {
             ListedBool[Collection][ID] = true;
         }
         
-        ActiveLoan[Borrower] = false; // Clear active loan
+        ActiveLoan[Borrower] = false;
     }
 
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {

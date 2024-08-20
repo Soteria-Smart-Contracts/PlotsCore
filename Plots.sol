@@ -314,20 +314,25 @@ contract PlotsCore {
 
     //remove loan from a borrower and a lender with just the loan address IN ONE function
     function RemoveLoanFromBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{
-        AllLoans[AllLoansIndex[_loan]] = AllLoans[AllLoans.length - 1];
-        AllLoansIndex[AllLoans[AllLoansIndex[_loan]]] = AllLoansIndex[_loan];
+        uint256 loanIndex = AllLoansIndex[Collection][ID];
+        require(loanIndex != 0, "Loan does not exist");
+
+        AllLoans[loanIndex] = AllLoans[AllLoans.length - 1];
+        AllLoansIndex[AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = loanIndex;
         AllLoans.pop();
-        AllLoansIndex[_loan] = 0;
+        AllLoansIndex[Collection][ID] = 0;
 
-        AllUserLoans[Lender][AllUserLoansIndex[Lender][_loan]] = AllUserLoans[Lender][AllUserLoans[Lender].length - 1];
-        AllUserLoansIndex[Lender][AllUserLoans[Lender][AllUserLoansIndex[Lender][_loan]]] = AllUserLoansIndex[Lender][_loan];
+        uint256 lenderLoanIndex = AllUserLoansIndex[Lender][Collection][ID];
+        AllUserLoans[Lender][lenderLoanIndex] = AllUserLoans[Lender][AllUserLoans[Lender].length - 1];
+        AllUserLoansIndex[Lender][AllUserLoans[Lender][lenderLoanIndex].Collection][AllUserLoans[Lender][lenderLoanIndex].ID] = lenderLoanIndex;
         AllUserLoans[Lender].pop();
-        AllUserLoansIndex[Lender][_loan] = 0;
+        AllUserLoansIndex[Lender][Collection][ID] = 0;
 
-        AllUserBorrows[Borrower][AllUserBorrowsIndex[Borrower][_loan]] = AllUserBorrows[Borrower][AllUserBorrows[Borrower].length - 1];
-        AllUserBorrowsIndex[Borrower][AllUserBorrows[Borrower][AllUserBorrowsIndex[Borrower][_loan]]] = AllUserBorrowsIndex[Borrower][_loan];
+        uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][Collection][ID];
+        AllUserBorrows[Borrower][borrowerLoanIndex] = AllUserBorrows[Borrower][AllUserBorrows[Borrower].length - 1];
+        AllUserBorrowsIndex[Borrower][AllUserBorrows[Borrower][borrowerLoanIndex].Collection][AllUserBorrows[Borrower][borrowerLoanIndex].ID] = borrowerLoanIndex;
         AllUserBorrows[Borrower].pop();
-        AllUserBorrowsIndex[Borrower][_loan] = 0;
+        AllUserBorrowsIndex[Borrower][Collection][ID] = 0;
     }
 
     function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{

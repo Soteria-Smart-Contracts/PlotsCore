@@ -31,7 +31,6 @@ contract PlotsCore {
         uint256 ID; 
         address Origin;
         address Borrower;
-        uint256 Expiry;
     }
 
     mapping(address => bool) public Admins;

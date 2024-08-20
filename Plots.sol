@@ -118,10 +118,8 @@ contract PlotsCore {
             revert("Invalid loan");
         }
 
-        LoanContractByToken[Collection][ID] = address(0);
+        AllLoansIndex[Collection][ID] = address(0);
         OwnershipByPurchase[Collection][ID] = address(0);
-        AvailableLoanContracts.push(LoanContract);
-        AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
         RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
 
         if(relist == true){
@@ -315,7 +313,7 @@ contract PlotsCore {
     }
 
     //remove loan from a borrower and a lender with just the loan address IN ONE function
-    function RemoveLoanFromBorrowerAndLender(address Borrower, address Lender, uint256 _loan) internal{
+    function RemoveLoanFromBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{
         AllLoans[AllLoansIndex[_loan]] = AllLoans[AllLoans.length - 1];
         AllLoansIndex[AllLoans[AllLoansIndex[_loan]]] = AllLoansIndex[_loan];
         AllLoans.pop();

@@ -98,67 +98,61 @@ contract PlotsCore {
     }
 
     function CloseLoan(address Collection, uint256 ID, bool relist) public{
-        require(
-            AllLoans[AllLoansIndex[Collection][ID]].Borrower() == msg.sender ||
-            Admins[msg.sender] ||
-            (AllLoans[AllLoansIndex[Collection][ID]].LoanEndTime() <= block.timestamp && AllLoans[AllLoansIndex[Collection][ID]].Active()),
-            "Invalid loan"
-        );
-
-        address Collection = NFTLoan(LoanContract).TokenCollection();
-        uint256 TokenId = NFTLoan(LoanContract).TokenID();
-        address Borrower = NFTLoan(LoanContract).Borrower();
-        address Lender = NFTLoan(LoanContract).Owner();
-        address Origin = NFTLoan(LoanContract).Origin();
-        uint256 OwnershipPercentage;
-        uint256 CollateralValue;
-
-        if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Ten){
-            OwnershipPercentage = 10;
-        }
-        else if(NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.TwentyFive){
-            OwnershipPercentage = 25;
-        }
-
-        if(Origin == LendContract){
-            OwnershipPercentage = 0;
-            CollateralValue = 0;
-            NFTLoan(LoanContract).EndLoan();
-            PlotsLend(LendContract).ReturnedFromLoan(Collection, TokenId);
-        }
-        else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() != OwnershipPercent.Zero){
-            //CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
-            CollateralValue = 10000000000; //TODO: THIS IS BROKEN, FIGURE OUT A WORKAROUND
-            LockedValue -= NFTLoan(LoanContract).InitialValue() * OwnershipPercentage / 100;
-            NFTLoan(LoanContract).EndLoan();
-            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
-            PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
-        }
-        else if(Origin == Treasury && NFTLoan(LoanContract).OwnershipType() == OwnershipPercent.Zero){
-            NFTLoan(LoanContract).EndLoan();
-            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, TokenId);
-        }
-        else{
-            revert("Invalid loan");
-        }
-
-        LoanContractByToken[Collection][TokenId] = address(0);
-        OwnershipByPurchase[Collection][TokenId] = address(0);
-        AvailableLoanContracts.push(LoanContract);
-        AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
-        RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
-
-        if(relist == true){
-            require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
-            AddListingToCollection(Collection, TokenId, Listing(Lender, Collection, TokenId));
-            if(Lender != Treasury){
-                AddListingToUser(Lender, Collection, TokenId, Listing(Lender, Collection, TokenId));
+            require(
+                AllLoans[AllLoansIndex[Collection][ID]].Borrower() == msg.sender ||
+                Admins[msg.sender],
+                "Invalid loan"
+            );
+    
+            address Borrower = AllLoans[AllLoansIndex[Collection][ID]].Borrower();
+            address Lender = AllLoans[AllLoansIndex[Collection][ID]].Lender();
+            address Origin = AllLoans[AllLoansIndex[Collection][ID]].Origin();
+            uint256 OwnershipPercentage;
+            uint256 CollateralValue;
+    
+            if(AllLoans[AllLoansIndex[Collection][ID]].OwnershipType() == OwnershipPercent.Ten){
+                OwnershipPercentage = 10;
             }
-            ListedBool[Collection][TokenId] = true;
+            else if(AllLoans[AllLoansIndex[Collection][ID]].OwnershipType() == OwnershipPercent.TwentyFive){
+                OwnershipPercentage = 25;
+            }
+    
+            if(Origin == LendContract){
+                OwnershipPercentage = 0;
+                CollateralValue = 0;
+                PlotsLend(LendContract).ReturnedFromLoan(Collection, ID);
+            }
+            else if(Origin == Treasury && AllLoans[AllLoansIndex[Collection][ID]].OwnershipType() != OwnershipPercent.Zero){
+                //CollateralValue = (PlotsTreasury(Treasury).GetTokenValueFloorAdjusted(Collection, TokenId) * OwnershipPercentage) / 100;
+                CollateralValue = 10000000000; //TODO: THIS IS BROKEN, FIGURE OUT A WORKAROUND
+                LockedValue -= AllLoans[AllLoansIndex[Collection][ID]].InitialValue() * OwnershipPercentage / 100;
+                PlotsTreasury(Treasury).ReturnedFromLoan(Collection, ID);
+                PlotsTreasury(Treasury).SendEther(payable(Borrower), CollateralValue);
+            }
+            else if(Origin == Treasury && AllLoans[AllLoansIndex[Collection][ID]].OwnershipType() == OwnershipPercent.Zero){
+                PlotsTreasury(Treasury).ReturnedFromLoan(Collection, ID);
+            }
+            else{
+                revert("Invalid loan");
+            }
+    
+            LoanContractByToken[Collection][ID] = address(0);
+            OwnershipByPurchase[Collection][ID] = address(0);
+            AvailableLoanContracts.push(LoanContract);
+            AvailableLoanContractsIndex[LoanContract] = AvailableLoanContracts.length - 1;
+            RemoveLoanFromBorrowerAndLender(Borrower, Lender, LoanContract);
+    
+            if(relist == true){
+                require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
+                AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
+                if(Lender != Treasury){
+                    AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
+                }
+                ListedBool[Collection][ID] = true;
+            }
+            
+            ActiveLoan[Borrower] = false; // Clear active loan
         }
-        
-        ActiveLoan[Borrower] = false; // Clear active loan
-    }
 
     function RenewLoan(address LoanContract, LengthOption Duration) public payable {
         require(NFTLoan(LoanContract).Active(), "Loan is not active");

@@ -561,7 +561,8 @@ contract PlotsLend {
     }
 
     mapping(address => mapping(uint256 => address)) public TokenDepositor;
-    //tokenstatus mapping to
+    //tokenstatus mapping to check if token is in a loan
+    
 
 
 

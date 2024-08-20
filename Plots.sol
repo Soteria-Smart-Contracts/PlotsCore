@@ -331,7 +331,6 @@ contract PlotsCore {
     function AddLoanToBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{
         
 
-
         AllLoans.push(_loan);
         AllLoansIndex[_loan] = AllLoans.length - 1;
 

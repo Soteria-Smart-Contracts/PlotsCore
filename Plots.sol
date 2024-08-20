@@ -89,7 +89,7 @@ contract PlotsCore {
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 
-        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, LoanContract);
+        AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         RemoveListingFromCollection(Collection, TokenId);
         RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         OwnershipByPurchase[Collection][TokenId] = msg.sender;
@@ -328,7 +328,7 @@ contract PlotsCore {
     }
 
     //add loan to a borrower and a lender with just the loan address IN ONE function
-    function AddLoanToBorrowerAndLender(address Borrower, address Lender, uint256 _loan) internal{
+    function AddLoanToBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{
         AllLoans.push(_loan);
         AllLoansIndex[_loan] = AllLoans.length - 1;
 

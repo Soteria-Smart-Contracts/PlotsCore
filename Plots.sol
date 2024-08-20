@@ -479,7 +479,7 @@ contract PlotsTreasury {
     }
 
     //return from loan (transferfrom the token location back to the treeasury, set token location to this)
-    function SetLoanStatus(address Collection, uint256 TokenID, bool Inloan) external OnlyCore(){
+    function SetLoanStatus(address Collection, uint256 TokenID, bool InLoan) external OnlyCore(){
         require(IERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");
         
         TokenLocation[Collection][TokenID] = address(this);

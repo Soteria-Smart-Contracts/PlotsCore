@@ -99,10 +99,9 @@ contract PlotsCore {
 
     function CloseLoan(address Collection, uint256 ID, bool relist) public{
         require(
-            IsLoanContract[LoanContract] == true &&
-            (NFTLoan(LoanContract).Borrower() == msg.sender || NFTLoan(LoanContract).Owner() == msg.sender || Admins[msg.sender]) &&
-            (NFTLoan(LoanContract).LoanEndTime() <= block.timestamp || Admins[msg.sender] || NFTLoan(LoanContract).Borrower() == msg.sender) &&
-            NFTLoan(LoanContract).Active(),
+            AllLoans[AllLoansIndex[Collection][ID]].Borrower() == msg.sender ||
+            Admins[msg.sender] ||
+            (AllLoans[AllLoansIndex[Collection][ID]].LoanEndTime() <= block.timestamp && AllLoans[AllLoansIndex[Collection][ID]].Active()),
             "Invalid loan"
         );
 

@@ -232,16 +232,7 @@ contract PlotsCore {
         return ListingsByUser[user];
     }
 
-    function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory, uint256[] memory Prices){
-        uint256[] memory _prices = new uint256[](ListingsByCollection[_collection].length);
-        for(uint256 i = 0; i < ListingsByCollection[_collection].length; i++){
-            if(IERC721(_collection).ownerOf(ListingsByCollection[_collection][i].TokenId) == Treasury){
-                _prices[i] = 10000000000; //TODO:THIS IS BROKEN FIX IT
-            }
-            else{
-                _prices[i] = 0;
-            }
-        }
+    function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory){
         return (ListingsByCollection[_collection], _prices);
     }
 

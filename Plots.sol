@@ -29,7 +29,7 @@ contract PlotsCore {
     struct LoanInfo{
         address Collection;
         uint256 ID; 
-        address Origin;
+        address Lender;
         address Borrower;
     }
 
@@ -49,6 +49,7 @@ contract PlotsCore {
     mapping(address => Listing[]) public ListingsByCollection;
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
     mapping(address => mapping(uint256 => bool)) public ListedBool;
+    mapping(address => mapping(uint256 => bool)) public InLoanBool;
     mapping(address => Listing[]) public ListingsByUser;
     mapping(address => mapping(address => mapping(uint256 => uint256))) public ListingsByUserIndex;
 
@@ -94,6 +95,7 @@ contract PlotsCore {
         RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         OwnershipByPurchase[Collection][TokenId] = msg.sender;
         ListedBool[Collection][TokenId] = false;
+        InLoanBool[Collection][TokenId] = true;
         
         ActiveLoan[msg.sender] = true; // Track active loan
     }
@@ -106,8 +108,9 @@ contract PlotsCore {
         );
 
         address Borrower = AllLoans[AllLoansIndex[Collection][ID]].Borrower;
-        address Origin = AllLoans[AllLoansIndex[Collection][ID]].Origin;
+        address Lender = AllLoans[AllLoansIndex[Collection][ID]].Lender;
 
+        InLoanBool[Collection][ID] = false;
 
         AllLoansIndex[Collection][ID] = 0;
         OwnershipByPurchase[Collection][ID] = address(0);

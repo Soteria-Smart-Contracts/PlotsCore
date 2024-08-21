@@ -55,11 +55,11 @@ contract PlotsCore {
     LoanInfo[] public AllLoans;
     mapping(address => mapping(uint256 => uint256)) public AllLoansIndex;
 
-    mapping(address => address[]) public AllUserLoans; //Outgoing loans
-    mapping(address => mapping(address => uint256)) public AllUserLoansIndex;
+    mapping(address => uint256[]) public AllUserLoans; //Outgoing loans
+    mapping(address => mapping(uint256 => uint256)) public AllUserLoansIndex;
 
-    mapping(address => address[]) public AllUserBorrows; //Incoming loans
-    mapping(address => mapping(address => uint256)) public AllUserBorrowsIndex;
+    mapping(address => uint256[]) public AllUserBorrows; //Incoming loans
+    mapping(address => mapping(uint256 => uint256)) public AllUserBorrowsIndex;
 
     mapping(address => bool) public ActiveLoan; // Track active loan per user
 
@@ -219,11 +219,11 @@ contract PlotsCore {
     // }
     //TODO:FIX
 
-    function GetUserLoans(address _user) public view returns(address[] memory){
+    function GetUserLoans(address _user) public view returns(uint256[] memory){
         return AllUserLoans[_user];
     }
 
-    function GetUserBorrows(address _user) public view returns(address[] memory){
+    function GetUserBorrows(address _user) public view returns(uint256[] memory){
         return AllUserBorrows[_user];
     }
 
@@ -279,7 +279,7 @@ contract PlotsCore {
         AllLoans.push(_loan);
         AllLoansIndex[Collection][ID] = AllLoans.length - 1;
 
-        AllUserLoans[Lender].push(_loan);
+        AllUserLoans[Lender].push(AllLoansIndex[Collection][ID]);
         AllUserLoansIndex[Lender][Collection][ID] = AllUserLoans[Lender].length - 1;
 
         AllUserBorrows[Borrower].push(_loan);

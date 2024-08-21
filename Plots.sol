@@ -215,9 +215,9 @@ contract PlotsCore {
         //}
     }
 
-    function GetAllLoans() public view returns(LoanInfo[] calldata){
-        return AllLoans;
-    }
+    function GetAllLoans() public view returns(LoanInfo[] storage){
+            return AllLoans;
+        }
 
     function GetUserLoans(address _user) public view returns(uint256[] memory){
         return AllUserLoans[_user];

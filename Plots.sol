@@ -82,6 +82,7 @@ contract PlotsCore {
         LendContract = _lendContract;
     }
 
+    //TODO: Fix Duration for only P2p
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration) public NotBlacklisted payable {
         require(ListedCollectionsMap[Collection] == true, "Collection N/Listed");
         require(ActiveLoan[msg.sender] == false, "User already has an active loan"); // Check for active loan
@@ -110,7 +111,7 @@ contract PlotsCore {
 
         AllLoansIndex[Collection][ID] = 0;
         OwnershipByPurchase[Collection][ID] = address(0);
-        //TODO: Review Lender
+        //TODO: Review Lender and SETUP RELIST
         RemoveLoanFromBorrowerAndLender(Borrower, address(0), Collection, ID);
 
         // if(relist == true){
@@ -121,7 +122,7 @@ contract PlotsCore {
         //     }
         //     ListedBool[Collection][ID] = true;
         // }
-        
+
         ActiveLoan[Borrower] = false;
     }
 
@@ -287,27 +288,48 @@ contract PlotsCore {
     }
 
     //remove loan from a borrower and a lender with just the loan address IN ONE function
-    function RemoveLoanFromBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{
-        uint256 loanIndex = AllLoansIndex[Collection][ID];
-        require(loanIndex != 0, "Loan does not exist");
+    function RemoveLoanFromBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal {
+    uint256 loanIndex = AllLoansIndex[Collection][ID];
+    require(loanIndex < AllLoans.length, "Loan does not exist");
+
+    // Remove from borrower's list
+    uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][loanIndex];
+    uint256 lastBorrowerLoanIndex = AllUserBorrows[Borrower].length - 1;
     
-        uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][Collection][ID];
-        AllUserBorrows[Borrower][borrowerLoanIndex] = AllUserBorrows[Borrower][AllUserBorrows[Borrower].length - 1];
-        AllUserBorrowsIndex[Borrower][AllUserBorrows[Borrower][borrowerLoanIndex].Collection][AllUserBorrows[Borrower][borrowerLoanIndex].ID] = borrowerLoanIndex;
-        AllUserBorrows[Borrower].pop();
-        AllUserBorrowsIndex[Borrower][Collection][ID] = 0;
-    
-        uint256 lenderLoanIndex = AllUserLoansIndex[Lender][Collection][ID];
-        AllUserLoans[Lender][lenderLoanIndex] = AllUserLoans[Lender][AllUserLoans[Lender].length - 1];
-        AllUserLoansIndex[Lender][AllUserLoans[Lender][lenderLoanIndex].Collection][AllUserLoans[Lender][lenderLoanIndex].ID] = lenderLoanIndex;
-        AllUserLoans[Lender].pop();
-        AllUserLoansIndex[Lender][Collection][ID] = 0;
-    
-        AllLoans[loanIndex] = AllLoans[AllLoans.length - 1];
-        AllLoansIndex[AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = loanIndex;
-        AllLoans.pop();
-        AllLoansIndex[Collection][ID] = 0;
+    if (borrowerLoanIndex != lastBorrowerLoanIndex) {
+        uint256 lastBorrowerLoanID = AllUserBorrows[Borrower][lastBorrowerLoanIndex];
+        AllUserBorrows[Borrower][borrowerLoanIndex] = lastBorrowerLoanID;
+        AllUserBorrowsIndex[Borrower][lastBorrowerLoanID] = borrowerLoanIndex;
     }
+    
+    AllUserBorrows[Borrower].pop();
+    delete AllUserBorrowsIndex[Borrower][loanIndex];
+
+    // Remove from lender's list
+    uint256 lenderLoanIndex = AllUserLoansIndex[Lender][loanIndex];
+    uint256 lastLenderLoanIndex = AllUserLoans[Lender].length - 1;
+    
+    if (lenderLoanIndex != lastLenderLoanIndex) {
+        uint256 lastLenderLoanID = AllUserLoans[Lender][lastLenderLoanIndex];
+        AllUserLoans[Lender][lenderLoanIndex] = lastLenderLoanID;
+        AllUserLoansIndex[Lender][lastLenderLoanID] = lenderLoanIndex;
+    }
+
+    AllUserLoans[Lender].pop();
+    delete AllUserLoansIndex[Lender][loanIndex];
+
+    // Remove from global loan list
+    uint256 lastLoanIndex = AllLoans.length - 1;
+    if (loanIndex != lastLoanIndex) {
+        LoanInfo memory lastLoan = AllLoans[lastLoanIndex];
+        AllLoans[loanIndex] = lastLoan;
+        AllLoansIndex[lastLoan.Collection][lastLoan.ID] = loanIndex;
+    }
+
+    AllLoans.pop();
+    delete AllLoansIndex[Collection][ID];
+}
+
 
     function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{
         FeeReceiver = NewReceiver;
@@ -453,13 +475,6 @@ contract PlotsTreasury {
     function SetVLND(address _vlnd) public OnlyAdmin{
         require(VLND == address(0), "VLND already set");
         VLND = _vlnd;
-    }
-
-    //return from loan (transferfrom the token location back to the treeasury, set token location to this)
-    function SetLoanStatus(address Collection, uint256 TokenID, bool InLoan) external OnlyCore(){
-        require(IERC721(Collection).ownerOf(TokenID) == address(this), "Token not in treasury");
-        
-        InLoan[Collection][TokenID] = InLoan;
     }
 
     //internals

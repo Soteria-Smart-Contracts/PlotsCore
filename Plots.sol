@@ -605,7 +605,14 @@ contract PlotsLend {
     //View Functions 
 
     function GetUserTokens(address _user) public view returns(Token[] memory, bool IsListed, bool InLoan){
-        return (AllUserTokens[_user], PlotsCore(PlotsCoreContract).IsListed(AllUserTokens[_user][0].Collection, AllUserTokens[_user][0].TokenId), PlotsCore(PlotsCoreContract).InLoanBool(AllUserTokens[_user][0].Collection, AllUserTokens[_user][0].TokenId));
+        Token[] memory userTokens = AllUserTokens[_user];
+        bool isListed = false;
+        bool inLoan = false;
+        if (userTokens.length > 0) {
+            isListed = PlotsCore(PlotsCoreContract).IsListed(userTokens[0].Collection, userTokens[0].TokenId);
+            inLoan = PlotsCore(PlotsCoreContract).InLoanBool(userTokens[0].Collection, userTokens[0].TokenId);
+        }
+        return (userTokens, isListed, inLoan);
     }
 
     function GetTokenDepositor(address Collection, uint256 TokenId) public view returns(address){

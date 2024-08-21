@@ -114,14 +114,14 @@ contract PlotsCore {
         //TODO: Review Lender and SETUP RELIST
         RemoveLoanFromBorrowerAndLender(Borrower, address(0), Collection, ID);
 
-        // if(relist == true){
-        //     require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
-        //     AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
-        //     if(Lender != Treasury){
-        //         AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
-        //     }
-        //     ListedBool[Collection][ID] = true;
-        // }
+        if(relist == true){
+            require(Lender == msg.sender || Lender == Treasury || Admins[msg.sender], "Not owner of token or admin");
+            AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
+            if(Lender != Treasury){
+            AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
+            }
+            ListedBool[Collection][ID] = true;
+        }
 
         ActiveLoan[Borrower] = false;
     }

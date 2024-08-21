@@ -215,10 +215,9 @@ contract PlotsCore {
         //}
     }
 
-    // function GetAllLoans() public view returns(address[] calldata){
-    //     return AllLoans;
-    // }
-    //TODO:FIX
+    function GetAllLoans() public view returns(LoanInfo[] calldata){
+        return AllLoans;
+    }
 
     function GetUserLoans(address _user) public view returns(uint256[] memory){
         return AllUserLoans[_user];
@@ -233,7 +232,7 @@ contract PlotsCore {
     }
 
     function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory){
-        return (ListingsByCollection[_collection], _prices);
+        return (ListingsByCollection[_collection]);
     }
 
     //Internal Functions
@@ -280,46 +279,46 @@ contract PlotsCore {
 
     //remove loan from a borrower and a lender with just the loan address IN ONE function
     function RemoveLoanFromBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal {
-    uint256 loanIndex = AllLoansIndex[Collection][ID];
-    require(loanIndex < AllLoans.length, "Loan does not exist");
+        uint256 loanIndex = AllLoansIndex[Collection][ID];
+        require(loanIndex < AllLoans.length, "Loan does not exist");
 
-    // Remove from borrower's list
-    uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][loanIndex];
-    uint256 lastBorrowerLoanIndex = AllUserBorrows[Borrower].length - 1;
-    
-    if (borrowerLoanIndex != lastBorrowerLoanIndex) {
-        uint256 lastBorrowerLoanID = AllUserBorrows[Borrower][lastBorrowerLoanIndex];
-        AllUserBorrows[Borrower][borrowerLoanIndex] = lastBorrowerLoanID;
-        AllUserBorrowsIndex[Borrower][lastBorrowerLoanID] = borrowerLoanIndex;
+        // Remove from borrower's list
+        uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][loanIndex];
+        uint256 lastBorrowerLoanIndex = AllUserBorrows[Borrower].length - 1;
+        
+        if (borrowerLoanIndex != lastBorrowerLoanIndex) {
+            uint256 lastBorrowerLoanID = AllUserBorrows[Borrower][lastBorrowerLoanIndex];
+            AllUserBorrows[Borrower][borrowerLoanIndex] = lastBorrowerLoanID;
+            AllUserBorrowsIndex[Borrower][lastBorrowerLoanID] = borrowerLoanIndex;
+        }
+        
+        AllUserBorrows[Borrower].pop();
+        delete AllUserBorrowsIndex[Borrower][loanIndex];
+
+        // Remove from lender's list
+        uint256 lenderLoanIndex = AllUserLoansIndex[Lender][loanIndex];
+        uint256 lastLenderLoanIndex = AllUserLoans[Lender].length - 1;
+        
+        if (lenderLoanIndex != lastLenderLoanIndex) {
+            uint256 lastLenderLoanID = AllUserLoans[Lender][lastLenderLoanIndex];
+            AllUserLoans[Lender][lenderLoanIndex] = lastLenderLoanID;
+            AllUserLoansIndex[Lender][lastLenderLoanID] = lenderLoanIndex;
+        }
+
+        AllUserLoans[Lender].pop();
+        delete AllUserLoansIndex[Lender][loanIndex];
+
+        // Remove from global loan list
+        uint256 lastLoanIndex = AllLoans.length - 1;
+        if (loanIndex != lastLoanIndex) {
+            LoanInfo memory lastLoan = AllLoans[lastLoanIndex];
+            AllLoans[loanIndex] = lastLoan;
+            AllLoansIndex[lastLoan.Collection][lastLoan.ID] = loanIndex;
+        }
+
+        AllLoans.pop();
+        delete AllLoansIndex[Collection][ID];
     }
-    
-    AllUserBorrows[Borrower].pop();
-    delete AllUserBorrowsIndex[Borrower][loanIndex];
-
-    // Remove from lender's list
-    uint256 lenderLoanIndex = AllUserLoansIndex[Lender][loanIndex];
-    uint256 lastLenderLoanIndex = AllUserLoans[Lender].length - 1;
-    
-    if (lenderLoanIndex != lastLenderLoanIndex) {
-        uint256 lastLenderLoanID = AllUserLoans[Lender][lastLenderLoanIndex];
-        AllUserLoans[Lender][lenderLoanIndex] = lastLenderLoanID;
-        AllUserLoansIndex[Lender][lastLenderLoanID] = lenderLoanIndex;
-    }
-
-    AllUserLoans[Lender].pop();
-    delete AllUserLoansIndex[Lender][loanIndex];
-
-    // Remove from global loan list
-    uint256 lastLoanIndex = AllLoans.length - 1;
-    if (loanIndex != lastLoanIndex) {
-        LoanInfo memory lastLoan = AllLoans[lastLoanIndex];
-        AllLoans[loanIndex] = lastLoan;
-        AllLoansIndex[lastLoan.Collection][lastLoan.ID] = loanIndex;
-    }
-
-    AllLoans.pop();
-    delete AllLoansIndex[Collection][ID];
-}
 
 
     function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{

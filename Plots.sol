@@ -291,17 +291,17 @@ contract PlotsCore {
         uint256 loanIndex = AllLoansIndex[Collection][ID];
         require(loanIndex != 0, "Loan does not exist");
     
-        uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][Collection][ID];
+        uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID];
         AllUserBorrows[Borrower][borrowerLoanIndex] = AllUserBorrows[Borrower][AllUserBorrows[Borrower].length - 1];
-        AllUserBorrowsIndex[Borrower][AllUserBorrows[Borrower][borrowerLoanIndex].Collection][AllUserBorrows[Borrower][borrowerLoanIndex].ID] = borrowerLoanIndex;
+        AllUserBorrowsIndex[Borrower][AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = borrowerLoanIndex;
         AllUserBorrows[Borrower].pop();
-        AllUserBorrowsIndex[Borrower][Collection][ID] = 0;
+        AllUserBorrowsIndex[Borrower][AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = 0;
     
-        uint256 lenderLoanIndex = AllUserLoansIndex[Lender][Collection][ID];
+        uint256 lenderLoanIndex = AllUserLoansIndex[Lender][AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID];
         AllUserLoans[Lender][lenderLoanIndex] = AllUserLoans[Lender][AllUserLoans[Lender].length - 1];
-        AllUserLoansIndex[Lender][AllUserLoans[Lender][lenderLoanIndex].Collection][AllUserLoans[Lender][lenderLoanIndex].ID] = lenderLoanIndex;
+        AllUserLoansIndex[Lender][AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = lenderLoanIndex;
         AllUserLoans[Lender].pop();
-        AllUserLoansIndex[Lender][Collection][ID] = 0;
+        AllUserLoansIndex[Lender][AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = 0;
     
         AllLoans[loanIndex] = AllLoans[AllLoans.length - 1];
         AllLoansIndex[AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = loanIndex;

@@ -99,37 +99,28 @@ contract PlotsCore {
 
     function CloseLoan(address Collection, uint256 ID, bool relist) public{
         require(
-            AllLoans[AllLoansIndex[Collection][ID]].Borrower() == msg.sender ||
+            AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender ||
             Admins[msg.sender],
             "Invalid loan"
         );
 
-        address Borrower = AllLoans[AllLoansIndex[Collection][ID]].Borrower();
-        address Lender = AllLoans[AllLoansIndex[Collection][ID]].Lender();
-        address Origin = AllLoans[AllLoansIndex[Collection][ID]].Origin();
+        address Borrower = AllLoans[AllLoansIndex[Collection][ID]].Borrower;
+        address Origin = AllLoans[AllLoansIndex[Collection][ID]].Origin;
 
-        if(Origin == LendContract){
-            PlotsLend(LendContract).ReturnedFromLoan(Collection, ID);
-        }
-        else if(Origin == Treasury){
-            PlotsTreasury(Treasury).ReturnedFromLoan(Collection, ID);
-        }
-        else{
-            revert("Invalid loan");
-        }
 
-        AllLoansIndex[Collection][ID] = address(0);
+        AllLoansIndex[Collection][ID] = 0;
         OwnershipByPurchase[Collection][ID] = address(0);
-        RemoveLoanFromBorrowerAndLender(Borrower, Lender, Collection, ID);
+        //TODO: Review Lender
+        RemoveLoanFromBorrowerAndLender(Borrower, address(0), Collection, ID);
 
-        if(relist == true){
-            require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
-            AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
-            if(Lender != Treasury){
-                AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
-            }
-            ListedBool[Collection][ID] = true;
-        }
+        // if(relist == true){
+        //     require(Lender == msg.sender || Lender == Treasury, "Not owner of token");
+        //     AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
+        //     if(Lender != Treasury){
+        //         AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
+        //     }
+        //     ListedBool[Collection][ID] = true;
+        // }
         
         ActiveLoan[Borrower] = false;
     }
@@ -213,18 +204,20 @@ contract PlotsCore {
     }
 
     function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
-        uint256 Expiry = AllLoans[AllLoansIndex[Collection][TokenId]].LoanEndTime;
-        if(Expiry > block.timestamp){
-            return address(0);
-        }
-        else{
+        //TODO:Review
+        // uint256 Expiry = AllLoans[AllLoansIndex[Collection][TokenId]].LoanEndTime;
+        // if(Expiry > block.timestamp){
+        //     return address(0);
+        // }
+        // else{
             return OwnershipByPurchase[Collection][TokenId];
-        }
+        //}
     }
 
-    function GetAllLoans() public view returns(address[] memory){
-        return AllLoans;
-    }
+    // function GetAllLoans() public view returns(address[] calldata){
+    //     return AllLoans;
+    // }
+    //TODO:FIX
 
     function GetUserLoans(address _user) public view returns(address[] memory){
         return AllUserLoans[_user];
@@ -545,8 +538,6 @@ contract PlotsLend {
     }
 
     mapping(address => mapping(uint256 => address)) public TokenDepositor;
-    //tokenstatus mapping to check if token is in a loan
-    mapping(address => mapping(uint256 => bool)) public InLoan;
 
     //all deposited tokens array mapping
     mapping(address => Token[]) public AllUserTokens;
@@ -558,7 +549,6 @@ contract PlotsLend {
         IERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenDepositor[Collection][TokenId] = msg.sender;
-        TokenLocation[Collection][TokenId] = address(this);
         AllUserTokens[msg.sender].push(Token(Collection, TokenId));
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
 
@@ -576,7 +566,6 @@ contract PlotsLend {
 
     function WithdrawToken(address Collection, uint256 TokenId) public {
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
-        require(TokenLocation[Collection][TokenId] == address(this), "Token not in lending contract");
 
         // Automatically delist the token if it is listed
         if (PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId)) {
@@ -586,7 +575,6 @@ contract PlotsLend {
         IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         TokenDepositor[Collection][TokenId] = address(0);
-        TokenLocation[Collection][TokenId] = address(0);
 
         uint256 lastIndex = AllUserTokens[msg.sender].length - 1;
         uint256 currentIndex = AllUserTokensIndex[msg.sender][Collection][TokenId];
@@ -606,12 +594,6 @@ contract PlotsLend {
         }
     }
 
-    //send and return from loan functions
-
-    function ReturnedFromLoan(address Collection, uint256 TokenID) external OnlyCore{        
-        TokenLocation[Collection][TokenID] = address(this);
-    }
-
     //View Functions 
 
     function GetUserTokens(address _user) public view returns(Token[] memory){
@@ -621,23 +603,10 @@ contract PlotsLend {
     function GetTokenDepositor(address Collection, uint256 TokenId) public view returns(address){
         return TokenDepositor[Collection][TokenId];
     }
-
-    function GetTokenLocation(address Collection, uint256 TokenId) public view returns(address){
-        return TokenLocation[Collection][TokenId];
-    }
 }
 
 
 library Calculations {
-    function CalculateBorrowCost(PlotsCore.OwnershipPercent Ownership, uint256 TokenValue, uint256 Fee) internal pure returns(uint256){
-        if(Ownership == PlotsCore.OwnershipPercent.Ten){
-            return Fee + ((TokenValue * 10) / 100);
-        }
-        else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
-            return Fee + ((TokenValue * 25) / 100);
-        }
-        return 0;
-    }
 
     function CalculateVLNDPrice(uint256 TotalValue, uint256 VLNDSupply, uint256 InitialVLNDPrice) internal pure returns(uint256){
         if (VLNDSupply == 0){
@@ -646,19 +615,6 @@ library Calculations {
         else {
             return TotalValue / (VLNDSupply / 10 ** 18);
         }
-    }
-
-    function GetRewardShareFromOwnership(PlotsCore.OwnershipPercent Ownership) internal pure returns(uint256){
-        if(Ownership == PlotsCore.OwnershipPercent.Zero){
-            return 3000;
-        }
-        else if(Ownership == PlotsCore.OwnershipPercent.Ten){
-            return 5000;
-        }
-        else if(Ownership == PlotsCore.OwnershipPercent.TwentyFive){
-            return 6500;
-        }
-        return 0;
     }
 }
 

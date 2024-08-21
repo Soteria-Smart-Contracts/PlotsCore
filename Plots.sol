@@ -290,23 +290,23 @@ contract PlotsCore {
     function RemoveLoanFromBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{
         uint256 loanIndex = AllLoansIndex[Collection][ID];
         require(loanIndex != 0, "Loan does not exist");
-
-        AllLoans[loanIndex] = AllLoans[AllLoans.length - 1];
-        AllLoansIndex[AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = loanIndex;
-        AllLoans.pop();
-        AllLoansIndex[Collection][ID] = 0;
-
-        uint256 lenderLoanIndex = AllUserLoansIndex[Lender][Collection][ID];
-        AllUserLoans[Lender][lenderLoanIndex] = AllUserLoans[Lender][AllUserLoans[Lender].length - 1];
-        AllUserLoansIndex[Lender][AllUserLoans[Lender][lenderLoanIndex].Collection][AllUserLoans[Lender][lenderLoanIndex].ID] = lenderLoanIndex;
-        AllUserLoans[Lender].pop();
-        AllUserLoansIndex[Lender][Collection][ID] = 0;
-
+    
         uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][Collection][ID];
         AllUserBorrows[Borrower][borrowerLoanIndex] = AllUserBorrows[Borrower][AllUserBorrows[Borrower].length - 1];
         AllUserBorrowsIndex[Borrower][AllUserBorrows[Borrower][borrowerLoanIndex].Collection][AllUserBorrows[Borrower][borrowerLoanIndex].ID] = borrowerLoanIndex;
         AllUserBorrows[Borrower].pop();
         AllUserBorrowsIndex[Borrower][Collection][ID] = 0;
+    
+        uint256 lenderLoanIndex = AllUserLoansIndex[Lender][Collection][ID];
+        AllUserLoans[Lender][lenderLoanIndex] = AllUserLoans[Lender][AllUserLoans[Lender].length - 1];
+        AllUserLoansIndex[Lender][AllUserLoans[Lender][lenderLoanIndex].Collection][AllUserLoans[Lender][lenderLoanIndex].ID] = lenderLoanIndex;
+        AllUserLoans[Lender].pop();
+        AllUserLoansIndex[Lender][Collection][ID] = 0;
+    
+        AllLoans[loanIndex] = AllLoans[AllLoans.length - 1];
+        AllLoansIndex[AllLoans[loanIndex].Collection][AllLoans[loanIndex].ID] = loanIndex;
+        AllLoans.pop();
+        AllLoansIndex[Collection][ID] = 0;
     }
 
     function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{

@@ -280,10 +280,10 @@ contract PlotsCore {
         AllLoansIndex[Collection][ID] = AllLoans.length - 1;
 
         AllUserLoans[Lender].push(AllLoansIndex[Collection][ID]);
-        AllUserLoansIndex[Lender][AllLoansIndex[Collection][ID]] = AllUserLoans[Lender][Collection].length - 1;
+        AllUserLoansIndex[Lender][AllLoansIndex[Collection][ID]] = AllUserLoans[Lender].length - 1;
 
         AllUserBorrows[Borrower].push(AllLoansIndex[Collection][ID]);
-        AllUserBorrowsIndex[Borrower][Collection][ID] = AllUserBorrows[Borrower][Collection].length - 1;
+        AllUserBorrowsIndex[Borrower][AllLoansIndex[Collection][ID]] = AllUserBorrows[Borrower].length - 1;
     }
 
     //remove loan from a borrower and a lender with just the loan address IN ONE function

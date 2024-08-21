@@ -269,9 +269,8 @@ contract PlotsCore {
         ListingsByUserIndex[_user][_collection][ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]].TokenId] = ListingsByUserIndex[_user][_collection][_tokenId];
         ListingsByUser[_user].pop();
 
-        LoanInfo memory loan = LoanInfo(Collection, ID, Lender, Borrower);
-        AllLoans.push(loan);
-        AllLoansIndex[Collection][ID] = AllLoans.length - 1;
+        ListingsByUserIndex[_user][_collection][_tokenId] = 0;
+    }
 
     //add loan to a borrower and a lender with just the loan address IN ONE function
     function AddLoanToBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{

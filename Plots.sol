@@ -513,7 +513,11 @@ contract PlotsTreasury {
         uint256 TotalValue = GetTotalValue();
         uint256 VLNDInCirculation = GetVLNDInCirculation();
 
-        return CalculateVLNDPrice(TotalValue, VLNDInCirculation);
+        if (TotalValue == 0) {
+            return InitialVLNDPrice;
+        } else {
+            return CalculateVLNDPrice(TotalValue, VLNDInCirculation);
+        }
     }
 
     //get vlnd in circulation by subtracting the vlnd in the treasury from the total supply

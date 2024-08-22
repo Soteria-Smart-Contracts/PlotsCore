@@ -514,7 +514,7 @@ contract PlotsTreasury {
         uint256 VLNDInCirculation = GetVLNDInCirculation();
 
         if (TotalValue == 0) {
-            return InitialVLNDPrice;
+            return 380000000000000;;
         } else {
             return CalculateVLNDPrice(TotalValue, VLNDInCirculation);
         }

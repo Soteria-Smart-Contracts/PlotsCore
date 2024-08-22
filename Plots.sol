@@ -538,6 +538,8 @@ contract PlotsLend {
     struct Token{
         address Collection;
         uint256 TokenId;
+        bool IsListed,
+        bool InLoan
     }
 
     modifier OnlyCore(){

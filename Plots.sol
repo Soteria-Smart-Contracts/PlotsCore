@@ -559,7 +559,7 @@ contract PlotsLend {
         IERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenDepositor[Collection][TokenId] = msg.sender;
-        AllUserTokens[msg.sender].push(Token(Collection, TokenId));
+        AllUserTokens[msg.sender].push(Token(Collection, TokenId, true, false));
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
 
         PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, msg.sender);

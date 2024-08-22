@@ -388,7 +388,12 @@ contract PlotsTreasury {
         uint256 TotalValue = GetTotalValue() - msg.value;
         uint256 VLNDInCirculation = GetVLNDInCirculation();
 
-        uint256 VLNDPrice = CalculateVLNDPrice(TotalValue, VLNDInCirculation);
+        uint256 VLNDPrice;
+        if (TotalValue > 0) {
+            VLNDPrice = CalculateVLNDPrice(TotalValue, VLNDInCirculation);
+        } else {
+            VLNDPrice = 380000000000000; // 0.00038 ETH with 18 decimals
+        }
         uint256 Amount = (msg.value * 10**18) / VLNDPrice;
 
         UserAvgEntryPrice[msg.sender] = ((UserAvgEntryPrice[msg.sender] * IERC20(VLND).balanceOf(msg.sender)) + (VLNDPrice * Amount)) / (IERC20(VLND).balanceOf(msg.sender) + Amount);

@@ -604,7 +604,7 @@ contract PlotsLend {
 
     //View Functions 
 
-    function GetUserTokens(address _user) public view returns(bool[] memory IsListed, bool[] memory InLoan){
+    function GetUserTokens(address _user) public view returns(Token[] memory UserTokens, bool[] memory IsListed, bool[] memory InLoan){
         Token[] memory userTokens = AllUserTokens[_user];
         bool[] memory isListed = new bool[](userTokens.length);
         bool[] memory inLoan = new bool[](userTokens.length);
@@ -612,7 +612,7 @@ contract PlotsLend {
             isListed[i] = PlotsCore(PlotsCoreContract).IsListed(userTokens[i].Collection, userTokens[i].TokenId);
             inLoan[i] = PlotsCore(PlotsCoreContract).InLoanBool(userTokens[i].Collection, userTokens[i].TokenId);
         }
-        return (isListed, inLoan);
+        return (userTokens, isListed, inLoan);
     }
 
     function GetTokenDepositor(address Collection, uint256 TokenId) public view returns(address){

@@ -395,11 +395,6 @@ contract PlotsTreasury {
 
         require(Amount >= minOut, "Amount must be greater than or equal to minOut");
 
-        if (TotalValue == 0) {
-            VLNDPrice = 0.00038 * 10**18;
-            Amount = (msg.value * 10**18) / VLNDPrice;
-        }
-
         IERC20(VLND).Mint(msg.sender, Amount);
     }
     

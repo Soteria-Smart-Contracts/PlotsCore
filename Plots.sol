@@ -552,7 +552,7 @@ contract PlotsLend {
     mapping(address => mapping(address => mapping(uint256 => uint256))) public AllUserTokensIndex;
 
     //allow a user to deposit a token into the lending contract from any collection that is listed on the core contract
-    function DepositToken(address Collection, uint256 TokenId, bool autolist) public{
+    function DepositToken(address Collection, uint256 TokenId) public{
         require(IERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         IERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
@@ -560,9 +560,7 @@ contract PlotsLend {
         AllUserTokens[msg.sender].push(Token(Collection, TokenId));
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
 
-        if(autolist == true){
             PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, msg.sender);
-        }
     }
 
     function DepositTokens(address[] memory Collections, uint256[] memory TokenIds, bool autolist) public{

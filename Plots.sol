@@ -435,15 +435,13 @@ contract PlotsTreasury {
 
         AddTokenToCollection(Collection, TokenId);
 
-        if (Autolist) {
-            PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
-        }
+        PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
     }
 
     function DepositNFTs(address[] memory Collections, uint256[] memory TokenIds) public OnlyAdmin {
         require(Collections.length == TokenIds.length, "Arrays not same length");
         for (uint256 i = 0; i < Collections.length; i++) {
-            DepositNFT(Collections[i], TokenIds[i], autolist);
+            DepositNFT(Collections[i], TokenIds[i]);
         }
     }
 

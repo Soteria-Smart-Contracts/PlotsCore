@@ -429,7 +429,7 @@ contract PlotsTreasury {
         payable(msg.sender).transfer(Value);
     }
 
-    function DepositNFT(address Collection, uint256 TokenId, bool Autolist) public OnlyAdmin {
+    function DepositNFT(address Collection, uint256 TokenId) public OnlyAdmin {
         require(IERC721(Collection).ownerOf(TokenId) == msg.sender, "Not owner of token");
         IERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
@@ -440,7 +440,7 @@ contract PlotsTreasury {
         }
     }
 
-    function DepositNFTs(address[] memory Collections, uint256[] memory TokenIds, bool autolist) public OnlyAdmin {
+    function DepositNFTs(address[] memory Collections, uint256[] memory TokenIds) public OnlyAdmin {
         require(Collections.length == TokenIds.length, "Arrays not same length");
         for (uint256 i = 0; i < Collections.length; i++) {
             DepositNFT(Collections[i], TokenIds[i], autolist);

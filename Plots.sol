@@ -113,7 +113,7 @@ contract PlotsCore {
         ActiveLoan[msg.sender] = true; // Track active loan
     }
 
-    function CloseLoan(address Collection, uint256 ID, bool relist) public{
+    function CloseLoan(address Collection, uint256 ID) public{
         require(
             AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender ||
             Admins[msg.sender],

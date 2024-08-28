@@ -586,6 +586,8 @@ contract PlotsLend {
         AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
     }
 
+    //create an autowithdraw
+
     function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{
         require(Collections.length == TokenIds.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){

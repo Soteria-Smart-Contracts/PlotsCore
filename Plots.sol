@@ -163,7 +163,7 @@ contract PlotsCore {
         ListedBool[Collection][TokenId] = true;
     }
 
-    function DelistToken(address Collection, uint256 TokenId) internal {
+    function DelistToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] == true && ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Collection not listed or token not listed");
 
         address lister = ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister;
@@ -187,7 +187,7 @@ contract PlotsCore {
 
 
     function AutoList(address Collection, uint256 TokenId, address User) external{
-        require(msg.sender == Treasury || msg.sender == LendContract, "Only Treasury or Lend Contract");
+        require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
 
         if(msg.sender == Treasury){
             AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));

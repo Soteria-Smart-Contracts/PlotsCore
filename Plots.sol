@@ -127,6 +127,7 @@ contract PlotsCore {
 
         AllLoansIndex[Collection][ID] = 0;
         OwnershipByPurchase[Collection][ID] = address(0);
+        UsageExpirationUnix[Collection][ID] = 0;
         RemoveLoanFromBorrowerAndLender(Borrower, address(0), Collection, ID);
 
         if(relist == true){
@@ -137,7 +138,7 @@ contract PlotsCore {
             }
             ListedBool[Collection][ID] = true;
         }
-        
+
         ActiveLoan[Borrower] = false;
     }
 

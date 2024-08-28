@@ -146,23 +146,6 @@ contract PlotsCore {
 
     // Listings ---------------------------------------------------------------------------------
 
-    function ListToken(address Collection, uint256 TokenId) public{
-        require(ListedCollectionsMap[Collection] == true && ListedBool[Collection][TokenId] == false, "Collection not listed or token already listed");
-
-        if(Admins[msg.sender]){
-            require(IERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
-            AddListingToUser(Lender, Collection, ID, Listing(Treasury, Collection, ID));
-            AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));
-        }
-        else{
-            require(IERC721(Collection).ownerOf(TokenId) == LendContract && PlotsLend(LendContract).GetTokenDepositor(Collection, TokenId) == msg.sender, "Invalid ownership or token not owned by lending contract");
-            AddListingToCollection(Collection, TokenId, Listing(msg.sender, Collection, TokenId));
-            AddListingToUser(msg.sender, Collection, TokenId, Listing(msg.sender, Collection, TokenId));
-        }
-
-        ListedBool[Collection][TokenId] = true;
-    }
-
     function DelistToken(address Collection, uint256 TokenId) public{
         require(ListedCollectionsMap[Collection] == true && ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Collection not listed or token not listed");
 

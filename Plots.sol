@@ -419,7 +419,6 @@ contract PlotsTreasury {
         IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         if (!PlotsCore(PlotsCoreContract).IsTokenInLoan(Collection, TokenId)) {
-            //autodelist
             PlotsCore(PlotsCoreContract).AutoDelist(Collection, TokenId);
         } else {
             PlotsCore(PlotsCoreContract).CloseLoan(Collection, TokenId);

@@ -568,10 +568,7 @@ contract PlotsLend {
     function WithdrawToken(address Collection, uint256 TokenId) public {
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
 
-        // Automatically delist the token if it is listed
-        if (PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId)) {
-            PlotsCore(PlotsCoreContract).DelistToken(Collection, TokenId);
-        }
+        AutoDelist(Collection, TokenId);
 
         IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 

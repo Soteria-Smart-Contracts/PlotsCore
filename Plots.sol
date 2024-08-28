@@ -307,7 +307,9 @@ contract PlotsCore {
         
         for (uint256 i = 0; i < collections.length; i++) {
             address borrower = AllLoans[AllLoansIndex[collections[i]][tokenIds[i]]].Borrower;
-            Blacklisted[borrower] = true;
+            if (blacklist) {
+                Blacklisted[borrower] = true;
+            }
             
             // Close the loan
             CloseLoan(collections[i], tokenIds[i]);

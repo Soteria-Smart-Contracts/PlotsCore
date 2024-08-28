@@ -161,6 +161,8 @@ contract PlotsCore {
         ListedBool[Collection][TokenId] = true;
     }
 
+    //auto delist, only treasury and lending contract can call this function, 
+
     function ManageTokens(address[] memory Collections, uint256[] memory TokenIds, bool isList) public {
         require(Collections.length == TokenIds.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){

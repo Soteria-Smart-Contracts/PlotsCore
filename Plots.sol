@@ -85,7 +85,6 @@ contract PlotsCore {
         LendContract = _lendContract;
     }
 
-    //TODO: Fix Duration for only P2p
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration) public NotBlacklisted payable {
         require(ListedCollectionsMap[Collection] == true, "Collection N/Listed");
         require(ActiveLoan[msg.sender] == false, "User already has an active loan"); // Check for active loan

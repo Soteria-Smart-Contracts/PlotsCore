@@ -449,7 +449,6 @@ contract PlotsTreasury {
         require(IERC721(Collection).ownerOf(TokenId) == address(this), "Not owner of token");
         IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
-        // Check if listed, if so remove listing
         PlotsCore(PlotsCoreContract).DelistToken(Collection, TokenId);
 
         RemoveTokenFromCollection(Collection, TokenId);

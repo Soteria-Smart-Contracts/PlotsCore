@@ -606,6 +606,7 @@ contract PlotsLend {
             AllUserTokens[msg.sender][currentIndex] = AllUserTokens[msg.sender][lastIndex];
             AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][currentIndex].TokenId] = currentIndex;
         }
+        
         AllUserTokens[msg.sender].pop();
         AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
     }

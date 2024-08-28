@@ -132,8 +132,8 @@ contract PlotsCore {
         if(Lender == Treasury){
             AddListingToCollection(Collection, ID, Listing(Treasury, Collection, ID));
             ListedBool[Collection][ID] = true;
-            }
-            else{
+        }
+        else{
             require(Lender == msg.sender || Admins[msg.sender], "Not owner of token or admin, cannot relist");
             AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
             AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));

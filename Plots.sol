@@ -92,6 +92,8 @@ contract PlotsCore {
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 
+        //if the token is listed from the treasury, ingore the dur
+
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         RemoveListingFromCollection(Collection, TokenId);

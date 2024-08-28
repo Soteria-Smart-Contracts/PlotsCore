@@ -593,9 +593,10 @@ contract PlotsLend {
     //create an autowithdraw to be called on closeloan
 
     function Autowithdraw(address Collection, uint256 TokenId) public OnlyCore{
-        
         IERC721(Collection).transferFrom(address(this), TokenDepositor[Collection][TokenId], TokenId);
         TokenDepositor[Collection][TokenId] = address(0);
+
+        
     }
 
     function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{

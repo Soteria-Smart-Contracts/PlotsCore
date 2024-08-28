@@ -114,7 +114,7 @@ contract PlotsCore {
     }
 
     function CloseLoan(address Collection, uint256 ID) public{
-        require(AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender || Admins[msg.sender] || Treasury == msg.sender || , "Not owner of loan");
+        require(AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender || Admins[msg.sender] || A, "Not owner of loan");
             "Invalid loan"
         );
 

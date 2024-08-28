@@ -584,13 +584,6 @@ contract PlotsLend {
         AllUserTokensIndex[TokenDepositor[Collection][TokenId]][Collection][TokenId] = 0;
     }
 
-    function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{
-        require(Collections.length == TokenIds.length, "Arrays not same length");
-        for(uint256 i = 0; i < Collections.length; i++){
-            WithdrawToken(Collections[i], TokenIds[i]);
-        }
-    }
-
     //View Functions 
 
     function GetUserTokens(address _user) public view returns(Token[] memory UserTokens, bool[] memory IsListed, bool[] memory InLoan){

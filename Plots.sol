@@ -128,13 +128,17 @@ contract PlotsCore {
         UsageExpirationUnix[Collection][ID] = 0;
         RemoveLoanFromBorrowerAndLender(Borrower, address(0), Collection, ID);
 
-        if(relist == true){
-            require(Lender == msg.sender || Lender == Treasury || Admins[msg.sender], "Not owner of token or admin, cannot relist");
-            AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
-            if(Lender != Treasury){
-            AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
-            }
+   
+        if(Lender == Treasury){
+            AddListingToCollection(Collection, ID, Listing(Treasury, Collection, ID));
             ListedBool[Collection][ID] = true;
+            }
+            else{
+            require(Lender == msg.sender || Admins[msg.sender], "Not owner of token or admin, cannot relist");
+            AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
+            AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
+            ListedBool[Collection][ID] = true;
+            }
         }
 
         ActiveLoan[Borrower] = false;

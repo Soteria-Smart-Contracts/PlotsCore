@@ -596,6 +596,15 @@ contract PlotsLend {
         IERC721(Collection).transferFrom(address(this), TokenDepositor[Collection][TokenId], TokenId);
         TokenDepositor[Collection][TokenId] = address(0);
 
+        uint256 lastIndex = AllUserTokens[TokenDepositor[Collection][TokenId]].length - 1;
+        uint256 currentIndex = AllUserTokensIndex[TokenDepositor[Collection][TokenId]][Collection][TokenId];
+
+        if (currentIndex != lastIndex) {
+            AllUserTokens[TokenDepositor[Collection][TokenId]][currentIndex] = AllUserTokens[TokenDepositor[Collection][TokenId]][lastIndex];
+            AllUserTokensIndex[TokenDepositor[Collection][TokenId]][Collection][AllUserTokens[TokenDepositor[Collection][TokenId]][currentIndex].TokenId] = currentIndex;
+        }
+
+        
     }
 
     function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{

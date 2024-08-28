@@ -173,17 +173,6 @@ contract PlotsCore {
         ListedBool[Collection][TokenId] = false;
     }
 
-    function ManageTokens(address[] memory Collections, uint256[] memory TokenIds, bool isList) public {
-        require(Collections.length == TokenIds.length, "Arrays not same length");
-        for(uint256 i = 0; i < Collections.length; i++){
-            if (isList) {
-                ListToken(Collections[i], TokenIds[i]);
-            } else {
-                DelistToken(Collections[i], TokenIds[i]);
-            }
-        }
-    }
-
     //get list of all collections  
     function GetCollections() public view returns(address[] memory){
         return ListedCollections;

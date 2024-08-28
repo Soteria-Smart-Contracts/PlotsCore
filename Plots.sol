@@ -588,7 +588,11 @@ contract PlotsLend {
     
     //create an autowithdraw to be called on closeloan
 
-    fun
+    function Autowithdraw(address Collection, uint256 TokenId) public OnlyCore{
+        require(TokenDepositor[Collection][TokenId] != address(0), "Token not deposited");
+        IERC721(Collection).transferFrom(address(this), TokenDepositor[Collection][TokenId], TokenId);
+        TokenDepositor[Collection][TokenId] = address(0);
+    }
 
     function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{
         require(Collections.length == TokenIds.length, "Arrays not same length");

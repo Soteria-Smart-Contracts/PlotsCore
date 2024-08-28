@@ -91,8 +91,8 @@ contract PlotsCore {
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
-        RemoveListingFromCollection(Collection, TokenId);
         RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
+        RemoveListingFromCollection(Collection, TokenId);
         OwnershipByPurchase[Collection][TokenId] = msg.sender;
         ListedBool[Collection][TokenId] = false;
         InLoanBool[Collection][TokenId] = true;
@@ -114,11 +114,10 @@ contract PlotsCore {
 
         AllLoansIndex[Collection][ID] = 0;
         OwnershipByPurchase[Collection][ID] = address(0);
-        //TODO: Review Lender and SETUP RELIST
         RemoveLoanFromBorrowerAndLender(Borrower, address(0), Collection, ID);
 
         if(relist == true){
-            require(Lender == msg.sender || Lender == Treasury || Admins[msg.sender], "Not owner of token or admin");
+            require(Lender == msg.sender || Lender == Treasury || Admins[msg.sender], "Not owner of token or admin, cannot relist");
             AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
             if(Lender != Treasury){
             AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
@@ -174,6 +173,7 @@ contract PlotsCore {
 
         if(msg.sender == Treasury){
             AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));
+            AddListingToUser(Treasury, Collection, TokenId, Listing(Treasury, Collection, TokenId));
         }
         else{
             AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId));
@@ -236,6 +236,10 @@ contract PlotsCore {
 
     function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory){
         return (ListingsByCollection[_collection]);
+    }
+
+    function GetAllLoans() public view returns (LoanInfo[] memory) {
+        return AllLoans;
     }
 
     //Internal Functions
@@ -353,15 +357,15 @@ contract PlotsCore {
     }
 }
 
-
 contract PlotsTreasury {
-    //Variable and pointer Declarations
+    // Variable and pointer Declarations
     address public immutable PlotsCoreContract;
     address public VLND;
 
     uint private InitialVLNDPrice = 500 * (10**12);
+    bool public mintingPaused = false;
 
-    //mapping of all collections to an ether value
+    // Mapping of all collections to an ether value
     mapping(address => uint256) public CollectionEtherValue;
 
     mapping(address => uint256[]) public AllTokensByCollection;
@@ -369,22 +373,31 @@ contract PlotsTreasury {
 
     mapping(address => uint256) public UserAvgEntryPrice;
 
-    modifier OnlyCore(){
+    modifier OnlyCore() {
         require(msg.sender == address(PlotsCoreContract), "Only Core");
         _;
     }
 
-    //only admin modifier using the core contract
-    modifier OnlyAdmin(){
+    // Only admin modifier using the core contract
+    modifier OnlyAdmin() {
         require(PlotsCore(PlotsCoreContract).Admins(msg.sender) == true || msg.sender == PlotsCoreContract, "Only Admin");
         _;
     }
 
-    constructor(address _coreContract){
+    modifier WhenMintingNotPaused() {
+        require(!mintingPaused, "Minting is paused");
+        _;
+    }
+
+    constructor(address _coreContract) {
         PlotsCoreContract = _coreContract;
     }
 
-    function BuyVLND(uint256 minOut) public payable{
+    function SetMintingPaused(bool _mintingPaused) public OnlyAdmin {
+        mintingPaused = _mintingPaused;
+    }
+
+    function BuyVLND(uint256 minOut) public payable WhenMintingNotPaused {
         uint256 TotalValue = GetTotalValue() - msg.value;
         uint256 VLNDInCirculation = GetVLNDInCirculation();
 
@@ -403,7 +416,7 @@ contract PlotsTreasury {
         IERC20(VLND).Mint(msg.sender, Amount);
     }
     
-    function SellVLND(uint256 Amount, uint256 minOut) public {
+    function SellVLND(uint256 Amount, uint256 minOut) public WhenMintingNotPaused {
         uint256 VLNDPrice = GetVLNDPrice();
         uint256 Value = (Amount * VLNDPrice) / 10 ** 18;
 
@@ -421,14 +434,14 @@ contract PlotsTreasury {
 
         AddTokenToCollection(Collection, TokenId);
 
-        if(Autolist == true){
+        if (Autolist) {
             PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, address(this));
         }
     }
 
     function DepositNFTs(address[] memory Collections, uint256[] memory TokenIds, bool autolist) public OnlyAdmin {
         require(Collections.length == TokenIds.length, "Arrays not same length");
-        for(uint256 i = 0; i < Collections.length; i++){
+        for (uint256 i = 0; i < Collections.length; i++) {
             DepositNFT(Collections[i], TokenIds[i], autolist);
         }
     }
@@ -437,8 +450,8 @@ contract PlotsTreasury {
         require(IERC721(Collection).ownerOf(TokenId) == address(this), "Not owner of token");
         IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
-        //check if listed, if so remove listing
-        if(PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId) == true){
+        // Check if listed, if so remove listing
+        if (PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId)) {
             PlotsCore(PlotsCoreContract).DelistToken(Collection, TokenId);
         }
 
@@ -447,7 +460,7 @@ contract PlotsTreasury {
 
     function WithdrawNFTs(address[] memory Collections, uint256[] memory TokenIds) public OnlyAdmin {
         require(Collections.length == TokenIds.length, "Arrays not same length");
-        for(uint256 i = 0; i < Collections.length; i++){
+        for (uint256 i = 0; i < Collections.length; i++) {
             WithdrawNFT(Collections[i], TokenIds[i]);
         }
     }
@@ -461,79 +474,78 @@ contract PlotsTreasury {
         IERC20(Token).transfer(Recipient, Amount);
     }
 
-    //allow admin to set ether value for multiple collections at once, with an array with the collections and an array with the ether values
-    function SetCollectionEtherValue(address[] memory Collections, uint256[] memory EtherValues) public OnlyAdmin{
+    // Allow admin to set ether value for multiple collections at once, with an array with the collections and an array with the ether values
+    function SetCollectionEtherValue(address[] memory Collections, uint256[] memory EtherValues) public OnlyAdmin {
         require(Collections.length == EtherValues.length, "Arrays not same length");
-        for(uint256 i = 0; i < Collections.length; i++){
+        for (uint256 i = 0; i < Collections.length; i++) {
             require(PlotsCore(PlotsCoreContract).ListedCollectionsMap(Collections[i]) == true, "Collection not listed");
             CollectionEtherValue[Collections[i]] = EtherValues[i];
         }
     }
 
-    function SetVLND(address _vlnd) public OnlyAdmin{
+    function SetVLND(address _vlnd) public OnlyAdmin {
         require(VLND == address(0), "VLND already set");
         VLND = _vlnd;
     }
 
-    //internals
+    // Internals
 
-    //add token to collection array
-    function AddTokenToCollection(address Collection, uint256 TokenId) internal{
+    // Add token to collection array
+    function AddTokenToCollection(address Collection, uint256 TokenId) internal {
         AllTokensByCollection[Collection].push(TokenId);
         AllTokensByCollectionIndex[Collection][TokenId] = AllTokensByCollection[Collection].length - 1;
     }
 
-    //remove token from collection array
-
-    function RemoveTokenFromCollection(address Collection, uint256 TokenId) internal{
+    // Remove token from collection array
+    function RemoveTokenFromCollection(address Collection, uint256 TokenId) internal {
         AllTokensByCollection[Collection][AllTokensByCollectionIndex[Collection][TokenId]] = AllTokensByCollection[Collection][AllTokensByCollection[Collection].length - 1];
         AllTokensByCollectionIndex[Collection][AllTokensByCollection[Collection][AllTokensByCollectionIndex[Collection][TokenId]]] = AllTokensByCollectionIndex[Collection][TokenId];
         AllTokensByCollection[Collection].pop();
     }
 
-    //views 
+    // Views 
 
-    //get total value of the treasury by looping through all collections and getting the locked value
-    function GetTotalValue() public view returns(uint256){
+    // Get total value of the treasury by looping through all collections and getting the locked value
+    function GetTotalValue() public view returns (uint256) {
         uint256 TotalValue;
         address[] memory ListedCollections = PlotsCore(PlotsCoreContract).GetCollections();  
-        for(uint256 i = 0; i < ListedCollections.length; i++){
+        for (uint256 i = 0; i < ListedCollections.length; i++) {
             TotalValue += CollectionEtherValue[ListedCollections[i]] * AllTokensByCollection[ListedCollections[i]].length;
         }
         TotalValue += (address(this).balance - PlotsCore(PlotsCoreContract).LockedValue());
         return TotalValue;
     }
 
-    function GetCollectionEtherValue(address Collection) public view returns(uint256){
+    function GetCollectionEtherValue(address Collection) public view returns (uint256) {
         return CollectionEtherValue[Collection];
     }
 
-    //get the price of VLND in ether by dividing the total value of the treasury by the circulating supply of vlnd which is all vlnd minus the vlnd in the treasury, to get an exchange rate and avoid overflow, get the price of an entire vlnd and not just one wei
-    function GetVLNDPrice() public view returns(uint256){
+    // Get the price of VLND in ether by dividing the total value of the treasury by the circulating supply of VLND, which is all VLND minus the VLND in the treasury, to get an exchange rate and avoid overflow, get the price of an entire VLND and not just one wei
+    function GetVLNDPrice() public view returns (uint256) {
         uint256 TotalValue = GetTotalValue();
         uint256 VLNDInCirculation = GetVLNDInCirculation();
 
         if (TotalValue == 0) {
-            return 380000000000000;;
+            return 380000000000000;
         } else {
             return CalculateVLNDPrice(TotalValue, VLNDInCirculation);
         }
     }
 
-    //get vlnd in circulation by subtracting the vlnd in the treasury from the total supply
-    function GetVLNDInCirculation() public view returns(uint256){
-        return(IERC20(VLND).totalSupply());
+    // Get VLND in circulation by subtracting the VLND in the treasury from the total supply
+    function GetVLNDInCirculation() public view returns (uint256) {
+        return IERC20(VLND).totalSupply();
     }
 
-    function GetUserAverageEntryPrice(address User) public view returns(uint256){
+    function GetUserAverageEntryPrice(address User) public view returns (uint256) {
         return UserAvgEntryPrice[User];
     }
     
-    function CalculateVLNDPrice(uint256 TotalValue, uint256 VLNDSupply) internal view returns(uint256){
+    function CalculateVLNDPrice(uint256 TotalValue, uint256 VLNDSupply) internal view returns (uint256) {
         return Calculations.CalculateVLNDPrice(TotalValue, VLNDSupply, InitialVLNDPrice);
     }
 
-    receive() external payable{}
+    receive() external payable {}
 }
 
 contract PlotsLend {
@@ -547,8 +559,6 @@ contract PlotsLend {
     struct Token{
         address Collection;
         uint256 TokenId;
-        bool IsListed,
-        bool InLoan
     }
 
     modifier OnlyCore(){
@@ -568,16 +578,16 @@ contract PlotsLend {
         IERC721(Collection).transferFrom(msg.sender, address(this), TokenId);
 
         TokenDepositor[Collection][TokenId] = msg.sender;
-        AllUserTokens[msg.sender].push(Token(Collection, TokenId, true, false));
+        AllUserTokens[msg.sender].push(Token(Collection, TokenId));
         AllUserTokensIndex[msg.sender][Collection][TokenId] = AllUserTokens[msg.sender].length - 1;
 
         PlotsCore(PlotsCoreContract).AutoList(Collection, TokenId, msg.sender);
     }
 
-    function DepositTokens(address[] memory Collections, uint256[] memory TokenIds, bool autolist) public{
+    function DepositTokens(address[] memory Collections, uint256[] memory TokenIds) public{
         require(Collections.length == TokenIds.length, "Arrays not same length");
         for(uint256 i = 0; i < Collections.length; i++){
-            DepositToken(Collections[i], TokenIds[i], autolist);
+            DepositToken(Collections[i], TokenIds[i]);
         }
     }
 

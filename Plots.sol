@@ -570,6 +570,7 @@ contract PlotsLend {
 
     function WithdrawToken(address Collection, uint256 TokenId) public {
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
+        //require that the token is not in a loan
 
         PlotsCore(PlotsCoreContract).AutoDelist(Collection, TokenId);
 

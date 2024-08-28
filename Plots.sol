@@ -165,11 +165,10 @@ contract PlotsCore {
     function AutoDelist(address Collection, uint256 TokenId) external{
         require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
 
-        //get lister of token
         address Lister = ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister;
 
         RemoveListingFromCollection(Collection, TokenId);
-        RemoveListingFromUser(OwnershipByPurchase[Collection][TokenId], Collection, TokenId);
+        RemoveListingFromUser(Lister, Collection, TokenId);
 
         ListedBool[Collection][TokenId] = false;
     }

@@ -94,11 +94,10 @@ contract PlotsCore {
 
         //if the token is listed from the treasury, ingore the duration and dont set it. If the token is listed from the lending contract, set the duration in unix above the current time
         if(ListingsByCollection[Collection][TokenIndex].Lister == Treasury){
-            require(msg.value >= 1 ether, "Insufficient funds");
             UsageExpirationUnix[Collection][TokenId] = 0;
         }
         else{
-            if(Duration == LengthOption.ThreeMonths){
+        if(Duration == LengthOption.ThreeMonths){
                 UsageExpirationUnix[Collection][TokenId] = block.timestamp + 7776000;
             }
             else{

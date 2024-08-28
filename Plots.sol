@@ -594,6 +594,7 @@ contract PlotsLend {
 
     function Autowithdraw(address Collection, uint256 TokenId) public OnlyCore{
         require(TokenDepositor[Collection][TokenId] != address(0), "Token not deposited");
+        
         IERC721(Collection).transferFrom(address(this), TokenDepositor[Collection][TokenId], TokenId);
         TokenDepositor[Collection][TokenId] = address(0);
     }

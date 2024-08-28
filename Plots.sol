@@ -114,7 +114,7 @@ contract PlotsCore {
     }
 
     function CloseLoan(address Collection, uint256 ID) public{
-        require(AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender || Admins[msg.sender] || AllLoans[AllLoansIndex[Collection][ID]].Lender && UsageExpirationUnix[Collection][ID] < block.timestamp,
+        require(AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender || Admins[msg.sender] || AllLoans[AllLoansIndex[Collection][ID]].Lender == msg.sender && UsageExpirationUnix[Collection][ID] < block.timestamp,
             "Invalid loan"
         );
 
@@ -131,6 +131,7 @@ contract PlotsCore {
    
         if(Lender == Treasury){
             AddListingToCollection(Collection, ID, Listing(Treasury, Collection, ID));
+            AddListingToUser(Treasury, Collection, ID, Listing(Lender, Collection, ID));
             ListedBool[Collection][ID] = true;
         }
         else{
@@ -138,7 +139,6 @@ contract PlotsCore {
             AddListingToCollection(Collection, ID, Listing(Lender, Collection, ID));
             AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
             ListedBool[Collection][ID] = true;
-            }
         }
 
         ActiveLoan[Borrower] = false;

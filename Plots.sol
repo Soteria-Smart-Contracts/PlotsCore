@@ -92,7 +92,19 @@ contract PlotsCore {
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 
-        //if the token is listed from the treasury, ingore the duration and dont set it. If the token is listed from the lending contract, set the duration in unix above the cur
+        //if the token is listed from the treasury, ingore the duration and dont set it. If the token is listed from the lending contract, set the duration in unix above the current time
+        if(ListingsByCollection[Collection][TokenIndex].Lister == Treasury){
+            require(msg.value >= 1 ether, "Insufficient funds");
+            UsageExpirationUnix[Collection][TokenId] = 0;
+        }
+        else{
+            if(Duration == LengthOption.ThreeMonths){
+                UsageExpirationUnix[Collection][TokenId] = block.timestamp + 7776000;
+            }
+            else{
+                UsageExpirationUnix[Collection][TokenId] = block.timestamp + 15552000;
+            }
+        }
 
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);

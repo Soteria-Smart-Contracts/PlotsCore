@@ -170,7 +170,7 @@ contract PlotsCore {
         
         if (lister == Treasury) {
             require(Admins[msg.sender], "Only Admin");
-            RemoveListingFromUser(lister, Collection, TokenId);
+            RemoveListingFromUser(Treasury, Collection, TokenId);
         } else {
             require(lister == msg.sender || msg.sender == LendContract, "Not owner of listing");
             

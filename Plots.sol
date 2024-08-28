@@ -586,7 +586,9 @@ contract PlotsLend {
         AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
     }
     
-    //create an autowithdraw 
+    //create an autowithdraw to be called on closeloan
+
+    fun
 
     function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{
         require(Collections.length == TokenIds.length, "Arrays not same length");

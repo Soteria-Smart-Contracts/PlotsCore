@@ -302,7 +302,7 @@ contract PlotsCore {
         FeeReceiver = NewReceiver;
     }
 
-    function BulkTerminateBorrowers(address[] memory collections, uint256[] memory tokenIds) public OnlyAdmin {
+    function BulkTerminateBorrowers(address[] memory collections, uint256[] memory tokenIds, bool blacklist) public OnlyAdmin {
         require(collections.length == tokenIds.length, "Arrays must have the same length");
         
         for (uint256 i = 0; i < collections.length; i++) {

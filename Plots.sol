@@ -450,9 +450,7 @@ contract PlotsTreasury {
         IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
         // Check if listed, if so remove listing
-        if (PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId)) {
-            PlotsCore(PlotsCoreContract).DelistToken(Collection, TokenId);
-        }
+        PlotsCore(PlotsCoreContract).DelistToken(Collection, TokenId);
 
         RemoveTokenFromCollection(Collection, TokenId);
     }

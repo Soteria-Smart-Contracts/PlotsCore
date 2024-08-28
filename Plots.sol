@@ -162,7 +162,14 @@ contract PlotsCore {
     }
 
     //auto delist, only treasury and lending contract can call this function, make it so that it cant break, because it will be called when removing a token from the treasury or lending contract
-    
+    function AutoDelist(address Collection, uint256 TokenId) external{
+        require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
+
+        RemoveListingFromCollection(Collection, TokenId);
+        RemoveListingFromUser(OwnershipByPurchase[Collection][TokenId], Collection, TokenId);
+
+        ListedBool[Collection][TokenId] = false;
+    }
 
     function ManageTokens(address[] memory Collections, uint256[] memory TokenIds, bool isList) public {
         require(Collections.length == TokenIds.length, "Arrays not same length");

@@ -596,7 +596,6 @@ contract PlotsLend {
         IERC721(Collection).transferFrom(address(this), TokenDepositor[Collection][TokenId], TokenId);
         TokenDepositor[Collection][TokenId] = address(0);
 
-        
     }
 
     function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{

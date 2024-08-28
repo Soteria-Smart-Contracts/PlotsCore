@@ -565,6 +565,8 @@ contract PlotsLend {
         }
     }
 
+        //create an autowithdraw function for the tre
+
     function WithdrawToken(address Collection, uint256 TokenId) public {
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
 
@@ -585,9 +587,6 @@ contract PlotsLend {
         AllUserTokens[msg.sender].pop();
         AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
     }
-
-
-    fun
 
     function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{
         require(Collections.length == TokenIds.length, "Arrays not same length");

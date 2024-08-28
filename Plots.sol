@@ -151,6 +151,7 @@ contract PlotsCore {
 
         if(Admins[msg.sender]){
             require(IERC721(Collection).ownerOf(TokenId) == Treasury, "Token not owned by treasury");
+            AddListingToUser(Lender, Collection, ID, Listing(Lender, Collection, ID));
             AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));
         }
         else{

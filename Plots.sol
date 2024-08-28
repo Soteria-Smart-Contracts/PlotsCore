@@ -187,7 +187,7 @@ contract PlotsCore {
     }
 
     function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
-        //TODO:Review, this will become the 
+        //TODO:Review, this will become the delegate cash
         // uint256 Expiry = AllLoans[AllLoansIndex[Collection][TokenId]].LoanEndTime;
         // if(Expiry > block.timestamp){
         //     return address(0);

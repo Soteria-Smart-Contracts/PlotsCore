@@ -302,8 +302,16 @@ contract PlotsCore {
         FeeReceiver = NewReceiver;
     }
 
-    function BlacklistUser(address payable user) public OnlyAdmin{
-        Blacklisted[user] = true;
+    function BulkBlacklistBorrowers(address[] memory collections, uint256[] memory tokenIds) public OnlyAdmin {
+        require(collections.length == tokenIds.length, "Arrays must have the same length");
+        
+        for (uint256 i = 0; i < collections.length; i++) {
+            address borrower = AllLoans[AllLoansIndex[collections[i]][tokenIds[i]]].Borrower;
+            Blacklisted[borrower] = true;
+            
+            // Close the loan
+            CloseLoan(collections[i], tokenIds[i]);
+        }
     }
 
     function ChangeRewardFee(uint256 NewFee) public OnlyAdmin{

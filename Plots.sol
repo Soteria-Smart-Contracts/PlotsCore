@@ -146,29 +146,6 @@ contract PlotsCore {
 
     // Listings ---------------------------------------------------------------------------------
 
-    function DelistToken(address Collection, uint256 TokenId) public{
-        require(ListedCollectionsMap[Collection] == true && ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister != address(0), "Collection not listed or token not listed");
-
-        address lister = ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister;
-        
-        if (lister == Treasury) {
-            require(Admins[msg.sender], "Only Admin");
-            RemoveListingFromUser(Treasury, Collection, TokenId);
-        } else {
-            require(lister == msg.sender || msg.sender == LendContract, "Not owner of listing");
-            
-            if (msg.sender == LendContract) {
-                RemoveListingFromUser(lister, Collection, TokenId);
-            } else {
-                RemoveListingFromUser(msg.sender, Collection, TokenId);
-            }
-        }
-
-        RemoveListingFromCollection(Collection, TokenId);
-        ListedBool[Collection][TokenId] = false;
-    }
-
-
     function AutoList(address Collection, uint256 TokenId, address User) external{
         require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
 

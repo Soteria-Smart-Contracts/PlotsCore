@@ -418,7 +418,11 @@ contract PlotsTreasury {
         require(IERC721(Collection).ownerOf(TokenId) == address(this), "Not owner of token");
         IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
 
-        PlotsCore(PlotsCoreContract).AutoDelist(Collection, TokenId);
+        if (!PlotsCore(PlotsCoreContract).IsTokenInLoan(Collection, TokenId)) {
+            PlotsCore(PlotsCoreContract).RemoveListingFromCollection(Collection, TokenId);
+        } else {
+            PlotsCore(PlotsCoreContract).CloseLoan(Collection, TokenId);
+        }
 
         RemoveTokenFromCollection(Collection, TokenId);
     }

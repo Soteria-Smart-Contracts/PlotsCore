@@ -93,7 +93,7 @@ contract PlotsCore {
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 
         //if the token is listed from the treasury, ingore the duration and dont set it. If the token is listed from the lending contract, set the duration in unix above the current time
-        if(ListingsByCollection[Collection][TokenIndex].Lister == Treasury){
+        if(ListingsByCollection[Collection][TokenIndex].Lister != Treasury){
             UsageExpirationUnix[Collection][TokenId] = 0;
         }
         else{

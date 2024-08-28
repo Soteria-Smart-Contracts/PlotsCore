@@ -568,30 +568,6 @@ contract PlotsLend {
         }
     }
 
-    function WithdrawToken(address Collection, uint256 TokenId) public {
-        require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
-        require(!PlotsCore(PlotsCoreContract).InLoanBool(Collection, TokenId), "Token in loan");
-
-        PlotsCore(PlotsCoreContract).AutoDelist(Collection, TokenId);
-
-        IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
-
-        TokenDepositor[Collection][TokenId] = address(0);
-
-        uint256 lastIndex = AllUserTokens[msg.sender].length - 1;
-        uint256 currentIndex = AllUserTokensIndex[msg.sender][Collection][TokenId];
-
-        if (currentIndex != lastIndex) {
-            AllUserTokens[msg.sender][currentIndex] = AllUserTokens[msg.sender][lastIndex];
-            AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][currentIndex].TokenId] = currentIndex;
-        }
-
-        AllUserTokens[msg.sender].pop();
-        AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
-    }
-    
-    //create an autowithdraw to be called on closeloan
-
     function Autowithdraw(address Collection, uint256 TokenId) public OnlyCore{
         IERC721(Collection).transferFrom(address(this), TokenDepositor[Collection][TokenId], TokenId);
         TokenDepositor[Collection][TokenId] = address(0);

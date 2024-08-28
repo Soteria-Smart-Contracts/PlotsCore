@@ -187,7 +187,7 @@ contract PlotsCore {
 
 
     function AutoList(address Collection, uint256 TokenId, address User) external{
-        require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
+        require(msg.sender == Treasury || msg.sender == LendContract, "Only Treasury or Lend Contract");
 
         if(msg.sender == Treasury){
             AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));

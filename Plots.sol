@@ -48,10 +48,11 @@ contract PlotsCore {
 
     mapping(address => Listing[]) public ListingsByCollection;
     mapping(address => mapping(uint256 => uint256)) public ListingsByCollectionIndex;
-    mapping(address => mapping(uint256 => bool)) public ListedBool;
-    mapping(address => mapping(uint256 => bool)) public InLoanBool;
     mapping(address => Listing[]) public ListingsByUser;
     mapping(address => mapping(address => mapping(uint256 => uint256))) public ListingsByUserIndex;
+
+    mapping(address => mapping(uint256 => bool)) public ListedBool;
+    mapping(address => mapping(uint256 => bool)) public InLoanBool;
 
     LoanInfo[] public AllLoans;
     mapping(address => mapping(uint256 => uint256)) public AllLoansIndex;

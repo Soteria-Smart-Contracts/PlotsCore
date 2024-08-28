@@ -604,7 +604,8 @@ contract PlotsLend {
             AllUserTokensIndex[TokenDepositor[Collection][TokenId]][Collection][AllUserTokens[TokenDepositor[Collection][TokenId]][currentIndex].TokenId] = currentIndex;
         }
 
-        
+        AllUserTokens[TokenDepositor[Collection][TokenId]].pop();
+        AllUserTokensIndex[TokenDepositor[Collection][TokenId]][Collection][TokenId] = 0;
     }
 
     function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{

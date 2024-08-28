@@ -113,7 +113,7 @@ contract PlotsCore {
     }
 
     function CloseLoan(address Collection, uint256 ID) public{
-        require(AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender || Admins[msg.sender] || AllLoans[AllLoansIndex[Collection][ID]].Lender == msg.sender && UsageExpirationUnix[Collection][ID] < block.timestamp,
+        require(AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender || Admins[msg.sender] || AllLoans[AllLoansIndex[Collection][ID]].Lender == msg.sender && UsageExpirationUnix[Collection][ID] < block.timestamp || msg.sender == Treasury,
             "Invalid loan"
         );
 
@@ -192,10 +192,6 @@ contract PlotsCore {
             return OwnershipByPurchase[Collection][TokenId];
         //}
     }
-
-    function GetAllLoans() public view returns(LoanInfo[] storage){
-            return AllLoans;
-    }//TODO: FIX
 
     function GetUserLoans(address _user) public view returns(uint256[] memory){
         return AllUserLoans[_user];

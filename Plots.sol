@@ -94,7 +94,7 @@ contract PlotsCore {
         AddLoanToBorrowerAndLender(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         RemoveListingFromUser(ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
         RemoveListingFromCollection(Collection, TokenId);
-        
+
         OwnershipByPurchase[Collection][TokenId] = msg.sender;
         ListedBool[Collection][TokenId] = false;
         InLoanBool[Collection][TokenId] = true;

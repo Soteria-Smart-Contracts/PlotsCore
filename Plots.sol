@@ -88,7 +88,7 @@ contract PlotsCore {
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration) public NotBlacklisted payable {
         require(ListedCollectionsMap[Collection] == true, "Collection N/Listed");
         require(ActiveLoan[msg.sender] == false, "User already has an active loan"); // Check for active loan
-        // Check if token is in a loan 
+        require(InLoanBool[Collection][TokenId] == false, "Token already in loan");
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 

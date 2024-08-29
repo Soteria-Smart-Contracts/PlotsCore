@@ -88,6 +88,7 @@ contract PlotsCore {
     function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration) public NotBlacklisted payable {
         require(ListedCollectionsMap[Collection] == true, "Collection N/Listed");
         require(ActiveLoan[msg.sender] == false, "User already has an active loan"); // Check for active loan
+        require
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 
@@ -124,7 +125,7 @@ contract PlotsCore {
         AllLoansIndex[Collection][ID] = 0;
         OwnershipByPurchase[Collection][ID] = address(0);
         UsageExpirationUnix[Collection][ID] = 0;
-        RemoveLoanFromBorrowerAndLender(Borrower, address(0), Collection, ID);
+        RemoveLoanFromBorrowerAndLender(Borrower, Lender, Collection, ID);
 
    
         if(Lender == Treasury){
@@ -426,14 +427,11 @@ contract PlotsTreasury {
 
     function WithdrawNFT(address Collection, uint256 TokenId) public OnlyAdmin {
         require(IERC721(Collection).ownerOf(TokenId) == address(this), "Not owner of token");
+        require(!PlotsCore(PlotsCoreContract).InLoanBool(Collection, TokenId));
+
+        PlotsCore(PlotsCoreContract).AutoDelist(Collection, TokenId);
+
         IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
-
-        if (!PlotsCore(PlotsCoreContract).InLoanBool(Collection, TokenId)) {
-            PlotsCore(PlotsCoreContract).AutoDelist(Collection, TokenId);
-        } else {
-            PlotsCore(PlotsCoreContract).CloseLoan(Collection, TokenId);
-        }
-
         RemoveTokenFromCollection(Collection, TokenId);
     }
 
@@ -570,9 +568,38 @@ contract PlotsLend {
         }
     }
 
+    function WithdrawToken(address Collection, uint256 TokenId) public {
+        require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
+
+        // Automatically delist the token if it is listed
+        if (PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId)) {
+            PlotsCore(PlotsCoreContract).AutoDelist(Collection, TokenId);
+        }
+
+        IERC721(Collection).transferFrom(address(this), msg.sender, TokenId);
+
+        TokenDepositor[Collection][TokenId] = address(0);
+
+        uint256 lastIndex = AllUserTokens[msg.sender].length - 1;
+        uint256 currentIndex = AllUserTokensIndex[msg.sender][Collection][TokenId];
+
+        if (currentIndex != lastIndex) {
+            AllUserTokens[msg.sender][currentIndex] = AllUserTokens[msg.sender][lastIndex];
+            AllUserTokensIndex[msg.sender][Collection][AllUserTokens[msg.sender][currentIndex].TokenId] = currentIndex;
+        }
+        AllUserTokens[msg.sender].pop();
+        AllUserTokensIndex[msg.sender][Collection][TokenId] = 0;
+    }
+
+    function WithdrawTokens(address[] memory Collections, uint256[] memory TokenIds) public{
+        require(Collections.length == TokenIds.length, "Arrays not same length");
+        for(uint256 i = 0; i < Collections.length; i++){
+            WithdrawToken(Collections[i], TokenIds[i]);
+        }
+    }
+
     function Autowithdraw(address Collection, uint256 TokenId) public OnlyCore{
         IERC721(Collection).transferFrom(address(this), TokenDepositor[Collection][TokenId], TokenId);
-        TokenDepositor[Collection][TokenId] = address(0);
 
         uint256 lastIndex = AllUserTokens[TokenDepositor[Collection][TokenId]].length - 1;
         uint256 currentIndex = AllUserTokensIndex[TokenDepositor[Collection][TokenId]][Collection][TokenId];
@@ -584,6 +611,7 @@ contract PlotsLend {
 
         AllUserTokens[TokenDepositor[Collection][TokenId]].pop();
         AllUserTokensIndex[TokenDepositor[Collection][TokenId]][Collection][TokenId] = 0;
+        TokenDepositor[Collection][TokenId] = address(0);
     }
 
     //View Functions 

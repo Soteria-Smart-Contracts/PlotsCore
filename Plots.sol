@@ -2,7 +2,7 @@
 pragma solidity 0.8.24;
 
 contract PlotsCore {
-    //Variable and pointer Declarations
+    // Variable and pointer Declarations
     address payable public Treasury;
     address public LendContract;
     address payable public FeeReceiver;
@@ -15,18 +15,18 @@ contract PlotsCore {
 
     mapping(address => bool) public Blacklisted;
 
-    enum LengthOption{ 
+    enum LengthOption { 
         ThreeMonths,
         SixMonths
     }
     
-    struct Listing{
+    struct Listing {
         address Lister;
         address Collection;
         uint256 TokenId;
     }
 
-    struct LoanInfo{
+    struct LoanInfo {
         address Collection;
         uint256 ID; 
         address Lender;
@@ -34,12 +34,12 @@ contract PlotsCore {
     }
 
     mapping(address => bool) public Admins;
-    modifier OnlyAdmin(){
+    modifier OnlyAdmin() {
         require(Admins[msg.sender], "Only Admin");
         _;
     }
 
-    modifier NotBlacklisted(){
+    modifier NotBlacklisted() {
         require(Blacklisted[msg.sender] == false, "Only Admin");
         _;
     }
@@ -58,18 +58,16 @@ contract PlotsCore {
     LoanInfo[] public AllLoans;
     mapping(address => mapping(uint256 => uint256)) public AllLoansIndex;
 
-    mapping(address => uint256[]) public AllUserLoans; //Outgoing loans
-    mapping(address => mapping(uint256 => uint256)) public AllUserLoansIndex;
-
-    mapping(address => uint256[]) public AllUserBorrows; //Incoming loans
-    mapping(address => mapping(uint256 => uint256)) public AllUserBorrowsIndex;
-
     mapping(address => bool) public ActiveLoan; // Track active loan per user
 
-    constructor(address [] memory _admins, address payable _feeReceiver){
+    // Events
+    event LoanOpened(address indexed borrower, address indexed lender, address indexed collection, uint256 tokenId);
+    event LoanClosed(address indexed borrower, address indexed lender, address indexed collection, uint256 tokenId);
+
+    constructor(address[] memory _admins, address payable _feeReceiver) {
         FeeReceiver = _feeReceiver;
 
-        for(uint256 i = 0; i < _admins.length; i++){
+        for (uint256 i = 0; i < _admins.length; i++) {
             Admins[_admins[i]] = true;
         }
         Admins[msg.sender] = true;
@@ -77,7 +75,7 @@ contract PlotsCore {
     }
 
     // Can only be set once
-    function SetPeripheryContracts(address payable _treasury, address _lendContract) public OnlyAdmin{
+    function SetPeripheryContracts(address payable _treasury, address _lendContract) public OnlyAdmin {
         require(Treasury == address(0) && LendContract == address(0), "Already set");
         require(PlotsTreasury(_treasury).PlotsCoreContract() == address(this), "Invalid treasury contract");
         require(PlotsLend(_lendContract).PlotsCoreContract() == address(this), "Invalid lend contract");
@@ -85,18 +83,17 @@ contract PlotsCore {
         LendContract = _lendContract;
     }
 
-    function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration) public NotBlacklisted payable {
+    function BorrowToken(address Collection, uint256 TokenId, LengthOption Duration) public NotBlacklisted {
         require(ListedCollectionsMap[Collection] == true, "Collection N/Listed");
-        require(ActiveLoan[msg.sender] == false, "User already has an active loan"); // Check for active loan
+        require(ActiveLoan[msg.sender] == false, "User already has an active loan");
         require(InLoanBool[Collection][TokenId] == false, "Token already in loan");
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 
-        if(ListingsByCollection[Collection][TokenIndex].Lister != Treasury){
-            if(Duration == LengthOption.ThreeMonths){
+        if (ListingsByCollection[Collection][TokenIndex].Lister != Treasury) {
+            if (Duration == LengthOption.ThreeMonths) {
                 UsageExpirationUnix[Collection][TokenId] = block.timestamp + 7776000;
-            }
-            else{
+            } else {
                 UsageExpirationUnix[Collection][TokenId] = block.timestamp + 15552000;
             }
         }
@@ -108,12 +105,20 @@ contract PlotsCore {
         OwnershipByPurchase[Collection][TokenId] = msg.sender;
         ListedBool[Collection][TokenId] = false;
         InLoanBool[Collection][TokenId] = true;
-        
-        ActiveLoan[msg.sender] = true; // Track active loan
+
+        ActiveLoan[msg.sender] = true;
+
+        // Emit event for loan opening
+        emit LoanOpened(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
     }
 
-    function CloseLoan(address Collection, uint256 ID) public{
-        require(AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender || Admins[msg.sender] || AllLoans[AllLoansIndex[Collection][ID]].Lender == msg.sender && UsageExpirationUnix[Collection][ID] < block.timestamp || msg.sender == Treasury,
+    function CloseLoan(address Collection, uint256 ID) public {
+        require(
+            AllLoans[AllLoansIndex[Collection][ID]].Borrower == msg.sender ||
+            Admins[msg.sender] ||
+            AllLoans[AllLoansIndex[Collection][ID]].Lender == msg.sender && 
+            UsageExpirationUnix[Collection][ID] < block.timestamp || 
+            msg.sender == Treasury,
             "Invalid loan"
         );
 
@@ -122,34 +127,35 @@ contract PlotsCore {
 
         InLoanBool[Collection][ID] = false;
 
-        AllLoansIndex[Collection][ID] = 0;
+        delete AllLoansIndex[Collection][ID];
         OwnershipByPurchase[Collection][ID] = address(0);
         UsageExpirationUnix[Collection][ID] = 0;
-        RemoveLoanFromBorrowerAndLender(Borrower, Lender, Collection, ID);
 
-   
-        if(Lender == Treasury){
+        RemoveLoanFromBorrowerAndLender(Collection, ID);
+
+        if (Lender == Treasury) {
             AddListingToCollection(Collection, ID, Listing(Treasury, Collection, ID));
             AddListingToUser(Treasury, Collection, ID, Listing(Lender, Collection, ID));
             ListedBool[Collection][ID] = true;
-        }
-        else{
+        } else {
             PlotsLend(LendContract).Autowithdraw(Collection, ID);
         }
 
         ActiveLoan[Borrower] = false;
+
+        // Emit event for loan closure
+        emit LoanClosed(Borrower, Lender, Collection, ID);
     }
 
     // Listings ---------------------------------------------------------------------------------
 
-    function AutoList(address Collection, uint256 TokenId, address User) external{
+    function AutoList(address Collection, uint256 TokenId, address User) external {
         require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
 
-        if(msg.sender == Treasury){
+        if (msg.sender == Treasury) {
             AddListingToCollection(Collection, TokenId, Listing(Treasury, Collection, TokenId));
             AddListingToUser(Treasury, Collection, TokenId, Listing(Treasury, Collection, TokenId));
-        }
-        else{
+        } else {
             AddListingToCollection(Collection, TokenId, Listing(User, Collection, TokenId));
             AddListingToUser(User, Collection, TokenId, Listing(User, Collection, TokenId));
         }
@@ -157,8 +163,8 @@ contract PlotsCore {
         ListedBool[Collection][TokenId] = true;
     }
 
-    //auto delist, only treasury and lending contract can call this function, make it so that it cant break, because it will be called when removing a token from the treasury or lending contract
-    function AutoDelist(address Collection, uint256 TokenId) external{
+    // Auto delist, only treasury and lending contract can call this function, make it so that it can't break, because it will be called when removing a token from the treasury or lending contract
+    function AutoDelist(address Collection, uint256 TokenId) external {
         require(msg.sender == Treasury || msg.sender == LendContract, "Only Admin, Treasury or Lend Contract");
 
         address Lister = ListingsByCollection[Collection][ListingsByCollectionIndex[Collection][TokenId]].Lister;
@@ -169,127 +175,81 @@ contract PlotsCore {
         ListedBool[Collection][TokenId] = false;
     }
 
-    //get list of all collections  
-    function GetCollections() public view returns(address[] memory){
+    // Get list of all collections  
+    function GetCollections() public view returns (address[] memory) {
         return ListedCollections;
     }
 
-    function IsListed(address Collection, uint256 TokenId) public view returns(bool){
+    function IsListed(address Collection, uint256 TokenId) public view returns (bool) {
         return ListedBool[Collection][TokenId];
     }
 
-    function GetSingularListing(address _collection, uint256 _tokenId) public view returns(Listing memory){
+    function GetSingularListing(address _collection, uint256 _tokenId) public view returns (Listing memory) {
         return ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]];
     }
 
-    function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns(address){
-        //TODO:Review, this will become the delegate cash
-        // uint256 Expiry = AllLoans[AllLoansIndex[Collection][TokenId]].LoanEndTime;
-        // if(Expiry > block.timestamp){
-        //     return address(0);
-        // }
-        // else{
-            return OwnershipByPurchase[Collection][TokenId];
-        //}
-    }
-
-    function GetUserLoans(address _user) public view returns(uint256[] memory){
-        return AllUserLoans[_user];
-    }
-
-    function GetUserBorrows(address _user) public view returns(uint256[] memory){
-        return AllUserBorrows[_user];
-    }
-
-    function GetUserListings(address user) public view returns (Listing[] memory){
-        return ListingsByUser[user];
-    }
-
-    function GetListedCollectionWithPrices(address _collection) public view returns(Listing[] memory){
-        return (ListingsByCollection[_collection]);
+    function GetOwnershipByPurchase(address Collection, uint256 TokenId) public view returns (address) {
+        return OwnershipByPurchase[Collection][TokenId];
     }
 
     function GetAllLoans() public view returns (LoanInfo[] memory) {
         return AllLoans;
     }
 
-    //Internal Functions
+    // *** RESTORED FUNCTIONS ***
 
-    function AddListingToCollection(address _collection, uint256 _tokenId, Listing memory _listing) internal{
+    function GetUserListings(address user) public view returns (Listing[] memory) {
+        return ListingsByUser[user];
+    }
+
+    function GetListedCollectionWithPrices(address _collection) public view returns (Listing[] memory) {
+        return ListingsByCollection[_collection];
+    }
+
+    // Internal Functions
+
+    function AddListingToCollection(address _collection, uint256 _tokenId, Listing memory _listing) internal {
         ListingsByCollection[_collection].push(_listing);
         ListingsByCollectionIndex[_collection][_tokenId] = ListingsByCollection[_collection].length - 1;
     }
 
-    function RemoveListingFromCollection(address _collection, uint256 _tokenId) internal{
+    function RemoveListingFromCollection(address _collection, uint256 _tokenId) internal {
         ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]] = ListingsByCollection[_collection][ListingsByCollection[_collection].length - 1];
         ListingsByCollectionIndex[_collection][ListingsByCollection[_collection][ListingsByCollectionIndex[_collection][_tokenId]].TokenId] = ListingsByCollectionIndex[_collection][_tokenId];
         ListingsByCollection[_collection].pop();
 
-        ListingsByCollectionIndex[_collection][_tokenId] = 0;
+        delete ListingsByCollectionIndex[_collection][_tokenId];
     }
 
-    function AddListingToUser(address _user, address _collection, uint256 _tokenId, Listing memory _listing) internal{
+    function AddListingToUser(address _user, address _collection, uint256 _tokenId, Listing memory _listing) internal {
         ListingsByUser[_user].push(_listing);
         ListingsByUserIndex[_user][_collection][_tokenId] = ListingsByUser[_user].length - 1;
     }
 
-    function RemoveListingFromUser(address _user, address _collection, uint256 _tokenId) internal{
+    function RemoveListingFromUser(address _user, address _collection, uint256 _tokenId) internal {
         ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]] = ListingsByUser[_user][ListingsByUser[_user].length - 1];
         ListingsByUserIndex[_user][_collection][ListingsByUser[_user][ListingsByUserIndex[_user][_collection][_tokenId]].TokenId] = ListingsByUserIndex[_user][_collection][_tokenId];
         ListingsByUser[_user].pop();
 
-        ListingsByUserIndex[_user][_collection][_tokenId] = 0;
+        delete ListingsByUserIndex[_user][_collection][_tokenId];
     }
 
-    //add loan to a borrower and a lender with just the loan address IN ONE function
-    function AddLoanToBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal{
+    // Add loan to the borrower and lender with just the loan address
+    function AddLoanToBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal {
         LoanInfo memory _loan = LoanInfo(Collection, ID, Lender, Borrower);
-
         AllLoans.push(_loan);
         AllLoansIndex[Collection][ID] = AllLoans.length - 1;
-
-        AllUserLoans[Lender].push(AllLoansIndex[Collection][ID]);
-        AllUserLoansIndex[Lender][AllLoansIndex[Collection][ID]] = AllUserLoans[Lender].length - 1;
-
-        AllUserBorrows[Borrower].push(AllLoansIndex[Collection][ID]);
-        AllUserBorrowsIndex[Borrower][AllLoansIndex[Collection][ID]] = AllUserBorrows[Borrower].length - 1;
     }
 
-    //remove loan from a borrower and a lender with just the loan address IN ONE function
-    function RemoveLoanFromBorrowerAndLender(address Borrower, address Lender, address Collection, uint256 ID) internal {
+    // Remove loan from the borrower and lender with just the loan address
+    function RemoveLoanFromBorrowerAndLender(address Collection, uint256 ID) internal {
         uint256 loanIndex = AllLoansIndex[Collection][ID];
         require(loanIndex < AllLoans.length, "Loan does not exist");
 
-        // Remove from borrower's list
-        uint256 borrowerLoanIndex = AllUserBorrowsIndex[Borrower][loanIndex];
-        uint256 lastBorrowerLoanIndex = AllUserBorrows[Borrower].length - 1;
-        
-        if (borrowerLoanIndex != lastBorrowerLoanIndex) {
-            uint256 lastBorrowerLoanID = AllUserBorrows[Borrower][lastBorrowerLoanIndex];
-            AllUserBorrows[Borrower][borrowerLoanIndex] = lastBorrowerLoanID;
-            AllUserBorrowsIndex[Borrower][lastBorrowerLoanID] = borrowerLoanIndex;
-        }
-        
-        AllUserBorrows[Borrower].pop();
-        delete AllUserBorrowsIndex[Borrower][loanIndex];
-
-        // Remove from lender's list
-        uint256 lenderLoanIndex = AllUserLoansIndex[Lender][loanIndex];
-        uint256 lastLenderLoanIndex = AllUserLoans[Lender].length - 1;
-        
-        if (lenderLoanIndex != lastLenderLoanIndex) {
-            uint256 lastLenderLoanID = AllUserLoans[Lender][lastLenderLoanIndex];
-            AllUserLoans[Lender][lenderLoanIndex] = lastLenderLoanID;
-            AllUserLoansIndex[Lender][lastLenderLoanID] = lenderLoanIndex;
-        }
-
-        AllUserLoans[Lender].pop();
-        delete AllUserLoansIndex[Lender][loanIndex];
-
-        // Remove from global loan list
         uint256 lastLoanIndex = AllLoans.length - 1;
+        LoanInfo memory lastLoan = AllLoans[lastLoanIndex];
+
         if (loanIndex != lastLoanIndex) {
-            LoanInfo memory lastLoan = AllLoans[lastLoanIndex];
             AllLoans[loanIndex] = lastLoan;
             AllLoansIndex[lastLoan.Collection][lastLoan.ID] = loanIndex;
         }
@@ -298,26 +258,25 @@ contract PlotsCore {
         delete AllLoansIndex[Collection][ID];
     }
 
-
-    function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin{
+    function ChangeFeeReceiver(address payable NewReceiver) public OnlyAdmin {
         FeeReceiver = NewReceiver;
     }
 
     function BulkTerminateBorrowers(address[] memory collections, uint256[] memory tokenIds, bool blacklist) public OnlyAdmin {
         require(collections.length == tokenIds.length, "Arrays must have the same length");
-        
+
         for (uint256 i = 0; i < collections.length; i++) {
             address borrower = AllLoans[AllLoansIndex[collections[i]][tokenIds[i]]].Borrower;
             if (blacklist) {
                 Blacklisted[borrower] = true;
             }
-            
+
             // Close the loan
             CloseLoan(collections[i], tokenIds[i]);
         }
     }
 
-    function ChangeRewardFee(uint256 NewFee) public OnlyAdmin{
+    function ChangeRewardFee(uint256 NewFee) public OnlyAdmin {
         require(NewFee <= 1500, "Fee must be less than 15%");
         RewardFee = NewFee;
     }
@@ -337,6 +296,8 @@ contract PlotsCore {
         }
     }
 }
+
+
 
 contract PlotsTreasury {
     // Variable and pointer Declarations
@@ -487,7 +448,7 @@ contract PlotsTreasury {
         uint256 TotalValue;
         address[] memory ListedCollections = PlotsCore(PlotsCoreContract).GetCollections();  
         for (uint256 i = 0; i < ListedCollections.length; i++) {
-            TotalValue += CollectionEtherValue[ListedCollections[i]] * AllTokensByCollection[ListedCollections[i]].length;
+            TotalValue += CollectionEtherValue[ListedCollections[i]];
         }
         TotalValue += (address(this).balance - PlotsCore(PlotsCoreContract).LockedValue());
         return TotalValue;
@@ -570,6 +531,7 @@ contract PlotsLend {
 
     function WithdrawToken(address Collection, uint256 TokenId) public {
         require(TokenDepositor[Collection][TokenId] == msg.sender, "Not owner of token");
+        require(!PlotsCore(PlotsCoreContract).InLoanBool(Collection, TokenId));
 
         // Automatically delist the token if it is listed
         if (PlotsCore(PlotsCoreContract).IsListed(Collection, TokenId)) {

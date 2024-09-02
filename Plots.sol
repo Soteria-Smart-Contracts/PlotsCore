@@ -111,7 +111,7 @@ contract PlotsCore {
         ActiveLoan[msg.sender] = true;
 
         // Emit event for loan opening
-        emit LoanOpened(msg.sender, ListingsByCollection[Collection][TokenIndex].Lister, Collection, TokenId);
+        emit LoanOpened(msg.sender, TokenOwner, Collection, TokenId);
     }
 
     function CloseLoan(address Collection, uint256 ID) public {

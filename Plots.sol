@@ -90,6 +90,8 @@ contract PlotsCore {
         uint256 TokenIndex = ListingsByCollectionIndex[Collection][TokenId];
         require(ListingsByCollection[Collection][TokenIndex].Lister != address(0), "Token N/Listed");
 
+        Lister = ListingsByCollection[Collection][TokenIndex].Lister;
+
         if (ListingsByCollection[Collection][TokenIndex].Lister != Treasury) {
             if (Duration == LengthOption.ThreeMonths) {
                 UsageExpirationUnix[Collection][TokenId] = block.timestamp + 7776000;

@@ -81,4 +81,3 @@ contract PlotsFinance {
     }
 
 }
-

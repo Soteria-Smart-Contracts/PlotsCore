@@ -3,7 +3,25 @@ pragma solidity ^0.8.4;
 
 //create a deployer contract for both the token and the distributor
 
+contract Deployer {
+    PlotsFinance public token;
+    MerkleDistributor public distributor;
 
+    constructor() {
+        token = new PlotsFinance("Plots Finance", "PLOTS");
+        distributor = new MerkleDistributor(
+            [
+                bytes32(0x0), // Merkle root for distribution 1
+                bytes32(0x0)  // Merkle root for distribution 2
+            ],
+            [0, 0], // Cliff periods for each distribution
+            [0, 0], // TGE percentages for each distribution
+            [0, 0]  // Total rounds for each distribution
+        );
+        token.maxSupply(1000000000000000000000000000);
+        token.Mint(address(distributor), 1000000000000000000000000000);
+    }
+}
 
 contract MerkleDistributor {
     IERC20 public token = IERC20(0x00BaA09F96928A168cd76c949ee9668C50EA2F44); // Set token address

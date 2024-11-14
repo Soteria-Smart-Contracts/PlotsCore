@@ -7,7 +7,12 @@ contract Deployer {
     PlotsFinance public token;
     MerkleDistributor public distributor;
 
-    constructor() {
+    constructor(
+        bytes32[] memory _merkleRoots,
+        uint256[] memory _cliffPeriods,
+        uint256[] memory _tgePercentages,
+        uint256[] memory _totalRounds
+    ) {
         token = new PlotsFinance("Plots Finance", "PLOTS");
         distributor = new MerkleDistributor(
             _merkleRoots,

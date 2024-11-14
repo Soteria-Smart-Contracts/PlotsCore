@@ -18,7 +18,6 @@ contract Deployer {
             [0, 0], // TGE percentages for each distribution
             [0, 0]  // Total rounds for each distribution
         );
-        token.maxSupply(1000000000000000000000000000);
         token.Mint(address(distributor), 1000000000000000000000000000);
     }
 }
@@ -152,7 +151,7 @@ contract MerkleDistributor {
 
 contract PlotsFinance {
     uint256 public totalSupply;
-    uint256 public maxSupply;
+    uint256 public maxSupply ;
     string public name;
     string public symbol;
     uint8 public decimals;

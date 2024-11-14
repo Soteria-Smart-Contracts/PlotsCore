@@ -24,7 +24,7 @@ contract Deployer {
 }
 
 contract MerkleDistributor {
-    IERC20 public token; // Set token address
+    IERC20 public token;
     address public owner;
 
     uint256 public timeUnit = 30 days; // Set to 30 days for production

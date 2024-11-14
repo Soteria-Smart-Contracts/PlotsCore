@@ -169,12 +169,12 @@ contract PlotsFinance {
     mapping(address => mapping (address => uint256)) public allowance;
     
     
-    constructor(string memory _name, string memory _symbol){
+    constructor(string memory _name, string memory _symbol, address distributor){
         totalSupply = 0;
         name = _name;
         symbol = _symbol;
         decimals = 18;
-        distributor = 0x0000000000000000000000000000000000000000;
+        distributor = distributor;
     }
     
     

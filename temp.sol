@@ -10,13 +10,10 @@ contract Deployer {
     constructor() {
         token = new PlotsFinance("Plots Finance", "PLOTS");
         distributor = new MerkleDistributor(
-            [
-                bytes32(0x0), // Merkle root for distribution 1
-                bytes32(0x0)  // Merkle root for distribution 2
-            ],
-            [0, 0], // Cliff periods for each distribution
-            [uint256(0), uint256(0)], // TGE percentages for each distribution
-            [0, 0]  // Total rounds for each distribution
+            _merkleRoots,
+            _cliffPeriods,
+            _tgePercentages,
+            _totalRounds
         );
         token.Mint(address(distributor), 1000000000000000000000000000);
     }

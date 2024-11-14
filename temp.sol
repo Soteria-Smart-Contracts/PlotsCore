@@ -20,7 +20,6 @@ contract Deployer {
             _tgePercentages,
             _totalRounds
         );
-        token.Mint(address(distributor), 1000000000000000000000000000);
     }
 }
 

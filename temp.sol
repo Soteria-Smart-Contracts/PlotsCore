@@ -13,7 +13,7 @@ contract Deployer {
         uint256[] memory _tgePercentages,
         uint256[] memory _totalRounds
     ) {
-        token = new PlotsFinance("Plots Finance", "PLOTS");
+        token = new PlotsFinance("Plots Finance", "PLOTS", address(this));
         distributor = new MerkleDistributor(
             _merkleRoots,
             _cliffPeriods,

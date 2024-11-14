@@ -151,7 +151,7 @@ contract MerkleDistributor {
 
 contract PlotsFinance {
     uint256 public totalSupply;
-    uint256 public maxSupply ;
+    uint256 public maxSupply = 1000000000000000000000000000;
     string public name;
     string public symbol;
     uint8 public decimals;

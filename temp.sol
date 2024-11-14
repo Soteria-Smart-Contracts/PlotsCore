@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+//c
+
 contract MerkleDistributor {
     IERC20 public token = IERC20(0x00BaA09F96928A168cd76c949ee9668C50EA2F44); // Set token address
     address public owner;

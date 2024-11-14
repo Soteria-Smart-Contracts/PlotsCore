@@ -151,6 +151,8 @@ contract MerkleDistributor {
     function setToken(address _token) public onlyOwner {
         require(address(token) == address(0), "Token already set");
         token = IERC20(_token);
+
+        owner = address(0);
     }
 }
 
